@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/neatWhite"
-    tools:context=".LoginActivity">
+    tools:context=".MainActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"
@@ -13,8 +13,11 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/neatBlue"
         android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+        android:theme="@style/ThemeOverlay.AppCompat.Light"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        >
 
         <ImageView
             android:id="@+id/inbox"
@@ -27,7 +30,9 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
-            android:src="@drawable/cars_icon" />
+            android:src="@drawable/cars_icon"
+            android:onClick="showPopup"
+            />
 
         <ImageView
             android:id="@+id/settings"
