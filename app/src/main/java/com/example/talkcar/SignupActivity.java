@@ -34,32 +34,37 @@ public class SignupActivity extends AppCompatActivity {
         signInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email = emailPlaceHolder.getText().toString();
-                String pwd = passwordPlaceHolder.getText().toString();
-                if(email.isEmpty()){
-                    emailPlaceHolder.setError("Please enter email");
-                    emailPlaceHolder.requestFocus();
-                }else if(pwd.isEmpty()){
-                    passwordPlaceHolder.setError("Please enter your password");
-                }else if(email.isEmpty() && pwd.isEmpty()){
-                    Toast.makeText(SignupActivity.this,"Fields Are Empty!", Toast.LENGTH_SHORT);
-                }else if(!(email.isEmpty() && pwd.isEmpty())){
-                    mFirebaseAuth.createUserWithEmailAndPassword(email, pwd).addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(!task.isSuccessful()){
-                                Toast.makeText(SignupActivity.this,"Sign in unsuccessful, please try again!", Toast.LENGTH_SHORT);
-                            }else{
-                                Intent intent = new Intent(SignupActivity.this,MainActivity.class);
-                                startActivity(intent);
-                            }
-                        }
-                    });
-                }else{
-                    Toast.makeText(SignupActivity.this,"Error Occurred!", Toast.LENGTH_SHORT);
-                }
+                createFireBaseUser();
             }
         });
+    }
+
+
+    private void createFireBaseUser(){
+        String email = emailPlaceHolder.getText().toString();
+        String pwd = passwordPlaceHolder.getText().toString();
+        if(email.isEmpty()){
+            emailPlaceHolder.setError("Please enter email");
+            emailPlaceHolder.requestFocus();
+        }else if(pwd.isEmpty()){
+            passwordPlaceHolder.setError("Please enter your password");
+        }else if(email.isEmpty() && pwd.isEmpty()){
+            Toast.makeText(SignupActivity.this,"Fields Are Empty!", Toast.LENGTH_SHORT);
+        }else if(!(email.isEmpty() && pwd.isEmpty())){
+            mFirebaseAuth.createUserWithEmailAndPassword(email, pwd).addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if(!task.isSuccessful()){
+                        Toast.makeText(SignupActivity.this,"Sign in unsuccessful, please try again!", Toast.LENGTH_SHORT);
+                    }else{
+                        Intent intent = new Intent(SignupActivity.this,MainActivity.class);
+                        startActivity(intent);
+                    }
+                }
+            });
+        }else{
+            Toast.makeText(SignupActivity.this,"Error Occurred!", Toast.LENGTH_SHORT);
+        }
     }
 
 
