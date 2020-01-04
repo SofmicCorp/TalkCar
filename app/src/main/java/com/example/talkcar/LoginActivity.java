@@ -9,7 +9,12 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+
+import java.io.Serializable;
+
 public class LoginActivity extends AppCompatActivity {
+
 
     Button signInBtn;
     EditText emailPlaceHolder;
