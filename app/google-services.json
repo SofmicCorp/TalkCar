@@ -1,0 +1,85 @@
+{
+  "project_info": {
+    "project_number": "10805929983",
+    "firebase_url": "https://fireapp-35325.firebaseio.com",
+    "project_id": "fireapp-35325",
+    "storage_bucket": "fireapp-35325.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:10805929983:android:b79f697ad0e49f3160a9ca",
+        "android_client_info": {
+          "package_name": "com.example.fireapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "10805929983-qg27oovsm2mt31ufn7a4g9b7dggelhu6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fireapp",
+            "certificate_hash": "ea03643ed937ece060332a4b0e4a754f0661eca9"
+          }
+        },
+        {
+          "client_id": "10805929983-1j2gb384ui9eon08d8rrpemcofnd3ig5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAf0D2nbS_6HKOEej-50svSzvYyhJKqWzw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "10805929983-1j2gb384ui9eon08d8rrpemcofnd3ig5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:10805929983:android:edf720887483fd6560a9ca",
+        "android_client_info": {
+          "package_name": "com.example.talkcar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "10805929983-0ch40al2qgn76eok87uvo2o2qoiid95b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.talkcar",
+            "certificate_hash": "8b8e5cffb53264f7afd21ac6b81a1ba68c460d1e"
+          }
+        },
+        {
+          "client_id": "10805929983-1j2gb384ui9eon08d8rrpemcofnd3ig5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAf0D2nbS_6HKOEej-50svSzvYyhJKqWzw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "10805929983-1j2gb384ui9eon08d8rrpemcofnd3ig5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
