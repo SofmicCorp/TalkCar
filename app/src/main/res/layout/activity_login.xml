@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/neatWhite"
+    tools:context=".LoginActivity">
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="wrap_content"
+            android:layout_height="201dp"
+            android:src="@drawable/logo"/>
+
+
+
+    <LinearLayout
+        android:id="@+id/signin_container"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/logo"
+        >
+
+        <EditText
+            android:id="@+id/email_placeholder"
+            android:layout_width="300dp"
+            android:layout_height="70dp"
+            android:hint="Email"
+            android:textSize="15dp"
+            android:textColorHint="@color/black"
+            android:background="@drawable/edit_text_shape"
+            android:fontFamily="sans-serif-smallcaps"
+            android:layout_gravity="center"
+            android:textColor="@color/black"
+            android:padding="20dp"/>
+
+            />
+
+        <EditText
+            android:id="@+id/password_placeholder"
+            android:layout_width="300dp"
+            android:layout_height="70dp"
+            android:inputType="textPassword"
+            android:layout_marginTop="20dp"
+            android:hint="Password"
+            android:textSize="15dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:textColorHint="@color/black"
+            android:background="@drawable/edit_text_shape"
+            android:layout_gravity="center"
+            android:textColor="@color/black"
+            android:padding="20dp"/>
+        />
+        <Button
+            android:id="@+id/signin_btn"
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:text="Sign in"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-smallcaps"
+            android:background="@drawable/button_shape"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:id="@+id/signup_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Don't have an account? Sign here!"
+            android:textStyle=""
+            android:fontFamily="sans-serif-smallcaps"
+            android:textColor="@color/black"
+            android:layout_marginTop="20dp"
+            android:gravity="center"/>
+    </LinearLayout>
+
+
+
+</RelativeLayout>
