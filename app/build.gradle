@@ -28,9 +28,14 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
 
 
-    //----------------------------Added--------------------------------
+    //----------------------------Added Mor--------------------------------
     implementation 'com.google.firebase:firebase-analytics:17.2.0'
     implementation 'com.google.firebase:firebase-auth:19.2.0'
+    //------------------------------------------------------------------------
+
+    //----------------------------Added Sarel--------------------------------
+//    implementation 'com.google.firebase:firebase-core:15.0.2'
+    implementation 'com.google.firebase:firebase-ml-vision:24.0.1'
     //------------------------------------------------------------------------
 }
 
