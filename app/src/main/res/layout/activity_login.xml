@@ -30,6 +30,7 @@
             android:layout_height="70dp"
             android:hint="Email"
             android:textSize="15dp"
+            android:inputType="textEmailAddress"
             android:textColorHint="@color/black"
             android:background="@drawable/edit_text_shape"
             android:fontFamily="sans-serif-smallcaps"
