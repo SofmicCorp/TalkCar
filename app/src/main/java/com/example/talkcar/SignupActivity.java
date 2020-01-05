@@ -15,6 +15,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -24,6 +26,8 @@ public class SignupActivity extends AppCompatActivity {
     Button signInBtn;
 
     FirebaseAuth mFirebaseAuth;
+    DatabaseReference databaseReference;
+    Driver driver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +35,14 @@ public class SignupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
         setIds();
         mFirebaseAuth = FirebaseAuth.getInstance();
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Driver");
+        driver  = new Driver();
+        setClickListeners();
+
+    }
+
+    private void setClickListeners(){
+
         signInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -41,8 +53,10 @@ public class SignupActivity extends AppCompatActivity {
 
 
     private void createFireBaseUser(){
-        String email = emailPlaceHolder.getText().toString();
-        String pwd = passwordPlaceHolder.getText().toString();
+        final String email = emailPlaceHolder.getText().toString().trim();
+        String pwd = passwordPlaceHolder.getText().toString().trim();
+        final String carNumber = carNumberPlaceHolder.getText().toString();
+
         if(email.isEmpty()){
             emailPlaceHolder.setError("Please enter email");
             emailPlaceHolder.requestFocus();
@@ -57,6 +71,9 @@ public class SignupActivity extends AppCompatActivity {
                     if(!task.isSuccessful()){
                         Toast.makeText(SignupActivity.this,"Sign in unsuccessful, please try again!", Toast.LENGTH_SHORT);
                     }else{
+                        createDriver(email,carNumber);
+                        saveDriverOnDatabase(driver);
+
                         Intent intent = new Intent(SignupActivity.this,MainActivity.class);
                         startActivity(intent);
                     }
@@ -65,6 +82,16 @@ public class SignupActivity extends AppCompatActivity {
         }else{
             Toast.makeText(SignupActivity.this,"Error Occurred!", Toast.LENGTH_SHORT);
         }
+    }
+
+    private void saveDriverOnDatabase(Driver driver) {
+
+        databaseReference.push().setValue(driver);
+    }
+
+    private void createDriver(String email, String carNumber) {
+        driver.setEmail(email);
+        driver.setCarNumber(carNumber);
     }
 
 
