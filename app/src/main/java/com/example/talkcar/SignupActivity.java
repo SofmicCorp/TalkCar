@@ -1,10 +1,16 @@
 package com.example.talkcar;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,14 +26,19 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class SignupActivity extends AppCompatActivity {
 
-    EditText emailPlaceHolder;
-    EditText passwordPlaceHolder;
-    EditText carNumberPlaceHolder;
-    Button signInBtn;
-    Database database;
+    private EditText emailPlaceHolder;
+    private EditText passwordPlaceHolder;
+    private EditText carNumberPlaceHolder;
+    private Button signInBtn;
+    private Database database;
+    private boolean emojiOneWasPicked;
+    private boolean emojiTwoWasPicked;
+    private boolean emojiThreeWasPicked;
+    private ImageView emojiOne;
+    private ImageView emojiTwo;
+    private ImageView emojiThree;
 
     FirebaseAuth mFirebaseAuth;
-    DatabaseReference databaseReference;
     Driver driver;
 
     @Override
@@ -50,6 +61,82 @@ public class SignupActivity extends AppCompatActivity {
                 createFireBaseUser();
             }
         });
+
+        emojiOne.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                emojiOneWasPicked = true;
+                emojiTwoWasPicked = false;
+                emojiThreeWasPicked = false;
+                showPickedEmoji();
+            }
+        });
+
+        emojiTwo.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                emojiOneWasPicked = false;
+                emojiTwoWasPicked = true;
+                emojiThreeWasPicked = false;
+                showPickedEmoji();
+            }
+        });
+
+        emojiThree.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+
+                emojiOneWasPicked = false;
+                emojiTwoWasPicked = false;
+                emojiThreeWasPicked = true;
+                showPickedEmoji();
+            }
+        });
+
+
+    }
+
+    private void showPickedEmoji() {
+
+        if(emojiOneWasPicked){
+
+            fillCircle(emojiOne);
+
+
+        } else{
+            emojiOne.setBackgroundColor(Color.HSVToColor(new float[]{0, 0, 100}));
+        }
+
+        if(emojiTwoWasPicked){
+
+            fillCircle(emojiTwo);
+
+        }else{
+
+            emojiTwo.setBackgroundColor(Color.HSVToColor(new float[]{0, 0, 100}));
+
+
+        }
+        if(emojiThreeWasPicked){
+
+            fillCircle(emojiThree);
+
+        }else {
+            emojiThree.setBackgroundColor(Color.HSVToColor(new float[]{0, 0, 100}));
+
+        }
+    }
+
+    private void fillCircle(ImageView emoji) {
+
+        GradientDrawable gd = new GradientDrawable();
+        gd.setColor(Color.rgb(44,167,239));
+        gd.setCornerRadius(100);
+        gd.setStroke(2, Color.WHITE);
+        emoji.setBackgroundDrawable(gd);
     }
 
 
@@ -97,6 +184,9 @@ public class SignupActivity extends AppCompatActivity {
         passwordPlaceHolder = (EditText)findViewById(R.id.password_placeholder);
         carNumberPlaceHolder = (EditText)findViewById(R.id.car_number_placeholder);
         signInBtn = (Button)findViewById(R.id.signin_btn);
+        emojiOne = (ImageView)findViewById(R.id.driver1);
+        emojiTwo = (ImageView)findViewById(R.id.driver2);
+        emojiThree = (ImageView)findViewById(R.id.driver3);
     }
 
 }
