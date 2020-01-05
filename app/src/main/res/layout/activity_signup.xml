@@ -110,8 +110,8 @@
 
             <ImageView
                 android:id="@+id/driver3"
-                android:layout_width="65dp"
-                android:layout_height="65dp"
+                android:layout_width="76dp"
+                android:layout_height="80dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="30dp"
                 android:layout_marginLeft="20dp"
