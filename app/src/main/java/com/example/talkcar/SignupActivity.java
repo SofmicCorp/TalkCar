@@ -24,6 +24,7 @@ public class SignupActivity extends AppCompatActivity {
     EditText passwordPlaceHolder;
     EditText carNumberPlaceHolder;
     Button signInBtn;
+    Database database;
 
     FirebaseAuth mFirebaseAuth;
     DatabaseReference databaseReference;
@@ -35,8 +36,8 @@ public class SignupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
         setIds();
         mFirebaseAuth = FirebaseAuth.getInstance();
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Driver");
         driver  = new Driver();
+        database = new Database();
         setClickListeners();
 
     }
@@ -72,7 +73,7 @@ public class SignupActivity extends AppCompatActivity {
                         Toast.makeText(SignupActivity.this,"Sign in unsuccessful, please try again!", Toast.LENGTH_SHORT);
                     }else{
                         createDriver(email,carNumber);
-                        saveDriverOnDatabase(driver);
+                        database.saveDriver(driver);
 
                         Intent intent = new Intent(SignupActivity.this,MainActivity.class);
                         startActivity(intent);
@@ -82,11 +83,6 @@ public class SignupActivity extends AppCompatActivity {
         }else{
             Toast.makeText(SignupActivity.this,"Error Occurred!", Toast.LENGTH_SHORT);
         }
-    }
-
-    private void saveDriverOnDatabase(Driver driver) {
-
-        databaseReference.push().setValue(driver);
     }
 
     private void createDriver(String email, String carNumber) {

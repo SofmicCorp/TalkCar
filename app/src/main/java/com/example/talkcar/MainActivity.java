@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     private ImageView takePhoto;
     private Bitmap imageBitmap;
     private CarNumberChecker carNumberChecker;
+    private Database database;
+    private String carNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         setIds();
         setClickListeners();
         carNumberChecker = new CarNumberChecker();
+        database = new Database();
     }
 
     private void setIds(){
@@ -57,6 +60,21 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 dispatchTakePictureIntent();
             }
         });
+    }
+
+    private void startChatWithAnotherCar() {
+
+        if(carNumber != null) {
+            carNumber = carNumberChecker.removeAllTokensFromCarNumber(carNumber);
+            //Check if car number is in database, and if it does, open a conversation!
+            database.getCarNumber(carNumber);
+            //Now we need to wait until we retrive all data from firebase!!!
+            if (database.getLastCarNumberSearch() != null) {
+                openChat(database.getLastCarNumberSearch());
+            } else {
+                Toast.makeText(this, "No carNumber in data base.", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     @Override
@@ -112,6 +130,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             public void onSuccess(FirebaseVisionText firebaseVisionText) {
 
                 getTheDetectedTextFromImage(firebaseVisionText);
+                startChatWithAnotherCar();
 
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -132,23 +151,12 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             for(FirebaseVisionText.TextBlock block: firebaseVisionText.getTextBlocks()){
                 String text =  block.getText();
                 //Check if car number is valid
-                if(carNumberChecker.isValidCarNumber(text)){
-                    Toast.makeText(this, "car number is " + text, Toast.LENGTH_SHORT).show();
-                   text =  carNumberChecker.removeAllTokensFromCarNumber(text);
-                    Toast.makeText(this, "car number after removal " + text, Toast.LENGTH_SHORT).show();
-
-                    //Check if car number is in database, and if it does, open a conversation!
-                    String carNumber = carNumberChecker.getCarNumberFromDatabase(text);
-                    if(carNumber != null) {
-                        openChat(carNumber);
-                        return;
-                    }
-                    else {
-                        Toast.makeText(this, "No carNumber in data base.", Toast.LENGTH_SHORT).show();
-                            return;
-                    }
+                if(carNumberChecker.isValidCarNumber(text)) {
+                    carNumber = text;
+                    return;
                 }
             }
+            //if you are here it means we iterate all elements in foor loop and no car number is valid.
             Toast.makeText(this, "car number was not found. try to take another picture.", Toast.LENGTH_SHORT).show();
         }
     }
@@ -157,5 +165,4 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
         Toast.makeText(this, "chat has been open with " + carNumber, Toast.LENGTH_SHORT).show();
     }
-
 }

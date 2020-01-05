@@ -13,8 +13,6 @@ import com.google.firebase.database.ValueEventListener;
 
 public class CarNumberChecker {
 
-    DatabaseReference databaseReference;
-
     private final int ZERO = 48;
     private final int NINE = 57;
     private final int DASH = 45;
@@ -37,31 +35,6 @@ public class CarNumberChecker {
         return true;
     }
 
-    public String getCarNumberFromDatabase(final String text) {
-
-        final String[] carNumber = new String[1];
-
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Driver");
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                     Driver driver = postSnapshot.getValue(Driver.class);
-                     if(driver.getCarNumber().equals(text))
-                         carNumber[0] = text;
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        return carNumber[0];
-    }
 
     public String removeAllTokensFromCarNumber(String text) {
 
