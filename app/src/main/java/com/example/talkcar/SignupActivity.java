@@ -133,9 +133,9 @@ public class SignupActivity extends AppCompatActivity {
     private void fillCircle(ImageView emoji) {
 
         GradientDrawable gd = new GradientDrawable();
-        gd.setColor(Color.rgb(44,167,239));
+        gd.setColor(Color.WHITE);
         gd.setCornerRadius(100);
-        gd.setStroke(2, Color.WHITE);
+        gd.setStroke(4, Color.rgb(44,167,239));
         emoji.setBackgroundDrawable(gd);
     }
 
