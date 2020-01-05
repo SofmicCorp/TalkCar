@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -33,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private ImageView takePhoto;
     private Bitmap imageBitmap;
+    private CarNumberChecker carNumberChecker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         setContentView(R.layout.activity_main);
         setIds();
         setClickListeners();
+        carNumberChecker = new CarNumberChecker();
     }
 
     private void setIds(){
@@ -128,13 +129,18 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
         List<FirebaseVisionText.TextBlock> blockList = firebaseVisionText.getTextBlocks();
         if(blockList.size() == 0){
-            Toast.makeText(this, "no number found on viechele", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "car number was not found. try to take another picture.", Toast.LENGTH_SHORT).show();
         } else {
             for(FirebaseVisionText.TextBlock block: firebaseVisionText.getTextBlocks()){
-
                 String text =  block.getText();
-                Toast.makeText(this, "text is" + text, Toast.LENGTH_SHORT).show();
+                if(carNumberChecker.isValidCarNumber(text)){
+                    Toast.makeText(this, "car number is " + text, Toast.LENGTH_SHORT).show();
+                    return;
+                } 
             }
+            Toast.makeText(this, "car number was not found. try to take another picture.", Toast.LENGTH_SHORT).show();
         }
     }
+
+
 }
