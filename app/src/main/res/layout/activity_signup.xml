@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginTop="100dp">
+        android:layout_marginTop="60dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -21,6 +21,7 @@
             android:fontFamily="sans-serif-smallcaps"
             android:textColor="@color/neatBlue"
             android:layout_gravity="center"/>
+
 
         <EditText
             android:id="@+id/email_placeholder"
@@ -83,6 +84,54 @@
             android:padding="10dp"
             android:inputType="phone"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10dp"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif-smallcaps"
+            android:textColor="@color/black"
+            android:text="Pick your emoji's car! "/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/driver1"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="80dp"
+                android:src="@drawable/driver1" />
+
+            <ImageView
+                android:id="@+id/driver3"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/driver3" />
+
+
+
+            <ImageView
+                android:id="@+id/driver2"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/driver2" />
+
+        </LinearLayout>
+
+
+
         <Button
             android:id="@+id/signin_btn"
             android:layout_width="300dp"
@@ -93,6 +142,7 @@
             android:background="@drawable/button_shape"
             android:layout_marginTop="30dp"
             android:layout_gravity="center" />
+
 
     </LinearLayout>
 
