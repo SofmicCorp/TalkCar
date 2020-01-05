@@ -131,13 +131,31 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         } else {
             for(FirebaseVisionText.TextBlock block: firebaseVisionText.getTextBlocks()){
                 String text =  block.getText();
+                //Check if car number is valid
                 if(carNumberChecker.isValidCarNumber(text)){
                     Toast.makeText(this, "car number is " + text, Toast.LENGTH_SHORT).show();
-                    return;
+                   text =  carNumberChecker.removeAllTokensFromCarNumber(text);
+                    Toast.makeText(this, "car number after removal " + text, Toast.LENGTH_SHORT).show();
+
+                    //Check if car number is in database, and if it does, open a conversation!
+                    String carNumber = carNumberChecker.getCarNumberFromDatabase(text);
+                    if(carNumber != null) {
+                        openChat(carNumber);
+                        return;
+                    }
+                    else {
+                        Toast.makeText(this, "No carNumber in data base.", Toast.LENGTH_SHORT).show();
+                            return;
+                    }
                 }
             }
             Toast.makeText(this, "car number was not found. try to take another picture.", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void openChat(String carNumber) {
+
+        Toast.makeText(this, "chat has been open with " + carNumber, Toast.LENGTH_SHORT).show();
     }
 
 }
