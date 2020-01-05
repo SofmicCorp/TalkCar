@@ -59,8 +59,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         });
     }
 
-
-
     @Override
     public boolean onMenuItemClick(MenuItem item) {
 
@@ -136,11 +134,10 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 if(carNumberChecker.isValidCarNumber(text)){
                     Toast.makeText(this, "car number is " + text, Toast.LENGTH_SHORT).show();
                     return;
-                } 
+                }
             }
             Toast.makeText(this, "car number was not found. try to take another picture.", Toast.LENGTH_SHORT).show();
         }
     }
-
 
 }

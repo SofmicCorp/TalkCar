@@ -52,6 +52,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "10805929983-no2tudas6po6ecgjugdeca6rvl7outuu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.talkcar",
+            "certificate_hash": "4e4924899c29565a21895d7efc80f9925b6bb536"
+          }
+        },
+        {
           "client_id": "10805929983-0ch40al2qgn76eok87uvo2o2qoiid95b.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
