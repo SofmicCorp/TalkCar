@@ -237,8 +237,8 @@ public class SignupActivity extends AppCompatActivity {
 
         driver = new Driver(email);
         for(int i = 0; i < numOfCars; i++){
-            String carNumber = inputManager.getAllCarNumbers().get(i).toString();
-            String nickName = inputManager.getAllNickNames().get(i).toString();
+            String carNumber = inputManager.getAllCarNumbers().get(i).getText().toString();
+            String nickName = inputManager.getAllNickNames().get(i).getText().toString();
             driver.addCar(new Car(carNumber, nickName,1));
         }
         database.saveDriver(driver);
