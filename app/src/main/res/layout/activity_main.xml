@@ -27,8 +27,9 @@
             android:layout_height="50dp"
             android:layout_gravity="left"
             android:src="@drawable/inbox_icon" />
+
         <ImageView
-            android:id="@+id/cars"
+            android:id="@+id/car_picker"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center"

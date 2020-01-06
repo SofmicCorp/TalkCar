@@ -15,6 +15,7 @@ public class Database {
 
     private DatabaseReference databaseReference;
     private String lastCarNumberSearch;
+    private Driver currentDriver;
 
     public Database(){
 
@@ -27,11 +28,15 @@ public class Database {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                //Could be a lot more efficent! not iterate through all data base but to look spicfivly\
+                //car with that car number "text" have to be fixed!
+
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     Driver driver = postSnapshot.getValue(Driver.class);
                     if(driver.getCarNumber().equals(text)) {
                         lastCarNumberSearch = text;
-                        Log.d("GUGU", "LastCarSearch = " + lastCarNumberSearch);;
+                        Log.d("GUGU", "LastCarSearch = " + lastCarNumberSearch);
+                        return;
                     }
                 }
             }
@@ -43,6 +48,31 @@ public class Database {
         });
     }
 
+    public void getDriverByCarNumber(final String text){
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                //Could be a lot more efficent! not iterate through all data base but to look spicfivly\
+                //car with that car number "text" have to be fixed!
+
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    Driver driver = postSnapshot.getValue(Driver.class);
+                    if(driver.getCarNumber().equals(text)) {
+                        currentDriver = driver;
+                        return;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
     public void saveDriver(Driver driver) {
 
         databaseReference.push().setValue(driver);
@@ -50,5 +80,9 @@ public class Database {
 
     public String getLastCarNumberSearch() {
         return lastCarNumberSearch;
+    }
+
+    public Driver getCurrentDriver() {
+        return currentDriver;
     }
 }
