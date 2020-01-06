@@ -1,11 +1,18 @@
 package com.example.talkcar;
 
+import androidx.annotation.NonNull;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Driver {
+public class Driver implements Serializable {
 
     private String email;
     private ArrayList<Car> cars;
+
+    public Driver(){
+
+    }
 
 
     public Driver(String email){
@@ -35,7 +42,5 @@ public class Driver {
     public String getCarNumber(int index){
         return cars.get(index).getCarNumber();
     }
-
-
 
 }

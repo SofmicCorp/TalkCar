@@ -6,6 +6,10 @@ public class Car {
     private String nickname;
     private int emojiId;
 
+    public Car(){
+
+    }
+
 
     public Car(String carNumber, String nickname, int emojiId){
         this.carNumber = carNumber;
@@ -37,4 +41,5 @@ public class Car {
     public int getEmojiId() {
         return emojiId;
     }
+
 }

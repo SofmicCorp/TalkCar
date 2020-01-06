@@ -1,6 +1,8 @@
 package com.example.talkcar;
 
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.google.firebase.database.DataSnapshot;
@@ -31,7 +33,9 @@ public class Database {
 
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     Driver driver = postSnapshot.getValue(Driver.class);
+
                     for(int j = 0; j < driver.getCars().size(); j++){
+                        Log.d("BUBA", "driver: " + driver.getEmail() + "car number " + driver.getCarNumber(j));
                         if(driver.getCarNumber(j).equals(text)) {
                             lastCarNumberSearch = text;
                             return;
