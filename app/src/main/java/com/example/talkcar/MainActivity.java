@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     private Database database;
     private String carNumber;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     private void setIds(){
 
         takePhoto = (ImageView)findViewById(R.id.take_photo);
+
     }
 
     private void setClickListeners(){

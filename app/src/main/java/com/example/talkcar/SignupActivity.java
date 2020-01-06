@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -103,8 +101,7 @@ public class SignupActivity extends AppCompatActivity {
 
         if(emojiOneWasPicked){
 
-            fillCircle(emojiOne);
-
+            markEmoji(emojiOne);
 
         } else{
             emojiOne.setBackgroundColor(Color.HSVToColor(new float[]{0, 0, 100}));
@@ -112,7 +109,7 @@ public class SignupActivity extends AppCompatActivity {
 
         if(emojiTwoWasPicked){
 
-            fillCircle(emojiTwo);
+            markEmoji(emojiTwo);
 
         }else{
 
@@ -122,15 +119,14 @@ public class SignupActivity extends AppCompatActivity {
         }
         if(emojiThreeWasPicked){
 
-            fillCircle(emojiThree);
+            markEmoji(emojiThree);
 
         }else {
             emojiThree.setBackgroundColor(Color.HSVToColor(new float[]{0, 0, 100}));
-
         }
     }
 
-    private void fillCircle(ImageView emoji) {
+    private void markEmoji(ImageView emoji) {
 
         GradientDrawable gd = new GradientDrawable();
         gd.setColor(Color.WHITE);
@@ -173,9 +169,12 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private void createDriver(String email, String carNumber) {
+
         driver.setEmail(email);
         driver.setCarNumber(carNumber);
+
     }
+
 
 
     private void setIds() {
