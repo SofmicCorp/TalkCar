@@ -1,7 +1,7 @@
 package com.example.talkcar;
 
+
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -33,10 +33,13 @@ public class Database {
 
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     Driver driver = postSnapshot.getValue(Driver.class);
-                    if(driver.getCarNumber().equals(text)) {
-                        lastCarNumberSearch = text;
-                        Log.d("GUGU", "LastCarSearch = " + lastCarNumberSearch);
-                        return;
+
+                    for(int j = 0; j < driver.getCars().size(); j++){
+                        Log.d("BUBA", "driver: " + driver.getEmail() + "car number " + driver.getCarNumber(j));
+                        if(driver.getCarNumber(j).equals(text)) {
+                            lastCarNumberSearch = text;
+                            return;
+                         }
                     }
                 }
             }
@@ -58,9 +61,11 @@ public class Database {
 
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     Driver driver = postSnapshot.getValue(Driver.class);
-                    if(driver.getCarNumber().equals(text)) {
-                        currentDriver = driver;
-                        return;
+                    for(int j = 0; j < driver.getCars().size(); j++){
+                        if(driver.getCarNumber(j).equals(text)) {
+                            currentDriver = driver;
+                            return;
+                        }
                     }
                 }
             }

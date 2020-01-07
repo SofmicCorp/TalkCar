@@ -7,144 +7,128 @@
     android:background="@color/neatWhite"
     tools:context=".SignupActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginTop="30dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Signup"
-            android:textSize="80dp"
-            android:fontFamily="sans-serif-smallcaps"
-            android:textColor="@color/neatBlue"
-            android:layout_gravity="center"/>
-
-
-        <EditText
-            android:id="@+id/email_placeholder"
-            android:layout_width="300dp"
-            android:layout_height="40dp"
-            android:hint="Email"
-            android:textSize="13dp"
-            android:layout_marginTop="20dp"
-            android:textColorHint="@color/black"
-            android:background="@drawable/edit_text_shape"
-            android:fontFamily="sans-serif-smallcaps"
-            android:layout_gravity="center"
-            android:textColor="@color/black"
-            android:padding="10dp"/>
-
-        />
-
-        <EditText
-            android:id="@+id/password_placeholder"
-            android:layout_width="300dp"
-            android:layout_height="40dp"
-            android:inputType="textPassword"
-            android:layout_marginTop="20dp"
-            android:hint="Password"
-            android:textSize="13dp"
-            android:fontFamily="sans-serif-smallcaps"
-            android:textColorHint="@color/black"
-            android:background="@drawable/edit_text_shape"
-            android:layout_gravity="center"
-            android:textColor="@color/black"
-            android:padding="10dp"/>
-
-<!--        <EditText-->
-<!--            android:id="@+id/password_confirmation_placeholder"-->
-<!--            android:layout_width="300dp"-->
-<!--            android:layout_height="40dp"-->
-<!--            android:inputType="textPassword"-->
-<!--            android:layout_marginTop="20dp"-->
-<!--            android:hint="Password"-->
-<!--            android:textSize="10dp"-->
-<!--            android:fontFamily="sans-serif-smallcaps"-->
-<!--            android:textColorHint="@color/black"-->
-<!--            android:background="@drawable/edit_text_shape"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:textColor="@color/black"-->
-<!--            android:padding="10dp"/>-->
-
-        <EditText
-            android:id="@+id/car_number_placeholder"
-            android:layout_width="300dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="20dp"
-            android:hint="Car Number"
-            android:textSize="13dp"
-            android:fontFamily="sans-serif-smallcaps"
-            android:textColorHint="@color/black"
-            android:background="@drawable/edit_text_shape"
-            android:layout_gravity="center"
-            android:textColor="@color/black"
-            android:padding="10dp"
-            android:inputType="phone"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="13dp"
-            android:layout_marginTop="30dp"
-            android:layout_gravity="center"
-            android:fontFamily="sans-serif-smallcaps"
-            android:textColor="@color/black"
-            android:text="Pick your emoji's car! "/>
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="130dp"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="30dp">
 
-            <ImageView
-                android:id="@+id/driver1"
-                android:layout_width="65dp"
-                android:layout_height="65dp"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Signup"
+                android:textSize="80dp"
+                android:fontFamily="sans-serif-smallcaps"
+                android:textColor="@color/neatBlue"
+                android:layout_gravity="center"/>
+
+
+            <EditText
+                android:id="@+id/email_placeholder"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:hint="Email"
+                android:textSize="13dp"
+                android:layout_marginTop="20dp"
+                android:textColorHint="@color/black"
+                android:background="@drawable/edit_text_shape"
+                android:fontFamily="sans-serif-smallcaps"
                 android:layout_gravity="center"
-                android:layout_marginTop="30dp"
-                android:layout_marginLeft="60dp"
-                android:src="@drawable/driver1" />
+                android:textColor="@color/black"
+                android:padding="10dp"/>
 
-            <ImageView
-                android:id="@+id/driver3"
-                android:layout_width="65dp"
-                android:layout_height="65dp"
+            />
+
+            <EditText
+                android:id="@+id/password_placeholder"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:inputType="textPassword"
+                android:layout_marginTop="20dp"
+                android:hint="Password"
+                android:textSize="13dp"
+                android:fontFamily="sans-serif-smallcaps"
+                android:textColorHint="@color/black"
+                android:background="@drawable/edit_text_shape"
                 android:layout_gravity="center"
+                android:textColor="@color/black"
+                android:padding="10dp"/>
+
+            <!--        <EditText-->
+            <!--            android:id="@+id/password_confirmation_placeholder"-->
+            <!--            android:layout_width="300dp"-->
+            <!--            android:layout_height="40dp"-->
+            <!--            android:inputType="textPassword"-->
+            <!--            android:layout_marginTop="20dp"-->
+            <!--            android:hint="Password"-->
+            <!--            android:textSize="10dp"-->
+            <!--            android:fontFamily="sans-serif-smallcaps"-->
+            <!--            android:textColorHint="@color/black"-->
+            <!--            android:background="@drawable/edit_text_shape"-->
+            <!--            android:layout_gravity="center"-->
+            <!--            android:textColor="@color/black"-->
+            <!--            android:padding="10dp"/>-->
+
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/all_forms_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/add_car_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/plus_sign"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginLeft="100dp"
+                    android:src="@drawable/plussign" />
+                <TextView
+                    android:id="@+id/add_car_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="13dp"
+                    android:layout_marginTop="35dp"
+                    android:layout_toRightOf="@id/plus_sign"
+                    android:layout_gravity="center"
+                    android:fontFamily="sans-serif-smallcaps"
+                    android:textColor="@color/black"
+                    android:layout_marginLeft="20dp"
+                    android:text="Add another car "/>
+
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/signin_btn"
+                android:layout_width="300dp"
+                android:layout_height="80dp"
+                android:text="Join Now!"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-smallcaps"
+                android:background="@drawable/button_shape"
                 android:layout_marginTop="30dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:src="@drawable/driver3" />
+                android:layout_marginBottom="60dp"
+                android:layout_gravity="center" />
 
-
-
-            <ImageView
-                android:id="@+id/driver2"
-                android:layout_width="65dp"
-                android:layout_height="65dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="30dp"
-                android:src="@drawable/driver2" />
 
         </LinearLayout>
 
 
-
-        <Button
-            android:id="@+id/signin_btn"
-            android:layout_width="300dp"
-            android:layout_height="80dp"
-            android:text="Join Now!"
-            android:textStyle="bold"
-            android:fontFamily="sans-serif-smallcaps"
-            android:background="@drawable/button_shape"
-            android:layout_marginTop="30dp"
-            android:layout_gravity="center" />
+    </ScrollView>
 
 
-    </LinearLayout>
 
 
 </RelativeLayout>
