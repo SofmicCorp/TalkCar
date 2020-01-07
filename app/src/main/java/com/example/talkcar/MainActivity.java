@@ -1,18 +1,28 @@
 package com.example.talkcar;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Rect;
+import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -28,7 +38,7 @@ import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
+public class MainActivity extends AppCompatActivity {//implements PopupMenu.OnMenuItemClickListener {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private ImageView takePhoto;
@@ -84,6 +94,63 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 dispatchTakePictureIntent();
             }
         });
+        
+        carPicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                
+                createListOfCarsPopup();
+            }
+        });
+    }
+
+    private void createListOfCarsPopup() {
+
+        ListAdapter adapter = new ArrayAdapter<Car>(
+                this, android.R.layout.select_dialog_item, android.R.id.text1, driver.getCars()){
+                 public View getView(int position, View convertView, ViewGroup parent) {
+                //Use super class to create the View
+                View v = super.getView(position, convertView, parent);
+                TextView tv = (TextView)v.findViewById(android.R.id.text1);
+                tv.setTypeface(Typeface.create("sans-serif-smallcaps", Typeface.BOLD));
+
+
+                //call setBounds with the required size and then call setCompoundDrawables
+                //Put the image on the TextView
+                if(driver.getCars().get(position).getEmojiId().equals("1")) {
+
+                    createImageToPopup(tv,R.drawable.driver1);
+
+                } else if(driver.getCars().get(position).getEmojiId().equals("2")){
+
+                    createImageToPopup(tv,R.drawable.driver2);
+                }
+                else {
+                    createImageToPopup(tv,R.drawable.driver3);
+                }
+
+                //Add margin between image and text (support various screen densities)
+                int dp5 = (int) (5 * getResources().getDisplayMetrics().density + 0.5f);
+                tv.setCompoundDrawablePadding(dp5);
+                return v;
+            }
+        };
+
+        new AlertDialog.Builder(this)
+                .setTitle("PICK A CAR")
+                .setAdapter(adapter, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        //... do somthing when click...
+                    }
+                }).show();
+
+    }
+
+    private void createImageToPopup(TextView tv, int image){
+
+        Drawable img = ContextCompat.getDrawable(MainActivity.this,image);
+        img.setBounds(-30, 0, 180, 150);
+        tv.setCompoundDrawables(img, null, null, null);
     }
 
     private void startChatWithAnotherCar() {
@@ -112,29 +179,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
         }
     }
-
-    @Override
-    public boolean onMenuItemClick(MenuItem item) {
-
-        switch (item.getItemId()) {
-
-            case R.id.add:
-                Toast.makeText(this, "Item 1 clicked", Toast.LENGTH_SHORT).show();
-                return true;
-
-            default:
-                return false;
-        }
-    }
-
-    public void showPopup(View view) {
-
-        PopupMenu popup = new PopupMenu(this,view);
-        popup.setOnMenuItemClickListener(this);
-        popup.inflate(R.menu.popup_menu);
-        popup.show();
-    }
-
 
     private void dispatchTakePictureIntent() {
 

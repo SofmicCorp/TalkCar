@@ -36,7 +36,7 @@
                 android:id="@+id/car_picker_background"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginRight="30dp"
+                android:layout_marginRight="35dp"
                 android:layout_gravity="center"
                 android:src="@drawable/whitecircle"
                 android:onClick="showPopup"
@@ -46,9 +46,8 @@
                 android:id="@+id/car_picker"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginRight="30dp"
-                android:layout_gravity="center"
-                android:onClick="showPopup" />
+                android:layout_marginRight="35dp"
+                android:layout_gravity="center" />
         </FrameLayout>
 
 
