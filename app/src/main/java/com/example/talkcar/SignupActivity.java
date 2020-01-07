@@ -30,6 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -40,6 +41,7 @@ public class SignupActivity extends AppCompatActivity {
     private Database database;
     private int numOfCars = 0;
     private InputManager inputManager;
+    private HashMap<ImageView,Integer> indexes; // for saving the index of every emoji extra car form (
 
 
     FirebaseAuth mFirebaseAuth;
@@ -53,6 +55,7 @@ public class SignupActivity extends AppCompatActivity {
         inputManager = new InputManager();
         mFirebaseAuth = FirebaseAuth.getInstance();
         database = new Database();
+        indexes = new HashMap<>();
         setClickListeners();
         createAddCarForm();
 
@@ -78,7 +81,7 @@ public class SignupActivity extends AppCompatActivity {
     private void createAddCarForm() {
 
         LinearLayout allFormContainer = (LinearLayout)findViewById(R.id.all_forms_container);
-        TextView carNumbernth = createTextView("Car number #" + ++numOfCars,18,Color.rgb(44,167,239));
+        TextView carNumbernth = createTextView("Car number #" + (numOfCars + 1),18,Color.rgb(44,167,239));
         EditText carNumberPlaceHolder =  createEditText("Car Number",InputType.TYPE_CLASS_PHONE);
         inputManager.getAllCarNumbers().add(carNumberPlaceHolder);
         EditText nicknamePlaceHolder = createEditText("Nickname",InputType.TYPE_CLASS_TEXT);
@@ -86,6 +89,7 @@ public class SignupActivity extends AppCompatActivity {
         TextView pickYourEmojiText = createTextView("Pick your emoji's car!",13,Color.BLACK);
 
         //Create emoji Container
+
         LinearLayout emojiContainer = new LinearLayout(this);
         emojiContainer.setOrientation(LinearLayout.HORIZONTAL);
         addEmojiToContainer(emojiContainer);
@@ -107,6 +111,10 @@ public class SignupActivity extends AppCompatActivity {
         ImageView driverTwo = createImageView(R.drawable.driver2);
         ImageView driverThree = createImageView(R.drawable.driver3);
 
+        indexes.put(driverOne,numOfCars++); // when we add more car form we add car and index to the indexes hashmap
+                                            //driverOne is just a mark to know which form are we. it doesnt matter at all if
+                                            //it will be driverOne or driverTwo or driverThree, it is just a mark for hashmap
+
         setEmojiClickListeners(driverOne,driverTwo,driverThree);
 
         emojiContainer.addView(driverOne);
@@ -124,6 +132,14 @@ public class SignupActivity extends AppCompatActivity {
                 markEmoji(driverOne,Color.rgb(44,167,239));
                 markEmoji(driverTwo, Color.WHITE);
                 markEmoji(driverThree, Color.WHITE);
+
+                try{
+                    driverOne.setTag(1);
+                    inputManager.getAllEmojisIds().set(indexes.get((driverOne)),driverOne.getTag().toString());
+                } catch(IndexOutOfBoundsException e){
+                    inputManager.getAllEmojisIds().add(driverOne.getTag().toString());
+                }
+
             }
         });
 
@@ -133,6 +149,13 @@ public class SignupActivity extends AppCompatActivity {
                 markEmoji(driverOne, Color.WHITE);
                 markEmoji(driverTwo,Color.rgb(44,167,239));
                 markEmoji(driverThree, Color.WHITE);
+
+                try{
+                    driverTwo.setTag(2);
+                    inputManager.getAllEmojisIds().set(indexes.get((driverOne)),driverTwo.getTag().toString());
+                } catch(IndexOutOfBoundsException e){
+                    inputManager.getAllEmojisIds().add(driverTwo.getTag().toString());
+                }
             }
         });
 
@@ -143,6 +166,15 @@ public class SignupActivity extends AppCompatActivity {
                 markEmoji(driverOne, Color.WHITE);
                 markEmoji(driverTwo, Color.WHITE);
                 markEmoji(driverThree,Color.rgb(44,167,239));
+
+
+                try{
+                    driverThree.setTag(3);
+                    inputManager.getAllEmojisIds().set(indexes.get((driverOne)),driverThree.getTag().toString());
+                } catch(IndexOutOfBoundsException e){
+
+                    inputManager.getAllEmojisIds().add(driverThree.getTag().toString());
+                }
             }
         });
     }
@@ -239,7 +271,8 @@ public class SignupActivity extends AppCompatActivity {
         for(int i = 0; i < numOfCars; i++){
             String carNumber = inputManager.getAllCarNumbers().get(i).getText().toString();
             String nickName = inputManager.getAllNickNames().get(i).getText().toString();
-            driver.addCar(new Car(carNumber, nickName,1));
+            String emojiId = inputManager.getAllEmojisIds().get(i);
+            driver.addCar(new Car(carNumber, nickName,emojiId));
         }
         database.saveDriver(driver);
     }

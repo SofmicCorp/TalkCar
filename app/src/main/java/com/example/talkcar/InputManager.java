@@ -8,7 +8,7 @@ public class InputManager {
 
     private ArrayList<EditText> allCarNumbers;
     private ArrayList<EditText> allNickNames;
-    private ArrayList<Integer> allEmojisIds;
+    private ArrayList<String> allEmojisIds;
 
     public InputManager(){
 
@@ -25,7 +25,7 @@ public class InputManager {
         return allNickNames;
     }
 
-    public ArrayList<Integer> getAllEmojisIds() {
+    public ArrayList<String> getAllEmojisIds() {
         return allEmojisIds;
     }
 }

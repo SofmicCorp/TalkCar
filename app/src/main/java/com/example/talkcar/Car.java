@@ -4,14 +4,14 @@ public class Car {
 
     private String carNumber;
     private String nickname;
-    private int emojiId;
+    private String emojiId;
 
     public Car(){
 
     }
 
 
-    public Car(String carNumber, String nickname, int emojiId){
+    public Car(String carNumber, String nickname, String emojiId){
         this.carNumber = carNumber;
         this.nickname = nickname;
         this.emojiId = emojiId;
@@ -30,7 +30,7 @@ public class Car {
         this.nickname = nickname;
     }
 
-    public void setEmojiId(int emojiId) {
+    public void setEmojiId(String emojiId) {
         this.emojiId = emojiId;
     }
 
@@ -38,7 +38,7 @@ public class Car {
         return nickname;
     }
 
-    public int getEmojiId() {
+    public String getEmojiId() {
         return emojiId;
     }
 
