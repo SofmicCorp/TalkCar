@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 
 import java.io.Serializable;
 
@@ -28,6 +29,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText passwordPlaceHolder;
     TextView signupText;
     FirebaseAuth mFirebaseAuth;
+    public static Database database;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
 
 
@@ -36,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         setIds();
+        database = new Database();
         mFirebaseAuth = FirebaseAuth.getInstance();
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -103,7 +106,28 @@ public class LoginActivity extends AppCompatActivity {
                     if(!task.isSuccessful()) {
                         Toast.makeText(LoginActivity.this,"Login Error, Please Try Again", Toast.LENGTH_SHORT).show();
                     }else {
-                        goToMainActivity();
+
+                        //finding the current driver in database
+                        database.updateCurrentDriverByEmail(emailPlaceHolder.getText().toString(), new OnGetDataListener(){
+
+                            @Override
+                            public void onSuccess(DataSnapshot dataSnapshot) {
+                                goToMainActivity();
+                            }
+
+                            @Override
+                            public void onStart() {
+
+                                Log.d("CHECK", "Wait for data... ");
+
+                            }
+
+                            @Override
+                            public void onFailure() {
+
+                                Log.d("CHECK", "Data retrieving has been failed. ");
+                            }
+                        });
                     }
                 }
             });

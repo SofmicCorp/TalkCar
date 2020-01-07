@@ -38,7 +38,6 @@ public class SignupActivity extends AppCompatActivity {
     private EditText passwordPlaceHolder;
     private Button signInBtn;
     private ImageView addCar;
-    private Database database;
     private int numOfCars = 0;
     private InputManager inputManager;
     private HashMap<ImageView,Integer> indexes; // for saving the index of every emoji extra car form (
@@ -54,7 +53,6 @@ public class SignupActivity extends AppCompatActivity {
         setIds();
         inputManager = new InputManager();
         mFirebaseAuth = FirebaseAuth.getInstance();
-        database = new Database();
         indexes = new HashMap<>();
         setClickListeners();
         createAddCarForm();
@@ -274,7 +272,8 @@ public class SignupActivity extends AppCompatActivity {
             String emojiId = inputManager.getAllEmojisIds().get(i);
             driver.addCar(new Car(carNumber, nickName,emojiId));
         }
-        database.saveDriver(driver);
+        LoginActivity.database.saveDriver(driver);
+        LoginActivity.database.setCurrentDriver(driver);
     }
 
     private void setIds() {

@@ -28,14 +28,32 @@
             android:layout_gravity="left"
             android:src="@drawable/inbox_icon" />
 
-        <ImageView
-            android:id="@+id/car_picker"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:src="@drawable/cars_icon"
-            android:onClick="showPopup"
-            />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/car_picker_background"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="30dp"
+                android:layout_gravity="center"
+                android:src="@drawable/whitecircle"
+                android:onClick="showPopup"
+                />
+
+            <ImageView
+                android:id="@+id/car_picker"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="30dp"
+                android:layout_gravity="center"
+                android:onClick="showPopup" />
+        </FrameLayout>
+
+
+
+
 
         <ImageView
             android:id="@+id/settings"

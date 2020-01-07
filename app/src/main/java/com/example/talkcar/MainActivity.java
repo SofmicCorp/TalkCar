@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.face.FirebaseVisionFace;
@@ -31,10 +32,11 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private ImageView takePhoto;
+    private ImageView carPicker;
     private Bitmap imageBitmap;
     private CarNumberChecker carNumberChecker;
-    private Database database;
     private String carNumber;
+    private Driver driver;
 
 
     @Override
@@ -44,12 +46,32 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         setIds();
         setClickListeners();
         carNumberChecker = new CarNumberChecker();
-        database = new Database();
+        updateCarPickerIcon();
+    }
+
+    private void updateCarPickerIcon() {
+
+        driver = LoginActivity.database.getCurrentDriver();
+
+        switch(driver.getCars().get(0).getEmojiId()){
+            case "1":
+                carPicker.setImageResource(R.drawable.driver1);
+                break;
+            case "2":
+                carPicker.setImageResource(R.drawable.driver2);
+                break;
+            case "3":
+                carPicker.setImageResource(R.drawable.driver3);
+                break;
+            default:
+        }
+
     }
 
     private void setIds(){
 
         takePhoto = (ImageView)findViewById(R.id.take_photo);
+        carPicker = (ImageView)findViewById(R.id.car_picker);
 
     }
 
@@ -69,13 +91,29 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         if(carNumber != null) {
             carNumber = carNumberChecker.removeAllTokensFromCarNumber(carNumber);
             //Check if car number is in database, and if it does, open a conversation!
-            database.getCarNumber(carNumber);
-            //Now we need to wait until we retrive all data from firebase!!!
-            if (database.getLastCarNumberSearch() != null) {
-                openChat(database.getLastCarNumberSearch());
-            } else {
-                Toast.makeText(this, "No carNumber in data base.", Toast.LENGTH_SHORT).show();
-            }
+            LoginActivity.database.updateLastCarNumberSearch(carNumber, new OnGetDataListener() {
+                @Override
+                public void onSuccess(DataSnapshot dataSnapshot) {
+                    //Now we need to wait until we retrive all data from firebase!!!
+                    if (LoginActivity.database.getLastCarNumberSearch() != null) {
+                        openChat(LoginActivity.database.getLastCarNumberSearch());
+                    } else {
+                        Toast.makeText(MainActivity.this, "No carNumber in data base.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onStart() {
+                    Log.d("CHECK", "Wait for data... ");
+                }
+
+                @Override
+                public void onFailure() {
+                    Log.d("CHECK", "Data retrieving has been failed. ");
+
+                }
+            });
+
         }
     }
 
