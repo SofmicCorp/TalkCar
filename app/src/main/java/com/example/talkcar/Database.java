@@ -43,6 +43,8 @@ public class Database {
                          }
                     }
                 }
+
+                listener.onFailure();
             }
 
             @Override

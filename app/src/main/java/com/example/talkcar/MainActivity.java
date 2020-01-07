@@ -95,11 +95,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 @Override
                 public void onSuccess(DataSnapshot dataSnapshot) {
                     //Now we need to wait until we retrive all data from firebase!!!
-                    if (LoginActivity.database.getLastCarNumberSearch() != null) {
                         openChat(LoginActivity.database.getLastCarNumberSearch());
-                    } else {
-                        Toast.makeText(MainActivity.this, "No carNumber in data base.", Toast.LENGTH_SHORT).show();
-                    }
                 }
 
                 @Override
@@ -109,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
                 @Override
                 public void onFailure() {
-                    Log.d("CHECK", "Data retrieving has been failed. ");
+                    Toast.makeText(MainActivity.this, "No carNumber in data base.", Toast.LENGTH_SHORT).show();
 
                 }
             });
@@ -138,6 +134,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         popup.inflate(R.menu.popup_menu);
         popup.show();
     }
+
 
     private void dispatchTakePictureIntent() {
 
