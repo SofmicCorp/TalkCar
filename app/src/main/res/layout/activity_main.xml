@@ -39,7 +39,6 @@
                 android:layout_marginRight="35dp"
                 android:layout_gravity="center"
                 android:src="@drawable/whitecircle"
-                android:onClick="showPopup"
                 />
 
             <ImageView
