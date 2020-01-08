@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -57,5 +58,12 @@ public class DynamicallyXML {
 
         return editText;
 
+    }
+
+    public void addAllViewsLayout(LinearLayout layout, View... view) {
+
+        for(View v: view){
+            layout.addView(v);
+        }
     }
 }
