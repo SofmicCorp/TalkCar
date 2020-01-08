@@ -58,12 +58,12 @@
         <Button
             android:id="@+id/signin_btn"
             android:layout_width="300dp"
-            android:layout_height="match_parent"
+            android:layout_height="70dp"
             android:text="Sign in"
             android:textStyle="bold"
             android:fontFamily="sans-serif-smallcaps"
             android:background="@drawable/button_shape"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:layout_gravity="center" />
 
         <TextView

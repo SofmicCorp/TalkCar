@@ -44,8 +44,12 @@ public class NewCarForm extends RelativeLayout {
         emojiContainer.setOrientation(LinearLayout.HORIZONTAL);
 
         carNumbernth = dynamicallyXML.createTextView(context,"Car number #" + (formNumber + 1),18, Color.rgb(44,167,239), Gravity.CENTER,100,50,0,0);
-        ImageView deleteFormBtn = dynamicallyXML.createImageView(context,R.drawable.minussign,70,70,Gravity.CENTER,-200,25,0,0);
-        dynamicallyXML.addAllViewsLayout(formHeaderAndDeleteContainer,carNumbernth,deleteFormBtn);
+        ImageView deleteFormBtn = dynamicallyXML.createImageView(context, R.drawable.minussign, 70, 70, Gravity.CENTER, -200, 25, 0, 0);
+        if(allForms.size() == 0){
+            dynamicallyXML.addAllViewsLayout(formHeaderAndDeleteContainer, carNumbernth);
+        } else {
+            dynamicallyXML.addAllViewsLayout(formHeaderAndDeleteContainer, carNumbernth, deleteFormBtn); //add with delete btn
+        }
 
         carNumberPlaceHolder =  dynamicallyXML.createEditText(context,"Car Number", InputType.TYPE_CLASS_PHONE);
         nicknamePlaceHolder = dynamicallyXML.createEditText(context,"Nickname",InputType.TYPE_CLASS_TEXT);
