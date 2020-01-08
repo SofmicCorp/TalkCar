@@ -206,10 +206,8 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             imageBitmap = (Bitmap) extras.get("data");
-        } else
-            return;
-
-        detectTextFromImage();
+            detectTextFromImage();
+        }
     }
 
     private void detectTextFromImage() {
