@@ -42,4 +42,8 @@ public class Car {
         return emojiId;
     }
 
+    @Override
+    public String toString() {
+        return nickname;
+    }
 }

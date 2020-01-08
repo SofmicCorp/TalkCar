@@ -14,8 +14,7 @@ import com.google.firebase.database.ValueEventListener;
 public class Database {
 
     private DatabaseReference databaseReference;
-    private String lastCarNumberSearch;
-    private Driver currentDriver;
+
 
     public Database(){
 
@@ -37,14 +36,15 @@ public class Database {
 
                     for(int j = 0; j < driver.getCars().size(); j++){
                         if(driver.getCarNumber(j).equals(text)) {
-                            lastCarNumberSearch = text;
+                            LoginActivity.applicationModel.setLastCarNumberSearch(text);
                             listener.onSuccess(dataSnapshot);
                             return;
                          }
                     }
                 }
 
-                listener.onFailure();
+                LoginActivity.applicationModel.setLastCarNumberSearch(null);
+                listener.onSuccess(dataSnapshot);
             }
 
             @Override
@@ -68,7 +68,7 @@ public class Database {
                     Driver driver = postSnapshot.getValue(Driver.class);
                     for(int j = 0; j < driver.getCars().size(); j++){
                         if(driver.getEmail().equals(email)) {
-                            currentDriver = driver;
+                            LoginActivity.applicationModel.setCurrentDriver(driver);
                             listener.onSuccess(dataSnapshot);
                             return;
                         }
@@ -88,15 +88,4 @@ public class Database {
         databaseReference.push().setValue(driver);
     }
 
-    public String getLastCarNumberSearch() {
-        return lastCarNumberSearch;
-    }
-
-    public Driver getCurrentDriver() {
-        return currentDriver;
-    }
-
-    public void setCurrentDriver(Driver currentDriver) {
-        this.currentDriver = currentDriver;
-    }
 }

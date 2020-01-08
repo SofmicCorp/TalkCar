@@ -2,7 +2,6 @@ package com.example.talkcar;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -19,17 +18,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SignupActivity extends AppCompatActivity {
@@ -40,11 +32,11 @@ public class SignupActivity extends AppCompatActivity {
     private ImageView addCar;
     private int numOfCars = 0;
     private InputManager inputManager;
+    private Database databaseRef;
     private HashMap<ImageView,Integer> indexes; // for saving the index of every emoji extra car form (
+    private FirebaseAuth mFirebaseAuth;
+    private Driver driver;
 
-
-    FirebaseAuth mFirebaseAuth;
-    Driver driver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +46,7 @@ public class SignupActivity extends AppCompatActivity {
         inputManager = new InputManager();
         mFirebaseAuth = FirebaseAuth.getInstance();
         indexes = new HashMap<>();
+        databaseRef = new Database();
         setClickListeners();
         createAddCarForm();
 
@@ -272,8 +265,10 @@ public class SignupActivity extends AppCompatActivity {
             String emojiId = inputManager.getAllEmojisIds().get(i);
             driver.addCar(new Car(carNumber, nickName,emojiId));
         }
-        LoginActivity.database.saveDriver(driver);
-        LoginActivity.database.setCurrentDriver(driver);
+        databaseRef.saveDriver(driver);
+
+        //Set current driver on app
+        LoginActivity.applicationModel.setCurrentDriver(driver);
     }
 
     private void setIds() {
