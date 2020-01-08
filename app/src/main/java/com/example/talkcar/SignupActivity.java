@@ -2,13 +2,12 @@ package com.example.talkcar;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -22,6 +21,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SignupActivity extends AppCompatActivity {
@@ -36,6 +37,8 @@ public class SignupActivity extends AppCompatActivity {
     private HashMap<ImageView,Integer> indexes; // for saving the index of every emoji extra car form (
     private FirebaseAuth mFirebaseAuth;
     private Driver driver;
+    private ArrayList<TextView> allFormHeadersTextViews;
+    private DynamicallyXML dynamicallyXML;
 
 
     @Override
@@ -47,6 +50,8 @@ public class SignupActivity extends AppCompatActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
         indexes = new HashMap<>();
         databaseRef = new Database();
+        allFormHeadersTextViews = new ArrayList<>();
+        dynamicallyXML = new DynamicallyXML();
         setClickListeners();
         createAddCarForm();
 
@@ -72,45 +77,89 @@ public class SignupActivity extends AppCompatActivity {
     private void createAddCarForm() {
 
         LinearLayout allFormContainer = (LinearLayout)findViewById(R.id.all_forms_container);
-        TextView carNumbernth = createTextView("Car number #" + (numOfCars + 1),18,Color.rgb(44,167,239));
-        EditText carNumberPlaceHolder =  createEditText("Car Number",InputType.TYPE_CLASS_PHONE);
+
+        LinearLayout formHeaderAndDeleteContainer = new LinearLayout(this);
+        LinearLayout inputUserContainer = new LinearLayout(this);
+        LinearLayout emojiContainer = new LinearLayout(this);
+
+        inputUserContainer.setOrientation(LinearLayout.VERTICAL);
+        formHeaderAndDeleteContainer.setOrientation(LinearLayout.HORIZONTAL);
+        emojiContainer.setOrientation(LinearLayout.HORIZONTAL);
+
+        TextView carNumbernth = dynamicallyXML.createTextView(this,"Car number #" + (numOfCars + 1),18,Color.rgb(44,167,239),Gravity.CENTER,100,50,0,0);
+        ImageView deleteFormBtn = dynamicallyXML.createImageView(this,R.drawable.minussign,70,70,Gravity.CENTER,-200,25,0,0);
+        allFormHeadersTextViews.add(carNumbernth);
+        addAllViewsLayout(formHeaderAndDeleteContainer,carNumbernth,deleteFormBtn);
+
+        EditText carNumberPlaceHolder =  dynamicallyXML.createEditText(this,"Car Number",InputType.TYPE_CLASS_PHONE);
         inputManager.getAllCarNumbers().add(carNumberPlaceHolder);
-        EditText nicknamePlaceHolder = createEditText("Nickname",InputType.TYPE_CLASS_TEXT);
+        EditText nicknamePlaceHolder = dynamicallyXML.createEditText(this,"Nickname",InputType.TYPE_CLASS_TEXT);
         inputManager.getAllNickNames().add(nicknamePlaceHolder);
-        TextView pickYourEmojiText = createTextView("Pick your emoji's car!",13,Color.BLACK);
+        TextView pickYourEmojiText = dynamicallyXML.createTextView(this,"Pick your emoji's car!",13,Color.BLACK,Gravity.CENTER,220,50,0,0);
+        addAllViewsLayout(inputUserContainer,carNumberPlaceHolder,nicknamePlaceHolder,pickYourEmojiText);
 
         //Create emoji Container
-
-        LinearLayout emojiContainer = new LinearLayout(this);
-        emojiContainer.setOrientation(LinearLayout.HORIZONTAL);
         addEmojiToContainer(emojiContainer);
-        addAllViewsToFormContainer(allFormContainer,carNumbernth,carNumberPlaceHolder,nicknamePlaceHolder,pickYourEmojiText,emojiContainer);
+        addAllViewsLayout(allFormContainer,formHeaderAndDeleteContainer,inputUserContainer,emojiContainer);
+        numOfCars++;
 
-
+        setFormListeners(deleteFormBtn,formHeaderAndDeleteContainer,inputUserContainer,emojiContainer);
     }
 
-    private void addAllViewsToFormContainer(LinearLayout allFormContainer,View... view) {
+    private void setFormListeners(ImageView deleteFormBtn, final LinearLayout formHeaderAndDeleteContainer, final LinearLayout inputUserContainer, final LinearLayout emojiContainer ) {
+
+        deleteFormBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteForm(formHeaderAndDeleteContainer, inputUserContainer,emojiContainer);
+            }
+        });
+    }
+
+    private void deleteForm(LinearLayout formHeaderAndDeleteContainer, LinearLayout inputUserContainer, LinearLayout emojiContainer) {
+
+        formHeaderAndDeleteContainer.removeAllViews();
+        inputUserContainer.removeAllViews();
+        emojiContainer.removeAllViews();
+        Log.d("SASA", "num of cars before removal: " + numOfCars);
+        numOfCars--;
+        Log.d("SASA", "num of cars: after removal " + numOfCars);
+        allFormHeadersTextViews.remove(numOfCars);
+
+        formHeaderAndDeleteContainer = null;
+        inputUserContainer = null;
+        emojiContainer = null;
+
+        updateAllFormHeadersTextViews();
+    }
+
+    private void updateAllFormHeadersTextViews() {
+
+        for(int i = 0; i < numOfCars; i++){
+            allFormHeadersTextViews.get(i).setText("Car nuasdsfmber #" + (i + 1));
+        }
+    }
+
+    private void addAllViewsLayout(LinearLayout layout,View... view) {
 
         for(View v: view){
-            allFormContainer.addView(v);
+            layout.addView(v);
         }
     }
 
     private void addEmojiToContainer(LinearLayout emojiContainer) {
 
-        ImageView driverOne = createImageView(R.drawable.driver1);
-        ImageView driverTwo = createImageView(R.drawable.driver2);
-        ImageView driverThree = createImageView(R.drawable.driver3);
+        ImageView driverOne = dynamicallyXML.createImageView(this,R.drawable.driver1,200,200,Gravity.CENTER,100,20,0,0);
+        ImageView driverTwo = dynamicallyXML.createImageView(this,R.drawable.driver2,200,200, Gravity.CENTER,100,20,0,0);
+        ImageView driverThree = dynamicallyXML.createImageView(this,R.drawable.driver3,200,200,Gravity.CENTER,100,20,0,0);
 
-        indexes.put(driverOne,numOfCars++); // when we add more car form we add car and index to the indexes hashmap
+        indexes.put(driverOne,numOfCars); // when we add more car form we add car and index to the indexes hashmap
                                             //driverOne is just a mark to know which form are we. it doesnt matter at all if
                                             //it will be driverOne or driverTwo or driverThree, it is just a mark for hashmap
 
         setEmojiClickListeners(driverOne,driverTwo,driverThree);
+        addAllViewsLayout(emojiContainer,driverOne, driverTwo, driverThree);
 
-        emojiContainer.addView(driverOne);
-        emojiContainer.addView(driverTwo);
-        emojiContainer.addView(driverThree);
 
     }
 
@@ -168,53 +217,6 @@ public class SignupActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    private ImageView createImageView(int image) {
-
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(200, 200);
-        lp.setMargins(100,20,0,0);
-        lp.gravity = Gravity.CENTER;
-        ImageView imageView = new ImageView(this);
-        imageView.setImageResource(image);
-        imageView.setLayoutParams(lp);
-
-        return imageView;
-    }
-
-    private TextView createTextView(String text,int size, int color) {
-
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(910, 130);
-        lp.setMargins(0,50,0,0);
-        lp.gravity = Gravity.CENTER;
-        TextView textView = new TextView(this);
-        textView.setTextSize(size);
-        textView.setText(text);
-        textView.setTypeface(Typeface.create("sans-serif-smallcaps", Typeface.NORMAL));
-        textView.setTextColor(color);
-        textView.setLayoutParams(lp);
-
-        return textView;
-    }
-
-    private EditText createEditText(String hint,int type) {
-
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(900, 130);
-        lp.setMargins(0,30,20,20);
-        lp.gravity = Gravity.CENTER;
-        EditText editText = new EditText(this);
-        editText.setHint(hint);
-        editText.setTextSize(13);
-        editText.setPadding(40,0,0,0);
-        editText.setTypeface(Typeface.create("sans-serif-smallcaps", Typeface.NORMAL));
-        editText.setHintTextColor(Color.BLACK);
-        editText.setTextColor(Color.BLACK);
-        editText.setBackgroundResource(R.drawable.edit_text_shape);
-        editText.setInputType(type);
-        editText.setLayoutParams(lp);
-
-        return editText;
-
     }
 
     private void markEmoji(ImageView emoji,int color) {
