@@ -103,6 +103,15 @@ public class NewCarForm extends RelativeLayout {
         ImageView driverThree = dynamicallyXML.createImageView(context,R.drawable.driver3,200,200,Gravity.CENTER,100,20,0,0);
 
 
+        driverOne.setTag(1);
+        driverTwo.setTag(2);
+        driverThree.setTag(3);
+
+
+        //Default value if driver doesnt pick an emoji
+        markEmoji(driverTwo,Color.rgb(44,167,239));
+        emojiID =  driverTwo.getTag().toString();
+
         setEmojiClickListeners(driverOne,driverTwo,driverThree);
         dynamicallyXML.addAllViewsLayout(emojiContainer,driverOne, driverTwo, driverThree);
     }
@@ -117,7 +126,7 @@ public class NewCarForm extends RelativeLayout {
                 markEmoji(driverTwo, Color.WHITE);
                 markEmoji(driverThree, Color.WHITE);
 
-                    driverOne.setTag(1);
+
                     emojiID =  driverOne.getTag().toString();
             }
         });
@@ -129,8 +138,7 @@ public class NewCarForm extends RelativeLayout {
                 markEmoji(driverTwo,Color.rgb(44,167,239));
                 markEmoji(driverThree, Color.WHITE);
 
-                driverOne.setTag(2);
-                emojiID =  driverOne.getTag().toString();
+                emojiID =  driverTwo.getTag().toString();
             }
         });
 
@@ -143,8 +151,7 @@ public class NewCarForm extends RelativeLayout {
                 markEmoji(driverThree,Color.rgb(44,167,239));
 
 
-                driverOne.setTag(3);
-                emojiID =  driverOne.getTag().toString();
+                emojiID =  driverThree.getTag().toString();
             }
         });
     }
