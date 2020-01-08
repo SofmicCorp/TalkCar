@@ -36,9 +36,7 @@ public class NewCarForm extends RelativeLayout {
         //Create Form layouts
         LinearLayout formHeaderAndDeleteContainer = new LinearLayout(context);
         LinearLayout inputUserContainer = new LinearLayout(context);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 250);
         LinearLayout emojiContainer = new LinearLayout(context);
-        emojiContainer.setLayoutParams(lp);
 
         //Set Layouts Orientation
         inputUserContainer.setOrientation(LinearLayout.VERTICAL);
