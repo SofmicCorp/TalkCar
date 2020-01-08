@@ -41,6 +41,7 @@ public class SignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         setIds();
+        NewCarForm.removeAllForms();
         mFirebaseAuth = FirebaseAuth.getInstance();
         databaseRef = new Database();
         dynamicallyXML = new DynamicallyXML();

@@ -158,6 +158,11 @@ public class NewCarForm extends RelativeLayout {
         emoji.setBackgroundDrawable(gd);
     }
 
+    public static void removeAllForms(){
+
+        allForms.removeAll(allForms);
+    }
+
     public EditText getCarNumberPlaceHolder() {
         return carNumberPlaceHolder;
     }
