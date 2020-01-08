@@ -88,4 +88,10 @@ public class Database {
         databaseReference.push().setValue(driver);
     }
 
+    public void addCarToDriver(Driver driver,Car car){
+
+    }
+
+
+
 }

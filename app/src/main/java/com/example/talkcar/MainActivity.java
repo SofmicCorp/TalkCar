@@ -118,14 +118,14 @@ public class MainActivity extends AppCompatActivity {
                 //Put the image on the TextView
                 if(driver.getCars().get(position).getEmojiId().equals("1")) {
 
-                    createImageToPopup(tv,R.drawable.driver1);
+                    createImageToPopup(tv,R.drawable.driver1,R.drawable.editicon);
 
                 } else if(driver.getCars().get(position).getEmojiId().equals("2")){
 
-                    createImageToPopup(tv,R.drawable.driver2);
+                    createImageToPopup(tv,R.drawable.driver2,R.drawable.editicon);
                 }
                 else {
-                    createImageToPopup(tv,R.drawable.driver3);
+                    createImageToPopup(tv,R.drawable.driver3,R.drawable.editicon);
                 }
 
                 //Add margin between image and text (support various screen densities)
@@ -136,14 +136,28 @@ public class MainActivity extends AppCompatActivity {
         };
 
         new AlertDialog.Builder(this)
-                .setTitle("PICK A CAR")
+                .setTitle("PICK A CAR").setPositiveButton("NEW CAR", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                goToAddNewCarActivity();
+
+            }
+        })
                 .setAdapter(adapter, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
-                        //... do somthing when click...
+                        //do something when click...
                         changeCurrentCar(item);
                     }
                 }).show();
 
+
+    }
+
+    private void goToAddNewCarActivity() {
+
+        Intent intent = new Intent(this,AddNewCarActivity.class);
+        startActivity(intent);
     }
 
     private void changeCurrentCar(int index) {
@@ -151,11 +165,13 @@ public class MainActivity extends AppCompatActivity {
         updateCarPickerIcon(index);
     }
 
-    private void createImageToPopup(TextView tv, int image){
+    private void createImageToPopup(TextView tv, int carImgId, int editIconId){
 
-        Drawable img = ContextCompat.getDrawable(MainActivity.this,image);
-        img.setBounds(-30, 0, 180, 150);
-        tv.setCompoundDrawables(img, null, null, null);
+        Drawable carIcon = ContextCompat.getDrawable(MainActivity.this,carImgId);
+        Drawable  editIcon = ContextCompat.getDrawable(MainActivity.this,editIconId);
+        carIcon.setBounds(-30, 0, 180, 150);
+        editIcon.setBounds(0,0,100,100);
+        tv.setCompoundDrawables(carIcon, null, editIcon, null);
     }
 
     private void startChatWithAnotherCar() {
