@@ -21,7 +21,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,15 +29,13 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
-import com.google.firebase.ml.vision.face.FirebaseVisionFace;
-import com.google.firebase.ml.vision.face.FirebaseVisionFaceDetector;
 import com.google.firebase.ml.vision.text.FirebaseVisionText;
 import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
 
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity {//implements PopupMenu.OnMenuItemClickListener {
+public class MainActivity extends AppCompatActivity {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private ImageView takePhoto;
@@ -47,23 +44,26 @@ public class MainActivity extends AppCompatActivity {//implements PopupMenu.OnMe
     private CarNumberChecker carNumberChecker;
     private String carNumber;
     private Driver driver;
+    private Database databaseRef;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        databaseRef = new Database();
         setIds();
         setClickListeners();
         carNumberChecker = new CarNumberChecker();
-        updateCarPickerIcon();
+        updateCarPickerIcon(0);
     }
 
-    private void updateCarPickerIcon() {
+    private void updateCarPickerIcon(int index) {
 
-        driver = LoginActivity.database.getCurrentDriver();
+        driver = LoginActivity.applicationModel.getCurrentDriver();
+        LoginActivity.applicationModel.setCurrentCar(driver.getCars().get(index));
 
-        switch(driver.getCars().get(0).getEmojiId()){
+        switch(driver.getCars().get(index).getEmojiId()){
             case "1":
                 carPicker.setImageResource(R.drawable.driver1);
                 break;
@@ -75,7 +75,6 @@ public class MainActivity extends AppCompatActivity {//implements PopupMenu.OnMe
                 break;
             default:
         }
-
     }
 
     private void setIds(){
@@ -114,8 +113,8 @@ public class MainActivity extends AppCompatActivity {//implements PopupMenu.OnMe
                 TextView tv = (TextView)v.findViewById(android.R.id.text1);
                 tv.setTypeface(Typeface.create("sans-serif-smallcaps", Typeface.BOLD));
 
-
                 //call setBounds with the required size and then call setCompoundDrawables
+
                 //Put the image on the TextView
                 if(driver.getCars().get(position).getEmojiId().equals("1")) {
 
@@ -141,9 +140,15 @@ public class MainActivity extends AppCompatActivity {//implements PopupMenu.OnMe
                 .setAdapter(adapter, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
                         //... do somthing when click...
+                        changeCurrentCar(item);
                     }
                 }).show();
 
+    }
+
+    private void changeCurrentCar(int index) {
+        LoginActivity.applicationModel.setCurrentCar(driver.getCars().get(index));
+        updateCarPickerIcon(index);
     }
 
     private void createImageToPopup(TextView tv, int image){
@@ -158,11 +163,15 @@ public class MainActivity extends AppCompatActivity {//implements PopupMenu.OnMe
         if(carNumber != null) {
             carNumber = carNumberChecker.removeAllTokensFromCarNumber(carNumber);
             //Check if car number is in database, and if it does, open a conversation!
-            LoginActivity.database.updateLastCarNumberSearch(carNumber, new OnGetDataListener() {
+            databaseRef.updateLastCarNumberSearch(carNumber, new OnGetDataListener() {
                 @Override
                 public void onSuccess(DataSnapshot dataSnapshot) {
-                    //Now we need to wait until we retrive all data from firebase!!!
-                        openChat(LoginActivity.database.getLastCarNumberSearch());
+
+                    if(LoginActivity.applicationModel.getLastCarNumberSearch() != null)
+                        openChat(LoginActivity.applicationModel.getLastCarNumberSearch());
+                    else
+                        Toast.makeText(MainActivity.this, "Car was not found in the system...", Toast.LENGTH_SHORT).show();
+
                 }
 
                 @Override
@@ -172,7 +181,7 @@ public class MainActivity extends AppCompatActivity {//implements PopupMenu.OnMe
 
                 @Override
                 public void onFailure() {
-                    Toast.makeText(MainActivity.this, "No carNumber in data base.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Somthing went wrong...", Toast.LENGTH_SHORT).show();
 
                 }
             });
@@ -197,7 +206,8 @@ public class MainActivity extends AppCompatActivity {//implements PopupMenu.OnMe
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             imageBitmap = (Bitmap) extras.get("data");
-        }
+        } else
+            return;
 
         detectTextFromImage();
     }

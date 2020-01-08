@@ -19,8 +19,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 
-import java.io.Serializable;
-
 public class LoginActivity extends AppCompatActivity {
 
 
@@ -29,7 +27,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText passwordPlaceHolder;
     TextView signupText;
     FirebaseAuth mFirebaseAuth;
-    public static Database database;
+    public  Database databaseRef;
+    public static ApplicationModel applicationModel;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
 
 
@@ -38,7 +37,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         setIds();
-        database = new Database();
+        databaseRef = new Database();
+        applicationModel = new ApplicationModel();
         mFirebaseAuth = FirebaseAuth.getInstance();
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -108,7 +108,7 @@ public class LoginActivity extends AppCompatActivity {
                     }else {
 
                         //finding the current driver in database
-                        database.updateCurrentDriverByEmail(emailPlaceHolder.getText().toString(), new OnGetDataListener(){
+                        databaseRef.updateCurrentDriverByEmail(emailPlaceHolder.getText().toString(), new OnGetDataListener(){
 
                             @Override
                             public void onSuccess(DataSnapshot dataSnapshot) {
