@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -34,7 +33,7 @@ public class SignupActivity extends AppCompatActivity {
     private int numOfCars = 0;
     private InputManager inputManager;
     private Database databaseRef;
-    private HashMap<ImageView,Integer> indexes; // for saving the index of every emoji extra car form (
+    private HashMap<ImageView,Integer> indexes; // for saving the index of every emoji extra car form
     private FirebaseAuth mFirebaseAuth;
     private Driver driver;
     private ArrayList<TextView> allFormHeadersTextViews;
@@ -47,7 +46,7 @@ public class SignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         setIds();
-        inputManager = new InputManager();
+        inputManager = new InputManager(); //Manage all cars that a driver have when register
         mFirebaseAuth = FirebaseAuth.getInstance();
         indexes = new HashMap<>();
         databaseRef = new Database();
@@ -77,16 +76,16 @@ public class SignupActivity extends AppCompatActivity {
 
     private void createAddCarForm() {
 
-        //Create
-        LinearLayout allFormContainer = (LinearLayout)findViewById(R.id.all_forms_container);
-
+        //Create Form layouts
         LinearLayout formHeaderAndDeleteContainer = new LinearLayout(this);
         LinearLayout inputUserContainer = new LinearLayout(this);
         LinearLayout emojiContainer = new LinearLayout(this);
 
+        //Set Layouts Orientation
         inputUserContainer.setOrientation(LinearLayout.VERTICAL);
         formHeaderAndDeleteContainer.setOrientation(LinearLayout.HORIZONTAL);
         emojiContainer.setOrientation(LinearLayout.HORIZONTAL);
+
 
         TextView carNumbernth = dynamicallyXML.createTextView(this,"Car number #" + (numOfCars + 1),18,Color.rgb(44,167,239),Gravity.CENTER,100,50,0,0);
         ImageView deleteFormBtn = dynamicallyXML.createImageView(this,R.drawable.minussign,70,70,Gravity.CENTER,-200,25,0,0);
@@ -100,15 +99,18 @@ public class SignupActivity extends AppCompatActivity {
         TextView pickYourEmojiText = dynamicallyXML.createTextView(this,"Pick your emoji's car!",13,Color.BLACK,Gravity.CENTER,220,50,0,0);
         addAllViewsLayout(inputUserContainer,carNumberPlaceHolder,nicknamePlaceHolder,pickYourEmojiText);
 
-        //Create emoji Container
+        //add To Emoji Container
         addEmojiToContainer(emojiContainer);
         addAllViewsLayout(allFormContainer,formHeaderAndDeleteContainer,inputUserContainer,emojiContainer);
+
+        indexes.put(deleteFormBtn,numOfCars);
         numOfCars++;
+
 
         setFormListeners(deleteFormBtn,formHeaderAndDeleteContainer,inputUserContainer,emojiContainer);
     }
 
-    private void setFormListeners(ImageView deleteFormBtn, final LinearLayout formHeaderAndDeleteContainer, final LinearLayout inputUserContainer, final LinearLayout emojiContainer ) {
+    private void setFormListeners(final ImageView deleteFormBtn, final LinearLayout formHeaderAndDeleteContainer, final LinearLayout inputUserContainer, final LinearLayout emojiContainer ) {
 
         deleteFormBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,22 +125,23 @@ public class SignupActivity extends AppCompatActivity {
         formHeaderAndDeleteContainer.removeAllViews();
         inputUserContainer.removeAllViews();
         emojiContainer.removeAllViews();
-        Log.d("SASA", "num of cars before removal: " + numOfCars);
-        numOfCars--;
-        Log.d("SASA", "num of cars: after removal " + numOfCars);
-        allFormHeadersTextViews.remove(numOfCars); // not good - need to remove from speceifc index and not from end of list
+
+
+        allFormHeadersTextViews.remove(numOfCars);
 
         formHeaderAndDeleteContainer = null;
         inputUserContainer = null;
         emojiContainer = null;
+
+        numOfCars--;
 
         updateAllFormHeadersTextViews();
     }
 
     private void updateAllFormHeadersTextViews() {
 
-        for(int i = 0; i < numOfCars; i++){
-            allFormHeadersTextViews.get(i).setText("Car nuasdsfmber #" + (i + 1));
+        for(int i = 0; i < allFormHeadersTextViews.size(); i++){
+            allFormHeadersTextViews.get(i).setText("Car nuumberrr #" + (i + 1));
         }
     }
 
@@ -179,6 +182,7 @@ public class SignupActivity extends AppCompatActivity {
                     driverOne.setTag(1);
                     inputManager.getAllEmojisIds().set(indexes.get((driverOne)),driverOne.getTag().toString());
                 } catch(IndexOutOfBoundsException e){
+                    //if you are here it means its a new form
                     inputManager.getAllEmojisIds().add(driverOne.getTag().toString());
                 }
 
