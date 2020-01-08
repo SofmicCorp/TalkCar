@@ -39,6 +39,7 @@ public class SignupActivity extends AppCompatActivity {
     private Driver driver;
     private ArrayList<TextView> allFormHeadersTextViews;
     private DynamicallyXML dynamicallyXML;
+    private LinearLayout allFormContainer;
 
 
     @Override
@@ -76,6 +77,7 @@ public class SignupActivity extends AppCompatActivity {
 
     private void createAddCarForm() {
 
+        //Create
         LinearLayout allFormContainer = (LinearLayout)findViewById(R.id.all_forms_container);
 
         LinearLayout formHeaderAndDeleteContainer = new LinearLayout(this);
@@ -124,7 +126,7 @@ public class SignupActivity extends AppCompatActivity {
         Log.d("SASA", "num of cars before removal: " + numOfCars);
         numOfCars--;
         Log.d("SASA", "num of cars: after removal " + numOfCars);
-        allFormHeadersTextViews.remove(numOfCars);
+        allFormHeadersTextViews.remove(numOfCars); // not good - need to remove from speceifc index and not from end of list
 
         formHeaderAndDeleteContainer = null;
         inputUserContainer = null;
@@ -275,6 +277,7 @@ public class SignupActivity extends AppCompatActivity {
 
     private void setIds() {
 
+        allFormContainer = (LinearLayout)findViewById(R.id.all_forms_container);
         emailPlaceHolder = (EditText)findViewById(R.id.email_placeholder);
         passwordPlaceHolder = (EditText)findViewById(R.id.password_placeholder);
         signInBtn = (Button)findViewById(R.id.signin_btn);
