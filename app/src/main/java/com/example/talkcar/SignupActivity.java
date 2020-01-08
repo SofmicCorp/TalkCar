@@ -85,6 +85,8 @@ public class SignupActivity extends AppCompatActivity {
         }else if(email.isEmpty() && pwd.isEmpty()){
             Toast.makeText(SignupActivity.this,"Fields Are Empty!", Toast.LENGTH_SHORT);
         }else if(!(email.isEmpty() && pwd.isEmpty())){
+            if(!checkFormFields())
+                return;
             mFirebaseAuth.createUserWithEmailAndPassword(email, pwd).addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -102,12 +104,29 @@ public class SignupActivity extends AppCompatActivity {
         }
     }
 
+    private boolean checkFormFields() {
+
+        for(int i = 0; i < NewCarForm.allForms.size(); i++){
+
+            if(NewCarForm.allForms.get(i).getCarNumberPlaceHolder().getText().toString().isEmpty()){
+                NewCarForm.allForms.get(i).getCarNumberPlaceHolder().setError("Please enter car number");
+                return false;
+            }
+
+            if(NewCarForm.allForms.get(i).getNicknamePlaceHolder().getText().toString().isEmpty()){
+                NewCarForm.allForms.get(i).getNicknamePlaceHolder().setText(NewCarForm.allForms.get(i).getCarNumberPlaceHolder().getText());
+            }
+        }
+
+        return true;
+    }
+
     private void saveDriverToDatabase(String email){
 
         driver = new Driver(email);
         for(int i = 0; i < NewCarForm.allForms.size(); i++){
             String carNumber = NewCarForm.allForms.get(i).getCarNumberPlaceHolder().getText().toString();
-            String nickName = NewCarForm.allForms.get(i).getNicknamePlaceHolder().toString();
+            String nickName = NewCarForm.allForms.get(i).getNicknamePlaceHolder().getText().toString();
             String emojiId = NewCarForm.allForms.get(i).getEmojiID();
             driver.addCar(new Car(carNumber, nickName,emojiId));
         }
