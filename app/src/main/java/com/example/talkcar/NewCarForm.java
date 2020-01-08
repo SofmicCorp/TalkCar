@@ -6,6 +6,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.text.InputType;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -28,7 +29,6 @@ public class NewCarForm extends RelativeLayout {
     public NewCarForm(Context context,LinearLayout allFormContainer) {
         super(context);
 
-
         dynamicallyXML = new DynamicallyXML();
         this.formNumber = allForms.size();
         this.context = context;
@@ -36,7 +36,9 @@ public class NewCarForm extends RelativeLayout {
         //Create Form layouts
         LinearLayout formHeaderAndDeleteContainer = new LinearLayout(context);
         LinearLayout inputUserContainer = new LinearLayout(context);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 250);
         LinearLayout emojiContainer = new LinearLayout(context);
+        emojiContainer.setLayoutParams(lp);
 
         //Set Layouts Orientation
         inputUserContainer.setOrientation(LinearLayout.VERTICAL);
