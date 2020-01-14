@@ -8,6 +8,8 @@ import androidx.core.content.ContextCompat;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.ColorSpace;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -15,6 +17,7 @@ import android.media.Image;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private String carNumber;
     private Driver driver;
     private Database databaseRef;
+    private DynamicallyXML dynamicallyXML;
 
 
     @Override
@@ -52,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         databaseRef = new Database();
+        dynamicallyXML = new DynamicallyXML();
         setIds();
         setClickListeners();
         carNumberChecker = new CarNumberChecker();
@@ -113,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
                 TextView tv = (TextView)v.findViewById(android.R.id.text1);
                 tv.setTypeface(Typeface.create("sans-serif-smallcaps", Typeface.BOLD));
 
+
                 //call setBounds with the required size and then call setCompoundDrawables
 
                 //Put the image on the TextView
@@ -135,8 +141,10 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        new AlertDialog.Builder(this)
-                .setTitle("PICK A CAR").setPositiveButton("NEW CAR", new DialogInterface.OnClickListener() {
+        TextView popUpHeader = dynamicallyXML.createTextView(this,"PICK A CAR",30,Color.WHITE, Gravity.CENTER,0,0,0,0);
+        popUpHeader.setBackgroundColor(Color.rgb(44,167,239));
+//        popUpHeader.setTypeface(Typeface.create("sans-serif-smallcaps", Typeface.BOLD));
+        new AlertDialog.Builder(this).setCustomTitle(popUpHeader).setPositiveButton("NEW CAR", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
@@ -150,8 +158,6 @@ public class MainActivity extends AppCompatActivity {
                         changeCurrentCar(item);
                     }
                 }).show();
-
-
     }
 
     private void goToAddNewCarActivity() {
