@@ -36,7 +36,9 @@ public class NewCarForm extends RelativeLayout {
         //Create Form layouts
         LinearLayout formHeaderAndDeleteContainer = new LinearLayout(context);
         LinearLayout inputUserContainer = new LinearLayout(context);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 300);
         LinearLayout emojiContainer = new LinearLayout(context);
+        emojiContainer.setLayoutParams(lp);
 
         //Set Layouts Orientation
         inputUserContainer.setOrientation(LinearLayout.VERTICAL);
@@ -44,21 +46,23 @@ public class NewCarForm extends RelativeLayout {
         emojiContainer.setOrientation(LinearLayout.HORIZONTAL);
 
         carNumbernth = dynamicallyXML.createTextView(context,"Car number #" + (formNumber + 1),18, Color.rgb(44,167,239), Gravity.CENTER,100,50,0,0);
-        ImageView deleteFormBtn = dynamicallyXML.createImageView(context,R.drawable.minussign,70,70,Gravity.CENTER,-200,25,0,0);
-        dynamicallyXML.addAllViewsLayout(formHeaderAndDeleteContainer,carNumbernth,deleteFormBtn);
+        ImageView deleteFormBtn = dynamicallyXML.createImageView(context, R.drawable.minussign, 70, 70, Gravity.CENTER, -200, 25, 0, 0);
+        if(allForms.size() == 0){
+            dynamicallyXML.addAllViewsLayout(formHeaderAndDeleteContainer, carNumbernth);
+        } else {
+            dynamicallyXML.addAllViewsLayout(formHeaderAndDeleteContainer, carNumbernth, deleteFormBtn); //add with delete btn
+        }
 
         carNumberPlaceHolder =  dynamicallyXML.createEditText(context,"Car Number", InputType.TYPE_CLASS_PHONE);
         nicknamePlaceHolder = dynamicallyXML.createEditText(context,"Nickname",InputType.TYPE_CLASS_TEXT);
         TextView pickYourEmojiText = dynamicallyXML.createTextView(context,"Pick your emoji's car!",13,Color.BLACK,Gravity.CENTER,220,50,0,0);
         dynamicallyXML.addAllViewsLayout(inputUserContainer,carNumberPlaceHolder,nicknamePlaceHolder,pickYourEmojiText);
 
-
         //add To Emoji Container
         addEmojiToContainer(emojiContainer);
         dynamicallyXML.addAllViewsLayout(allFormContainer,formHeaderAndDeleteContainer,inputUserContainer,emojiContainer);
 
         setFormListeners(deleteFormBtn,formHeaderAndDeleteContainer,inputUserContainer,emojiContainer);
-
         allForms.add(this);
 
     }
@@ -78,15 +82,14 @@ public class NewCarForm extends RelativeLayout {
         formHeaderAndDeleteContainer.removeAllViews();
         inputUserContainer.removeAllViews();
         emojiContainer.removeAllViews();
+        emojiContainer.setLayoutParams(new LinearLayout.LayoutParams(0,0));
 
         formHeaderAndDeleteContainer = null;
         inputUserContainer = null;
         emojiContainer = null;
 
         allForms.remove(this);
-
         updateAllForms();
-
     }
 
     private void updateAllForms() {
@@ -102,11 +105,9 @@ public class NewCarForm extends RelativeLayout {
         ImageView driverTwo = dynamicallyXML.createImageView(context,R.drawable.driver2,200,200, Gravity.CENTER,100,20,0,0);
         ImageView driverThree = dynamicallyXML.createImageView(context,R.drawable.driver3,200,200,Gravity.CENTER,100,20,0,0);
 
-
         driverOne.setTag(1);
         driverTwo.setTag(2);
         driverThree.setTag(3);
-
 
         //Default value if driver doesnt pick an emoji
         markEmoji(driverTwo,Color.rgb(44,167,239));

@@ -85,6 +85,7 @@ public class SignupActivity extends AppCompatActivity {
         }else if(email.isEmpty() && pwd.isEmpty()){
             Toast.makeText(SignupActivity.this,"Fields Are Empty!", Toast.LENGTH_SHORT);
         }else if(!(email.isEmpty() && pwd.isEmpty())){
+
             if(!checkFormFields())
                 return;
             mFirebaseAuth.createUserWithEmailAndPassword(email, pwd).addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
@@ -105,6 +106,7 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private boolean checkFormFields() {
+
 
         for(int i = 0; i < NewCarForm.allForms.size(); i++){
 
