@@ -55,6 +55,10 @@ public class AddNewCarActivity extends AppCompatActivity {
         String nickName = newCarForm.getNicknamePlaceHolder().getText().toString();
         String emojiId = newCarForm.getEmojiID();
 
+        if(nickName.isEmpty()){
+            nickName = carNumber;
+        }
+
         Car car = new Car(carNumber,nickName,emojiId);
         Driver driver = LoginActivity.applicationModel.getCurrentDriver();
         driver.addCar(car);
