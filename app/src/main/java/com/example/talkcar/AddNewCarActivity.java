@@ -34,10 +34,6 @@ public class AddNewCarActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                createNewCar();
-               //Save car to database
-               databaseRef.saveDriver(LoginActivity.applicationModel.getCurrentDriver());
-                Intent intent = new Intent(AddNewCarActivity.this,MainActivity.class);
-                startActivity(intent);
 
             }
         });
@@ -55,12 +51,34 @@ public class AddNewCarActivity extends AppCompatActivity {
         String nickName = newCarForm.getNicknamePlaceHolder().getText().toString();
         String emojiId = newCarForm.getEmojiID();
 
+        if(carNumber.isEmpty()){
+            newCarForm.getCarNumberPlaceHolder().setError("Please enter car number");
+            return;
+        }
+
         if(nickName.isEmpty()){
             nickName = carNumber;
+        }
+
+        if(isCarNumberAlreadyExists()){
+
+
         }
 
         Car car = new Car(carNumber,nickName,emojiId);
         Driver driver = LoginActivity.applicationModel.getCurrentDriver();
         driver.addCar(car);
+
+        //Save car to database
+        databaseRef.saveDriver(LoginActivity.applicationModel.getCurrentDriver());
+        Intent intent = new Intent(AddNewCarActivity.this,MainActivity.class);
+        startActivity(intent);
+    }
+
+    private boolean isCarNumberAlreadyExists() {
+
+        //need to be completed. need to check is car number is not exists in data base!
+        return false;
+
     }
 }
