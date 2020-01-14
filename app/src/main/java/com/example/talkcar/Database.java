@@ -11,6 +11,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 public class Database {
 
     private DatabaseReference databaseReference;
@@ -18,7 +22,8 @@ public class Database {
 
     public Database(){
 
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Driver");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Drivers");
+
     }
 
     public void updateLastCarNumberSearch(final String text,final OnGetDataListener listener) {
@@ -85,13 +90,27 @@ public class Database {
 
     public void saveDriver(Driver driver) {
 
-        databaseReference.push().setValue(driver);
-    }
-
-    public void addCarToDriver(Driver driver,Car car){
+        databaseReference.child(MD5_Hash(driver.getEmail().toString())).setValue(driver);
 
     }
 
+    public void updateDriver(Driver driver){
 
+    }
 
+    //When using this functio, the key to every driver in firebase can be the hashed email make the key uniqe.
+    //We are doing this because key can not contain @ / . / etc...
+    public String MD5_Hash(String s) {
+
+        MessageDigest m = null;
+
+        try {
+            m = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        m.update(s.getBytes(),0,s.length());
+        String hash = new BigInteger(1, m.digest()).toString(16);
+        return hash;
+    }
 }

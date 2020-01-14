@@ -2,6 +2,7 @@ package com.example.talkcar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,7 +10,7 @@ import android.widget.LinearLayout;
 
 public class AddNewCarActivity extends AppCompatActivity {
 
-    private Database databaseRef;;
+    private Database databaseRef;
     private Button addNewCarBtn;
     private NewCarForm newCarForm;
     private LinearLayout formContainer;
@@ -32,6 +33,11 @@ public class AddNewCarActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+               createNewCar();
+               //Save car to database
+               databaseRef.saveDriver(LoginActivity.applicationModel.getCurrentDriver());
+                Intent intent = new Intent(AddNewCarActivity.this,MainActivity.class);
+                startActivity(intent);
 
             }
         });
@@ -41,5 +47,16 @@ public class AddNewCarActivity extends AppCompatActivity {
 
         addNewCarBtn = (Button)findViewById(R.id.add_car_btn);
         formContainer = (LinearLayout)findViewById(R.id.form_container);
+    }
+
+    private void createNewCar(){
+
+        String carNumber = newCarForm.getCarNumberPlaceHolder().getText().toString();
+        String nickName = newCarForm.getNicknamePlaceHolder().getText().toString();
+        String emojiId = newCarForm.getEmojiID();
+
+        Car car = new Car(carNumber,nickName,emojiId);
+        Driver driver = LoginActivity.applicationModel.getCurrentDriver();
+        driver.addCar(car);
     }
 }

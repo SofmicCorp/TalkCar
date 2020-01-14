@@ -89,7 +89,6 @@ public class NewCarForm extends RelativeLayout {
         emojiContainer = null;
 
         allForms.remove(this);
-
         updateAllForms();
     }
 
