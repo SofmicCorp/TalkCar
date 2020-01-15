@@ -9,16 +9,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.ColorSpace;
-import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -45,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView takePhoto;
     private ImageView carPicker;
     private Bitmap imageBitmap;
-    private CarNumberChecker carNumberChecker;
+    private FieldsChecker fieldsChecker;
     private String carNumber;
     private Driver driver;
     private Database databaseRef;
@@ -60,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         dynamicallyXML = new DynamicallyXML();
         setIds();
         setClickListeners();
-        carNumberChecker = new CarNumberChecker();
+        fieldsChecker = new FieldsChecker();
         updateCarPickerIcon(0);
     }
 
@@ -189,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
     private void startChatWithAnotherCar() {
 
         if(carNumber != null) {
-            carNumber = carNumberChecker.removeAllTokensFromCarNumber(carNumber);
+            carNumber = fieldsChecker.removeAllTokensFromCarNumber(carNumber);
             //Check if car number is in database, and if it does, open a conversation!
             databaseRef.updateLastCarNumberSearch(carNumber, new OnGetDataListener() {
                 @Override
@@ -268,7 +264,7 @@ public class MainActivity extends AppCompatActivity {
             for(FirebaseVisionText.TextBlock block: firebaseVisionText.getTextBlocks()){
                 String text =  block.getText();
                 //Check if car number is valid
-                if(carNumberChecker.isValidCarNumber(text)) {
+                if(fieldsChecker.isValidCarNumber(text)) {
                     carNumber = text;
                     return;
                 }

@@ -1,17 +1,12 @@
 package com.example.talkcar;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.text.InputType;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,8 +15,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.ArrayList;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -34,6 +27,7 @@ public class SignupActivity extends AppCompatActivity {
     private Driver driver;
     private LinearLayout allFormContainer;
     private DynamicallyXML dynamicallyXML;
+    private FieldsChecker checker;
 
 
     @Override
@@ -45,6 +39,7 @@ public class SignupActivity extends AppCompatActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
         databaseRef = new Database(new MD5());
         dynamicallyXML = new DynamicallyXML();
+        checker = new FieldsChecker();
         setClickListeners();
         createAddCarForm();
 
@@ -74,52 +69,29 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private void createFireBaseUser(){
-        final String email = emailPlaceHolder.getText().toString().trim();
-        String pwd = passwordPlaceHolder.getText().toString().trim();
 
-        if(email.isEmpty()){
-            emailPlaceHolder.setError("Please enter email");
-            emailPlaceHolder.requestFocus();
-        }else if(pwd.isEmpty()){
-            passwordPlaceHolder.setError("Please enter your password");
-        }else if(email.isEmpty() && pwd.isEmpty()){
-            Toast.makeText(SignupActivity.this,"Fields Are Empty!", Toast.LENGTH_SHORT);
-        }else if(!(email.isEmpty() && pwd.isEmpty())){
-            if(!checkFormFields())
-                return;
-            mFirebaseAuth.createUserWithEmailAndPassword(email, pwd).addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
+        if(!checker.checkUserDetailsFields(emailPlaceHolder, passwordPlaceHolder))
+            return;
+
+            for(int i = 0; i < NewCarForm.allForms.size(); i++){
+                if(!checker.checkCarDetailsFields(NewCarForm.allForms.get(i).getCarNumberPlaceHolder(),NewCarForm.allForms.get(i).getNicknamePlaceHolder())){
+                    return;
+                }
+            }
+            mFirebaseAuth.createUserWithEmailAndPassword(emailPlaceHolder.getText().toString(), passwordPlaceHolder.getText().toString()).addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(!task.isSuccessful()){
                         Toast.makeText(SignupActivity.this,"Sign in unsuccessful, please try again!", Toast.LENGTH_SHORT);
                     }else{
-                       saveDriverToDatabase(email);
+                       saveDriverToDatabase(emailPlaceHolder.getText().toString());
                        Intent intent = new Intent(SignupActivity.this,MainActivity.class);
                        startActivity(intent);
                     }
                 }
             });
-        }else{
-            Toast.makeText(SignupActivity.this,"Error Occurred!", Toast.LENGTH_SHORT);
-        }
     }
 
-    private boolean checkFormFields() {
-
-        for(int i = 0; i < NewCarForm.allForms.size(); i++){
-
-            if(NewCarForm.allForms.get(i).getCarNumberPlaceHolder().getText().toString().isEmpty()){
-                NewCarForm.allForms.get(i).getCarNumberPlaceHolder().setError("Please enter car number");
-                return false;
-            }
-
-            if(NewCarForm.allForms.get(i).getNicknamePlaceHolder().getText().toString().isEmpty()){
-                NewCarForm.allForms.get(i).getNicknamePlaceHolder().setText(NewCarForm.allForms.get(i).getCarNumberPlaceHolder().getText());
-            }
-        }
-
-        return true;
-    }
 
     private void saveDriverToDatabase(String email){
 

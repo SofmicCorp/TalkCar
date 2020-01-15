@@ -11,8 +11,6 @@ public class ApplicationModel {
 
     }
 
-
-
     public String getLastCarNumberSearch() {
         return lastCarNumberSearch;
     }
