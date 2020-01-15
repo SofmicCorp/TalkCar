@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -58,6 +59,15 @@ public class DynamicallyXML {
 
         return editText;
 
+    }
+
+    //To be complete
+    public Button createButton(Context context,String text, int color){
+        Button button = new Button(context);
+        button.setText(text);
+        button.setBackgroundColor(color);
+
+        return button;
     }
 
     public void addAllViewsLayout(LinearLayout layout, View... view) {

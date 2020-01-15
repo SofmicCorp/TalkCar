@@ -22,7 +22,7 @@ public class AddNewCarActivity extends AppCompatActivity {
         NewCarForm.removeAllForms();
         setIds();
         setClickListeners();
-        databaseRef = new Database();
+        databaseRef = new Database(new MD5());
         newCarForm = new NewCarForm(this,formContainer);
 
     }

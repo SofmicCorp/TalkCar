@@ -43,7 +43,7 @@ public class SignupActivity extends AppCompatActivity {
         setIds();
         NewCarForm.removeAllForms();
         mFirebaseAuth = FirebaseAuth.getInstance();
-        databaseRef = new Database();
+        databaseRef = new Database(new MD5());
         dynamicallyXML = new DynamicallyXML();
         setClickListeners();
         createAddCarForm();

@@ -21,7 +21,6 @@ import com.google.firebase.database.DataSnapshot;
 
 public class LoginActivity extends AppCompatActivity {
 
-
     Button signInBtn;
     EditText emailPlaceHolder;
     EditText passwordPlaceHolder;
@@ -37,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         setIds();
-        databaseRef = new Database();
+        databaseRef = new Database(new MD5());
         applicationModel = new ApplicationModel();
         mFirebaseAuth = FirebaseAuth.getInstance();
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {

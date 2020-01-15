@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        databaseRef = new Database();
+        databaseRef = new Database(new MD5());
         dynamicallyXML = new DynamicallyXML();
         setIds();
         setClickListeners();
@@ -144,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
         TextView popUpHeader = dynamicallyXML.createTextView(this,"PICK A CAR",30,Color.WHITE, Gravity.CENTER,0,0,0,0);
         popUpHeader.setBackgroundColor(Color.rgb(44,167,239));
 //        popUpHeader.setTypeface(Typeface.create("sans-serif-smallcaps", Typeface.BOLD));
-        new AlertDialog.Builder(this).setCustomTitle(popUpHeader).setPositiveButton("NEW CAR", new DialogInterface.OnClickListener() {
+        AlertDialog alert = new AlertDialog.Builder(this).setCustomTitle(popUpHeader).setPositiveButton("NEW CAR", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
@@ -158,6 +159,11 @@ public class MainActivity extends AppCompatActivity {
                         changeCurrentCar(item);
                     }
                 }).show();
+
+        Button button = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+        button.setBackgroundColor(Color.rgb(44,167,239));
+        button.setTextColor(Color.WHITE);
+        button.setBackgroundResource(R.drawable.button_shape);
     }
 
     private void goToAddNewCarActivity() {
