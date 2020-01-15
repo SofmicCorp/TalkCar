@@ -26,6 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText passwordPlaceHolder;
     TextView signupText;
     FirebaseAuth mFirebaseAuth;
+    FieldsChecker checker;
     public  Database databaseRef;
     public static ApplicationModel applicationModel;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
@@ -39,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         databaseRef = new Database(new MD5());
         applicationModel = new ApplicationModel();
         mFirebaseAuth = FirebaseAuth.getInstance();
+        checker = new FieldsChecker();
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -89,23 +91,16 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginFireBaseUser(){
-        String email = emailPlaceHolder.getText().toString();
-        String pwd = passwordPlaceHolder.getText().toString();
-        if(email.isEmpty()){
-            emailPlaceHolder.setError("Please enter email");
-            emailPlaceHolder.requestFocus();
-        }else if(pwd.isEmpty()){
-            passwordPlaceHolder.setError("Please enetr your password");
-        }else if(email.isEmpty() && pwd.isEmpty()){
-            Toast.makeText(LoginActivity.this,"Fields Are Empty!", Toast.LENGTH_SHORT).show();
-        }else if(!(email.isEmpty() && pwd.isEmpty())){
-            mFirebaseAuth.signInWithEmailAndPassword(email, pwd). addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+
+        if(!checker.checkUserDetailsFields(emailPlaceHolder, passwordPlaceHolder))
+            return;
+
+            mFirebaseAuth.signInWithEmailAndPassword(emailPlaceHolder.getText().toString(), passwordPlaceHolder.getText().toString()). addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(!task.isSuccessful()) {
                         Toast.makeText(LoginActivity.this,"Login Error, Please Try Again", Toast.LENGTH_SHORT).show();
                     }else {
-
                         //finding the current driver in database
                         databaseRef.updateCurrentDriverByEmail(emailPlaceHolder.getText().toString(), new OnGetDataListener(){
 
@@ -116,9 +111,7 @@ public class LoginActivity extends AppCompatActivity {
 
                             @Override
                             public void onStart() {
-
                                 Log.d("CHECK", "Wait for data... ");
-
                             }
 
                             @Override
@@ -130,9 +123,6 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }
             });
-        }else{
-            Toast.makeText(LoginActivity.this,"Error Occurred!", Toast.LENGTH_SHORT).show();
-        }
     }
 
     private void setIds() {

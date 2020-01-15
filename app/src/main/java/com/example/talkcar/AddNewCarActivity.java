@@ -34,7 +34,6 @@ public class AddNewCarActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                createNewCar();
-
             }
         });
     }
