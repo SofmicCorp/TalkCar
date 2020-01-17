@@ -22,7 +22,6 @@ public class NewCarForm extends RelativeLayout {
     private EditText carNumberPlaceHolder;
     private EditText nicknamePlaceHolder;
     private String emojiID;
-    private TextView carNumbernth;
     private Context context;
     public static ArrayList<NewCarForm> allForms = new ArrayList<>();
 
@@ -36,7 +35,7 @@ public class NewCarForm extends RelativeLayout {
         //Create Form layouts
         LinearLayout formHeaderAndDeleteContainer = new LinearLayout(context);
         LinearLayout inputUserContainer = new LinearLayout(context);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 300);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 250);
         LinearLayout emojiContainer = new LinearLayout(context);
         emojiContainer.setLayoutParams(lp);
 
@@ -44,14 +43,6 @@ public class NewCarForm extends RelativeLayout {
         inputUserContainer.setOrientation(LinearLayout.VERTICAL);
         formHeaderAndDeleteContainer.setOrientation(LinearLayout.HORIZONTAL);
         emojiContainer.setOrientation(LinearLayout.HORIZONTAL);
-
-        carNumbernth = dynamicallyXML.createTextView(context,"Car number #" + (formNumber + 1),18, Color.rgb(44,167,239), Gravity.CENTER,100,50,0,0);
-        ImageView deleteFormBtn = dynamicallyXML.createImageView(context, R.drawable.minussign, 70, 70, Gravity.CENTER, -200, 25, 0, 0);
-        if(allForms.size() == 0){
-            dynamicallyXML.addAllViewsLayout(formHeaderAndDeleteContainer, carNumbernth);
-        } else {
-            dynamicallyXML.addAllViewsLayout(formHeaderAndDeleteContainer, carNumbernth, deleteFormBtn); //add with delete btn
-        }
 
         carNumberPlaceHolder =  dynamicallyXML.createEditText(context,"Car Number", InputType.TYPE_CLASS_PHONE);
         nicknamePlaceHolder = dynamicallyXML.createEditText(context,"Nickname",InputType.TYPE_CLASS_TEXT);
@@ -61,49 +52,15 @@ public class NewCarForm extends RelativeLayout {
         //add To Emoji Container
         addEmojiToContainer(emojiContainer);
         dynamicallyXML.addAllViewsLayout(allFormContainer,formHeaderAndDeleteContainer,inputUserContainer,emojiContainer);
-
-        setFormListeners(deleteFormBtn,formHeaderAndDeleteContainer,inputUserContainer,emojiContainer);
         allForms.add(this);
-
     }
 
-    private void setFormListeners(final ImageView deleteFormBtn, final LinearLayout formHeaderAndDeleteContainer, final LinearLayout inputUserContainer, final LinearLayout emojiContainer ) {
-
-        deleteFormBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                deleteFormContext(formHeaderAndDeleteContainer, inputUserContainer,emojiContainer);
-            }
-        });
-    }
-
-    private void deleteFormContext(LinearLayout formHeaderAndDeleteContainer, LinearLayout inputUserContainer, LinearLayout emojiContainer) {
-
-        formHeaderAndDeleteContainer.removeAllViews();
-        inputUserContainer.removeAllViews();
-        emojiContainer.removeAllViews();
-        emojiContainer.setLayoutParams(new LinearLayout.LayoutParams(0,0));
-
-        formHeaderAndDeleteContainer = null;
-        inputUserContainer = null;
-        emojiContainer = null;
-
-        allForms.remove(this);
-        updateAllForms();
-    }
-
-    private void updateAllForms() {
-
-        for(int i = 0; i < allForms.size(); i++){
-            allForms.get(i).getCarNumbernth().setText("Car number #" + (i + 1));
-        }
-    }
 
     private void addEmojiToContainer(LinearLayout emojiContainer) {
 
-        ImageView driverOne = dynamicallyXML.createImageView(context,R.drawable.driver1,200,200,Gravity.CENTER,100,20,0,0);
-        ImageView driverTwo = dynamicallyXML.createImageView(context,R.drawable.driver2,200,200, Gravity.CENTER,100,20,0,0);
-        ImageView driverThree = dynamicallyXML.createImageView(context,R.drawable.driver3,200,200,Gravity.CENTER,100,20,0,0);
+        ImageView driverOne = dynamicallyXML.createImageView(context,R.drawable.driver1,150,150,Gravity.CENTER,100,10,0,0);
+        ImageView driverTwo = dynamicallyXML.createImageView(context,R.drawable.driver2,150,150, Gravity.CENTER,100,10,0,0);
+        ImageView driverThree = dynamicallyXML.createImageView(context,R.drawable.driver3,150,150,Gravity.CENTER,100,10,0,0);
 
         driverOne.setTag(1);
         driverTwo.setTag(2);
@@ -195,11 +152,5 @@ public class NewCarForm extends RelativeLayout {
         this.emojiID = emojiID;
     }
 
-    public void setCarNumbernth(TextView carNumbernth) {
-        this.carNumbernth = carNumbernth;
-    }
 
-    public TextView getCarNumbernth() {
-        return carNumbernth;
-    }
 }

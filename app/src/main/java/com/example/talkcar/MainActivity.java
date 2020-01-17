@@ -35,7 +35,7 @@ import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnInputListener {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private ImageView takePhoto;
@@ -145,8 +145,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                goToAddNewCarActivity();
-
+                openNewCarDialog();
             }
         })
                 .setAdapter(adapter, new DialogInterface.OnClickListener() {
@@ -162,10 +161,10 @@ public class MainActivity extends AppCompatActivity {
         button.setBackgroundResource(R.drawable.button_shape);
     }
 
-    private void goToAddNewCarActivity() {
+    private void openNewCarDialog() {
 
-        Intent intent = new Intent(this,AddNewCarActivity.class);
-        startActivity(intent);
+        AddNewCarCarDialog dialog = new AddNewCarCarDialog();
+        dialog.show(getSupportFragmentManager(),"AddNewCarDialog");
     }
 
     private void changeCurrentCar(int index) {
@@ -277,5 +276,18 @@ public class MainActivity extends AppCompatActivity {
     private void openChat(String carNumber) {
 
         Toast.makeText(this, "chat has been open with " + carNumber, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void sendInput(Car car) {
+
+        Driver driver = LoginActivity.applicationModel.getCurrentDriver();
+        driver.addCar(car);
+        //Save car to database
+        databaseRef.saveDriver(LoginActivity.applicationModel.getCurrentDriver());
+
+        Toast.makeText(this, "car has been added to database", Toast.LENGTH_SHORT).show();
+
+
     }
 }
