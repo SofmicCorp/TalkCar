@@ -15,13 +15,12 @@ import androidx.fragment.app.DialogFragment;
 
 public class AddNewCarCarDialog extends DialogFragment {
 
-
-
     private OnInputListener onInputListener;
     private Database databaseRef;
     private Button addNewCarBtn;
     private NewCarForm newCarForm;
     private LinearLayout formContainer;
+    private FieldsChecker checker;
 
     @Nullable
     @Override
@@ -33,6 +32,7 @@ public class AddNewCarCarDialog extends DialogFragment {
         setClickListeners();
         databaseRef = new Database(new MD5());
         newCarForm = new NewCarForm((getContext()),formContainer);
+        checker = new FieldsChecker();
 
         return view;
     }
@@ -48,15 +48,13 @@ public class AddNewCarCarDialog extends DialogFragment {
         addNewCarBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Car car;
-
-                do{
-                    car = createNewCar();
-                }while(car == null);
-
-
+                car = createNewCar();
+                if(car == null){
+                    return;
+                }
                 onInputListener.sendInput(car);
-                getDialog().dismiss();
                 getDialog().dismiss();
             }
         });
@@ -64,35 +62,16 @@ public class AddNewCarCarDialog extends DialogFragment {
 
     public Car createNewCar(){
 
-        String carNumber = newCarForm.getCarNumberPlaceHolder().getText().toString();
-        String nickName = newCarForm.getNicknamePlaceHolder().getText().toString();
-        String emojiId = newCarForm.getEmojiID();
-
-        if(carNumber.isEmpty()){
-            newCarForm.getCarNumberPlaceHolder().setError("Please enter car number");
+       if(!checker.checkCarDetailsFields(newCarForm.getCarNumberPlaceHolder(),newCarForm.getNicknamePlaceHolder())){
             return null;
         }
 
-        if(nickName.isEmpty()){
-            nickName = carNumber;
-        }
-
-        if(isCarNumberAlreadyExists()){
-
-
-        }
-
-        Car car = new Car(carNumber,nickName,emojiId);
+        Car car = new Car(newCarForm.getCarNumberPlaceHolder().getText().toString(),newCarForm.getNicknamePlaceHolder().getText().toString(),newCarForm.getEmojiID());
 
         return car;
     }
 
-    private boolean isCarNumberAlreadyExists() {
 
-        //need to be completed. need to check is car number is not exists in data base!
-        return false;
-
-    }
 
     @Override
     public void onAttach(Context context) {

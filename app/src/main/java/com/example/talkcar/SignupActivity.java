@@ -95,6 +95,7 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
                        saveDriverToDatabase(emailPlaceHolder.getText().toString());
                        Intent intent = new Intent(SignupActivity.this,MainActivity.class);
                        startActivity(intent);
+                       finish();
                     }
                 }
             });
@@ -132,14 +133,14 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
         final LinearLayout carContainer = new LinearLayout(this);
         TextView addedCar = dynamicallyXML.createTextView(this,car.getCarNumber(),20, Color.BLACK, Gravity.CENTER,20,50,10,10);
         if(car.getEmojiId().equals("1")) {
-             emoji = dynamicallyXML.createImageView(this, R.drawable.driver1, 150, 100, Gravity.CENTER, 100, 5, 5, 5);
+             emoji = dynamicallyXML.createImageView(this, R.drawable.driver1, 150, 100, Gravity.CENTER, 230, 5, 5, 5);
         } else if(car.getEmojiId().equals("2")){
-            emoji = dynamicallyXML.createImageView(this, R.drawable.driver2, 150, 100, Gravity.CENTER, 100, 5, 5, 5);
+            emoji = dynamicallyXML.createImageView(this, R.drawable.driver2, 150, 100, Gravity.CENTER, 230, 5, 5, 5);
         } else {
-            emoji = dynamicallyXML.createImageView(this, R.drawable.driver3, 150, 100, Gravity.CENTER, 100, 5, 5, 5);
+            emoji = dynamicallyXML.createImageView(this, R.drawable.driver3, 150, 100, Gravity.CENTER, 230, 5, 5, 5);
         }
 
-        ImageView delete = dynamicallyXML.createImageView(this,R.drawable.minussign,70,70,Gravity.CENTER,-400,5,0,5);
+        ImageView delete = dynamicallyXML.createImageView(this,R.drawable.minussign,70,70,Gravity.CENTER,-600,5,0,5);
 
 
         carContainer.addView(emoji);

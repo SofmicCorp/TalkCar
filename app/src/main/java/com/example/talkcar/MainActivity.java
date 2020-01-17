@@ -285,9 +285,5 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         driver.addCar(car);
         //Save car to database
         databaseRef.saveDriver(LoginActivity.applicationModel.getCurrentDriver());
-
-        Toast.makeText(this, "car has been added to database", Toast.LENGTH_SHORT).show();
-
-
     }
 }
