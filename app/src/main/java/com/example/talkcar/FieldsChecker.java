@@ -40,14 +40,19 @@ public class FieldsChecker {
 
     public boolean checkCarDetailsFields(EditText carNumberPlaceHolder, EditText nicknamePlaceHolder) {
 
-            if(carNumberPlaceHolder.getText().toString().isEmpty()) {
-                carNumberPlaceHolder.setError("Please enter car number");
-                return false;
-            }
+        if(carNumberPlaceHolder.getText().toString().isEmpty()) {
+            carNumberPlaceHolder.setError("Please enter car number");
+            return false;
+        }
 
-            if(nicknamePlaceHolder.getText().toString().isEmpty()){
-                nicknamePlaceHolder.setText(carNumberPlaceHolder.getText());
-            }
+        if(carNumberPlaceHolder.getText().toString().length() !=  CAR_NUMBER_LENGTH || !carNumberPlaceHolder.getText().toString().matches("[0-9]+")){
+            carNumberPlaceHolder.setError("Illegal car number");
+            return false;
+        }
+
+        if(nicknamePlaceHolder.getText().toString().isEmpty()){
+            nicknamePlaceHolder.setText(carNumberPlaceHolder.getText());
+        }
         return true;
     }
 
@@ -70,6 +75,13 @@ public class FieldsChecker {
         }
 
         return true;
+
+    }
+
+    private boolean isCarNumberAlreadyExists() {
+
+        //need to be completed. need to check is car number is not exists in data base!
+        return false;
 
     }
 }

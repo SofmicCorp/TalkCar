@@ -43,7 +43,7 @@ public class DynamicallyXML {
 
     public EditText createEditText(Context context,String hint, int type) {
 
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(900, 130);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(700, 100);
         lp.setMargins(0,30,20,20);
         lp.gravity = Gravity.CENTER;
         EditText editText = new EditText(context);

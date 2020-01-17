@@ -1,12 +1,16 @@
 package com.example.talkcar;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,7 +20,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class SignupActivity extends AppCompatActivity {
+public class SignupActivity extends AppCompatActivity implements OnInputListener {
 
     private EditText emailPlaceHolder;
     private EditText passwordPlaceHolder;
@@ -30,6 +34,7 @@ public class SignupActivity extends AppCompatActivity {
     private FieldsChecker checker;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +46,7 @@ public class SignupActivity extends AppCompatActivity {
         dynamicallyXML = new DynamicallyXML();
         checker = new FieldsChecker();
         setClickListeners();
-        createAddCarForm();
+
 
     }
 
@@ -58,14 +63,17 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                createAddCarForm();
+                openNewCarDialog();
             }
         });
     }
 
-    private void createAddCarForm() {
 
-        NewCarForm newCarForm = new NewCarForm(this,allFormContainer);
+
+    private void openNewCarDialog() {
+
+        AddNewCarCarDialog dialog = new AddNewCarCarDialog();
+        dialog.show(getSupportFragmentManager(),"AddNewCarDialog");
     }
 
     private void createFireBaseUser(){
@@ -87,6 +95,7 @@ public class SignupActivity extends AppCompatActivity {
                        saveDriverToDatabase(emailPlaceHolder.getText().toString());
                        Intent intent = new Intent(SignupActivity.this,MainActivity.class);
                        startActivity(intent);
+                       finish();
                     }
                 }
             });
@@ -115,5 +124,37 @@ public class SignupActivity extends AppCompatActivity {
         passwordPlaceHolder = (EditText)findViewById(R.id.password_placeholder);
         signInBtn = (Button)findViewById(R.id.signin_btn);
         addCar = (ImageView)findViewById(R.id.plus_sign);
+    }
+
+    @Override
+    public void sendInput(Car car) {
+
+        ImageView emoji;
+        final LinearLayout carContainer = new LinearLayout(this);
+        TextView addedCar = dynamicallyXML.createTextView(this,car.getCarNumber(),20, Color.BLACK, Gravity.CENTER,20,50,10,10);
+        if(car.getEmojiId().equals("1")) {
+             emoji = dynamicallyXML.createImageView(this, R.drawable.driver1, 150, 100, Gravity.CENTER, 230, 5, 5, 5);
+        } else if(car.getEmojiId().equals("2")){
+            emoji = dynamicallyXML.createImageView(this, R.drawable.driver2, 150, 100, Gravity.CENTER, 230, 5, 5, 5);
+        } else {
+            emoji = dynamicallyXML.createImageView(this, R.drawable.driver3, 150, 100, Gravity.CENTER, 230, 5, 5, 5);
+        }
+
+        ImageView delete = dynamicallyXML.createImageView(this,R.drawable.minussign,70,70,Gravity.CENTER,-600,5,0,5);
+
+
+        carContainer.addView(emoji);
+        carContainer.addView(addedCar);
+        carContainer.addView(delete);
+
+        allFormContainer.addView(carContainer);
+
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                allFormContainer.removeView(carContainer);
+            }
+        });
+
     }
 }

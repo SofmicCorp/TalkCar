@@ -14,7 +14,6 @@
         android:roundIcon="@mipmap/talkcar_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/AppTheme">
-        <activity android:name=".AddNewCarActivity"></activity>
         <activity android:name=".SignupActivity" />
         <activity android:name=".MainActivity">
             <meta-data
