@@ -57,25 +57,52 @@ public class FieldsChecker {
     }
 
 
-    public boolean checkUserDetailsFields(EditText emailPlaceHolder, EditText passwordPlaceHolder){
+    public boolean checkUserDetailsFields(EditText firstNamePlaceHolder,EditText lastNamePlaceHolder, EditText emailPlaceHolder, EditText passwordPlaceHolder,EditText passwordConfirmationPlaceHolder){
+
+
+        String firstName = firstNamePlaceHolder.getText().toString().trim();
+        String lastName = lastNamePlaceHolder.getText().toString().trim();
+        String pwd = passwordPlaceHolder.getText().toString().trim();
+        String pwdConfirmation = passwordConfirmationPlaceHolder.getText().toString().trim();
+
+        if(firstName.isEmpty()){
+            firstNamePlaceHolder.setError("Please enter your first name");
+            return false;
+
+        } else if(lastName.isEmpty()){
+            lastNamePlaceHolder.setError("Please enter your last name");
+            return false;
+        }
+        if(!checkLoginFields(emailPlaceHolder,passwordPlaceHolder)){
+            return false;
+        }
+         else if(pwdConfirmation.isEmpty()){
+            passwordConfirmationPlaceHolder.setError("Please enter password");
+            return false;
+        }
+        else if(!pwd.equals(pwdConfirmation)){
+            passwordPlaceHolder.setError("Passwords don't match");
+            return false;
+        }
+        return true;
+
+    }
+
+    public boolean checkLoginFields(EditText emailPlaceHolder, EditText passwordPlaceHolder){
 
         String email = emailPlaceHolder.getText().toString().trim();
         String pwd = passwordPlaceHolder.getText().toString().trim();
 
-        if(email.isEmpty()){
+         if(email.isEmpty()){
             emailPlaceHolder.setError("Please enter email");
             emailPlaceHolder.requestFocus();
-
             return false;
 
-        }else if(pwd.isEmpty()){
-            passwordPlaceHolder.setError("Please enter your password");
-
+        }else if(pwd.isEmpty() ){
+            passwordPlaceHolder.setError("Please enter password");
             return false;
         }
-
-        return true;
-
+         return true;
     }
 
     private boolean isCarNumberAlreadyExists() {

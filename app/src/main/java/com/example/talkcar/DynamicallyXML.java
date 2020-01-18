@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
+
 public class DynamicallyXML {
 
 
@@ -61,6 +63,20 @@ public class DynamicallyXML {
 
     }
 
+    public CardView createCardView(Context context,int width, int height,int leftMargin,int topMargin, int rightMargin,int bottomMargin, int radius,int color){
+        CardView cardView = new CardView(context);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height);
+        layoutParams.setMargins(leftMargin,topMargin,rightMargin,bottomMargin);
+        cardView.setLayoutParams(layoutParams);
+        cardView.setRadius(radius);
+        cardView.setPadding(25, 25, 25, 25);
+        cardView.setCardBackgroundColor(color);
+        cardView.setMaxCardElevation(30);
+        cardView.setMaxCardElevation(6);
+
+        return cardView;
+    }
+
     //To be complete
     public Button createButton(Context context,String text, int color){
         Button button = new Button(context);
@@ -69,6 +85,8 @@ public class DynamicallyXML {
 
         return button;
     }
+
+
 
     public void addAllViewsLayout(LinearLayout layout, View... view) {
 
