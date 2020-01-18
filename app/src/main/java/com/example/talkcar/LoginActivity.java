@@ -92,7 +92,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void loginFireBaseUser(){
 
-        if(!checker.checkUserDetailsFields(emailPlaceHolder, passwordPlaceHolder))
+        if(!checker.checkLoginFields(emailPlaceHolder, passwordPlaceHolder))
             return;
 
             mFirebaseAuth.signInWithEmailAndPassword(emailPlaceHolder.getText().toString(), passwordPlaceHolder.getText().toString()). addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {

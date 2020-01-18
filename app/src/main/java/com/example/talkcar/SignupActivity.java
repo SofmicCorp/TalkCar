@@ -21,8 +21,11 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class SignupActivity extends AppCompatActivity implements OnInputListener {
 
+    private EditText firstNamePlaceHolder;
+    private EditText lastNamePlaceHolder;
     private EditText emailPlaceHolder;
     private EditText passwordPlaceHolder;
+    private EditText passwordConfirmationPlaceHolder;
     private Button signInBtn;
     private ImageView addCar;
     private Database databaseRef;
@@ -31,8 +34,6 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
     private LinearLayout allFormContainer;
     private DynamicallyXML dynamicallyXML;
     private FieldsChecker checker;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +46,6 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
         dynamicallyXML = new DynamicallyXML();
         checker = new FieldsChecker();
         setClickListeners();
-
 
     }
 
@@ -67,8 +67,6 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
         });
     }
 
-
-
     private void openNewCarDialog() {
 
         AddNewCarDialog dialog = new AddNewCarDialog();
@@ -77,7 +75,12 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
 
     private void createFireBaseUser(){
 
-        if(!checker.checkUserDetailsFields(emailPlaceHolder, passwordPlaceHolder))
+        if(NewCarForm.allForms.size() == 0) {
+            Toast.makeText(this, "You need to have at least one car", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(!checker.checkUserDetailsFields(firstNamePlaceHolder,lastNamePlaceHolder,emailPlaceHolder, passwordPlaceHolder,passwordConfirmationPlaceHolder))
             return;
 
             for(int i = 0; i < NewCarForm.allForms.size(); i++){
@@ -91,7 +94,7 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
                     if(!task.isSuccessful()){
                         Toast.makeText(SignupActivity.this,"Sign in unsuccessful, please try again!", Toast.LENGTH_SHORT);
                     }else{
-                       saveDriverToDatabase(emailPlaceHolder.getText().toString());
+                       saveDriverToDatabase(firstNamePlaceHolder.getText().toString(), lastNamePlaceHolder.getText().toString(), emailPlaceHolder.getText().toString());
                        Intent intent = new Intent(SignupActivity.this,MainActivity.class);
                        startActivity(intent);
                        finish();
@@ -101,9 +104,9 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
     }
 
 
-    private void saveDriverToDatabase(String email){
+    private void saveDriverToDatabase(String firstname, String lastname, String email){
 
-        driver = new Driver(email);
+        driver = new Driver(firstname, lastname,email);
         for(int i = 0; i < NewCarForm.allForms.size(); i++){
             String carNumber = NewCarForm.allForms.get(i).getCarNumberPlaceHolder().getText().toString();
             String nickName = NewCarForm.allForms.get(i).getNicknamePlaceHolder().getText().toString();
@@ -119,8 +122,11 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
     private void setIds() {
 
         allFormContainer = (LinearLayout)findViewById(R.id.all_forms_container);
+        firstNamePlaceHolder = (EditText)findViewById(R.id.firstname_placeholder);
+        lastNamePlaceHolder = (EditText)findViewById(R.id.lastname_placeholder);
         emailPlaceHolder = (EditText)findViewById(R.id.email_placeholder);
         passwordPlaceHolder = (EditText)findViewById(R.id.password_placeholder);
+        passwordConfirmationPlaceHolder = (EditText)findViewById(R.id.password_placeholder_confirmation);
         signInBtn = (Button)findViewById(R.id.signin_btn);
         addCar = (ImageView)findViewById(R.id.plus_sign);
     }
@@ -128,33 +134,10 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
     @Override
     public void sendInput(Car car) {
 
-        ImageView emoji;
-        final LinearLayout carContainer = new LinearLayout(this);
-        TextView addedCar = dynamicallyXML.createTextView(this,car.getCarNumber(),20, Color.BLACK, Gravity.CENTER,20,50,10,10);
-        if(car.getEmojiId().equals("1")) {
-             emoji = dynamicallyXML.createImageView(this, R.drawable.driver1, 150, 100, Gravity.CENTER, 230, 5, 5, 5);
-        } else if(car.getEmojiId().equals("2")){
-            emoji = dynamicallyXML.createImageView(this, R.drawable.driver2, 150, 100, Gravity.CENTER, 230, 5, 5, 5);
-        } else {
-            emoji = dynamicallyXML.createImageView(this, R.drawable.driver3, 150, 100, Gravity.CENTER, 230, 5, 5, 5);
-        }
+       TextView carNumber = dynamicallyXML.createTextView(this,car.getCarNumber(),10,Color.BLACK,Gravity.CENTER,0,0,0,0);
+       TextView nickname = dynamicallyXML.createTextView(this,car.getNickname(),10,Color.BLACK,Gravity.CENTER,0,0,0,0);
+       ImageView delete = dynamicallyXML.createImageView(this,R.drawable.deleteicon,70,70,Gravity.CENTER,-300,5,0,5);
 
-        ImageView delete = dynamicallyXML.createImageView(this,R.drawable.minussign,70,70,Gravity.CENTER,-600,5,0,5);
-
-
-        carContainer.addView(emoji);
-        carContainer.addView(addedCar);
-        carContainer.addView(delete);
-
-        allFormContainer.addView(carContainer);
-
-
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                allFormContainer.removeView(carContainer);
-            }
-        });
-
+       NewCarCard card = new NewCarCard(carNumber,nickname,car.getEmojiId(),delete,allFormContainer,this);
     }
 }
