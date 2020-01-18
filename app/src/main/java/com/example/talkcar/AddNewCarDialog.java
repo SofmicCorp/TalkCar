@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-public class AddNewCarCarDialog extends DialogFragment {
+public class AddNewCarDialog extends DialogFragment {
 
     private OnInputListener onInputListener;
     private Database databaseRef;
@@ -26,8 +26,6 @@ public class AddNewCarCarDialog extends DialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_new_car,container, false);
-
-        NewCarForm.removeAllForms();
         setIds(view);
         setClickListeners();
         databaseRef = new Database(new MD5());

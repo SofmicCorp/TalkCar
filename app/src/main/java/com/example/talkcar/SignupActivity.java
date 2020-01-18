@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -72,7 +71,7 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
 
     private void openNewCarDialog() {
 
-        AddNewCarCarDialog dialog = new AddNewCarCarDialog();
+        AddNewCarDialog dialog = new AddNewCarDialog();
         dialog.show(getSupportFragmentManager(),"AddNewCarDialog");
     }
 
@@ -148,6 +147,7 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
         carContainer.addView(delete);
 
         allFormContainer.addView(carContainer);
+
 
         delete.setOnClickListener(new View.OnClickListener() {
             @Override

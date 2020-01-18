@@ -60,22 +60,23 @@
                 android:textColor="@color/black"
                 android:padding="10dp"/>
 
-            <!--        <EditText-->
-            <!--            android:id="@+id/password_confirmation_placeholder"-->
-            <!--            android:layout_width="300dp"-->
-            <!--            android:layout_height="40dp"-->
-            <!--            android:inputType="textPassword"-->
-            <!--            android:layout_marginTop="20dp"-->
-            <!--            android:hint="Password"-->
-            <!--            android:textSize="10dp"-->
-            <!--            android:fontFamily="sans-serif-smallcaps"-->
-            <!--            android:textColorHint="@color/black"-->
-            <!--            android:background="@drawable/edit_text_shape"-->
-            <!--            android:layout_gravity="center"-->
-            <!--            android:textColor="@color/black"-->
-            <!--            android:padding="10dp"/>-->
+            <EditText
+                android:id="@+id/password_placeholder_confirmation"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:inputType="textPassword"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:hint="Password Confirmation"
+                android:textSize="13dp"
+                android:fontFamily="sans-serif-smallcaps"
+                android:textColorHint="@color/black"
+                android:background="@drawable/edit_text_shape"
+                android:layout_gravity="center"
+                android:textColor="@color/black"
+                android:padding="10dp"/>
 
-
+            
             <LinearLayout
                 android:orientation="vertical"
                 android:id="@+id/all_forms_container"

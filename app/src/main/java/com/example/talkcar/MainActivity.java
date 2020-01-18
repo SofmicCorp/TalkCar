@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
 
     private void openNewCarDialog() {
 
-        AddNewCarCarDialog dialog = new AddNewCarCarDialog();
+        AddNewCarDialog dialog = new AddNewCarDialog();
         dialog.show(getSupportFragmentManager(),"AddNewCarDialog");
     }
 
