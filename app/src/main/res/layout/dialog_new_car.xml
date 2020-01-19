@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="sans-serif-smallcaps"
-            android:text="Add New Car"
+            android:text="add new car"
             android:textColor="@color/neatBlue"
             android:textSize="30dp" />
 

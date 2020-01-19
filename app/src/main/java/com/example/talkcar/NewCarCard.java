@@ -38,9 +38,9 @@ public class NewCarCard {
         this.delete = delete;
         //this.edit = edit;
         this.card = dynamicallyXML.createCardView(context,LinearLayout.LayoutParams.MATCH_PARENT,400,20,20,20,20,15,Color.rgb(254,210,0));
+        card.setBackgroundResource(R.drawable.cardview_shape);
         this.allFormContainer = allFormContainer;
         this.context = context;
-
 
         createCard();
 
@@ -48,10 +48,23 @@ public class NewCarCard {
 
     private void createCard() {
 
+        final int LARGE_NICKNAME_LENGTH = 6;
+
+        StringBuilder carNumberWithDashes = addDashes(carNumber.getText().toString());
+
+        if(nickname.getText().equals(carNumber.getText())){
+            //Adding dashes to nickname if nickname is the car number
+            nickname.setText("no nickmame");
+        }
+
         ImageView emoji;
-        TextView carNumbertv = dynamicallyXML.createTextView(context,carNumber.getText().toString(),40, Color.BLACK, Gravity.CENTER,20,50,10,10);
+        TextView carNumbertv = dynamicallyXML.createTextView(context,carNumberWithDashes.toString(),40, Color.BLACK, Gravity.CENTER,20,50,10,10);
         TextView nicknametv = dynamicallyXML.createTextView(context,nickname.getText().toString(),20, Color.BLACK, Gravity.CENTER,20,50,10,10);
         carNumbertv.setTypeface(carNumbertv.getTypeface(), Typeface.BOLD);
+
+        if(nicknametv.getText().length() > LARGE_NICKNAME_LENGTH){
+            nicknametv.setTextSize(10);
+        }
 
 
         if(emojiId.equals("1")) {
@@ -90,5 +103,22 @@ public class NewCarCard {
         });
     }
 
+    private StringBuilder addDashes(String carNumber) {
 
+        StringBuilder carNumberWithDashes = new StringBuilder();
+
+
+
+        for(int i = 0; i < carNumber.length(); i++){
+
+            if(i ==  2 || i == 5){
+                carNumberWithDashes.append('-');
+            }
+            carNumberWithDashes.append(carNumber.charAt(i));
+
+        }
+
+
+        return carNumberWithDashes;
+    }
 }
