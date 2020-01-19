@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
@@ -46,6 +47,12 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
     private Driver driver;
     private Database databaseRef;
     private DynamicallyXML dynamicallyXML;
+    private ImageView addCarBtn;
+    private ImageView shine;
+    private Effects effects;
+    private Handler handler;
+    private Runnable runnable;
+    private final int DELAY = 3*1000; //Delay for 3 seconds.  One second = 1000 milliseconds.
 
 
     @Override
@@ -54,10 +61,33 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         setContentView(R.layout.activity_main);
         databaseRef = new Database(new MD5());
         dynamicallyXML = new DynamicallyXML();
+        effects = new Effects();
+        handler = new Handler();
         setIds();
         setClickListeners();
         fieldsChecker = new FieldsChecker();
         updateCarPickerIcon(0);
+    }
+
+    @Override
+    protected void onResume() {
+        //start handler as activity become visible
+
+        handler.postDelayed( runnable = new Runnable() {
+            public void run() {
+                effects.shine(takePhoto,shine);
+
+                handler.postDelayed(runnable, DELAY);
+            }
+        }, DELAY);
+
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        handler.removeCallbacks(runnable); //stop handler when activity not visible
+        super.onPause();
     }
 
     private void updateCarPickerIcon(int index) {
@@ -83,6 +113,8 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
 
         takePhoto = (ImageView)findViewById(R.id.take_photo);
         carPicker = (ImageView)findViewById(R.id.car_picker);
+        addCarBtn = (ImageView) findViewById(R.id.add_car_btn);
+        shine = (ImageView)findViewById(R.id.shine);
 
     }
 
@@ -101,6 +133,14 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
             public void onClick(View v) {
                 
                 createListOfCarsPopup();
+            }
+        });
+
+        addCarBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                openNewCarDialog();
             }
         });
     }
@@ -141,13 +181,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         TextView popUpHeader = dynamicallyXML.createTextView(this,"PICK A CAR",30,Color.WHITE, Gravity.CENTER,0,0,0,0);
         popUpHeader.setBackgroundColor(Color.rgb(44,167,239));
 //        popUpHeader.setTypeface(Typeface.create("sans-serif-smallcaps", Typeface.BOLD));
-        AlertDialog alert = new AlertDialog.Builder(this).setCustomTitle(popUpHeader).setPositiveButton("NEW CAR", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                openNewCarDialog();
-            }
-        })
+        AlertDialog alert = new AlertDialog.Builder(this).setCustomTitle(popUpHeader)
                 .setAdapter(adapter, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
                         //do something when click...
@@ -155,10 +189,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
                     }
                 }).show();
 
-        Button button = alert.getButton(DialogInterface.BUTTON_POSITIVE);
-        button.setBackgroundColor(Color.rgb(44,167,239));
-        button.setTextColor(Color.WHITE);
-        button.setBackgroundResource(R.drawable.button_shape);
+
     }
 
     private void openNewCarDialog() {
@@ -167,11 +198,6 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         dialog.show(getSupportFragmentManager(),"AddNewCarDialog");
     }
 
-    private void openCarListDialog(){
-
-
-
-    }
 
     private void changeCurrentCar(int index) {
         LoginActivity.applicationModel.setCurrentCar(driver.getCars().get(index));
