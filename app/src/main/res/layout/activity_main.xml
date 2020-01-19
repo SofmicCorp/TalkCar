@@ -70,5 +70,15 @@
         android:background="@drawable/camera"
         android:layout_centerInParent="true"/>
 
+    <ImageView
+        android:id="@+id/add_car_btn"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/addsign"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"/>
+
 
 </RelativeLayout>
