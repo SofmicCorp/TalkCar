@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
     private Driver driver;
     private Database databaseRef;
     private DynamicallyXML dynamicallyXML;
+    private ImageView addCarBtn;
 
 
     @Override
@@ -83,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
 
         takePhoto = (ImageView)findViewById(R.id.take_photo);
         carPicker = (ImageView)findViewById(R.id.car_picker);
+        addCarBtn = (ImageView) findViewById(R.id.add_car_btn);
 
     }
 
@@ -101,6 +103,14 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
             public void onClick(View v) {
                 
                 createListOfCarsPopup();
+            }
+        });
+
+        addCarBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                openNewCarDialog();
             }
         });
     }
@@ -141,13 +151,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         TextView popUpHeader = dynamicallyXML.createTextView(this,"PICK A CAR",30,Color.WHITE, Gravity.CENTER,0,0,0,0);
         popUpHeader.setBackgroundColor(Color.rgb(44,167,239));
 //        popUpHeader.setTypeface(Typeface.create("sans-serif-smallcaps", Typeface.BOLD));
-        AlertDialog alert = new AlertDialog.Builder(this).setCustomTitle(popUpHeader).setPositiveButton("NEW CAR", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                openNewCarDialog();
-            }
-        })
+        AlertDialog alert = new AlertDialog.Builder(this).setCustomTitle(popUpHeader)
                 .setAdapter(adapter, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
                         //do something when click...
@@ -155,10 +159,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
                     }
                 }).show();
 
-        Button button = alert.getButton(DialogInterface.BUTTON_POSITIVE);
-        button.setBackgroundColor(Color.rgb(44,167,239));
-        button.setTextColor(Color.WHITE);
-        button.setBackgroundResource(R.drawable.button_shape);
+
     }
 
     private void openNewCarDialog() {
@@ -167,11 +168,6 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         dialog.show(getSupportFragmentManager(),"AddNewCarDialog");
     }
 
-    private void openCarListDialog(){
-
-
-
-    }
 
     private void changeCurrentCar(int index) {
         LoginActivity.applicationModel.setCurrentCar(driver.getCars().get(index));
