@@ -167,6 +167,12 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         dialog.show(getSupportFragmentManager(),"AddNewCarDialog");
     }
 
+    private void openCarListDialog(){
+
+
+
+    }
+
     private void changeCurrentCar(int index) {
         LoginActivity.applicationModel.setCurrentCar(driver.getCars().get(index));
         updateCarPickerIcon(index);

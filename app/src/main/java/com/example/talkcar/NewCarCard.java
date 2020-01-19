@@ -53,7 +53,6 @@ public class NewCarCard {
         StringBuilder carNumberWithDashes = addDashes(carNumber.getText().toString());
 
         if(nickname.getText().equals(carNumber.getText())){
-            //Adding dashes to nickname if nickname is the car number
             nickname.setText("no nickmame");
         }
 
