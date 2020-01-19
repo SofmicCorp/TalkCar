@@ -6,5 +6,6 @@
     <color name="neatBlue">#03A9F4</color>
     <color name="neatWhite">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="neatOrange">#ff8000</color>
 
 </resources>

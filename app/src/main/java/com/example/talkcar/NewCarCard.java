@@ -41,9 +41,7 @@ public class NewCarCard {
         this.allFormContainer = allFormContainer;
         this.context = context;
 
-
         createCard();
-
     }
 
     private void createCard() {

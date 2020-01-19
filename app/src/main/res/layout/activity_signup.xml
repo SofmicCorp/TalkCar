@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/neatWhite"
+    android:background="@color/black"
     tools:context=".SignupActivity">
 
     <ScrollView
@@ -24,7 +24,7 @@
                 android:text="Signup"
                 android:textSize="80dp"
                 android:fontFamily="sans-serif-smallcaps"
-                android:textColor="@color/neatBlue"
+                android:textColor="@color/neatOrange"
                 android:layout_gravity="center"/>
 
             <EditText
@@ -34,11 +34,11 @@
                 android:hint="First Name"
                 android:textSize="13dp"
                 android:layout_marginTop="20dp"
-                android:textColorHint="@color/black"
+                android:textColorHint="@color/neatWhite"
                 android:background="@drawable/edit_text_shape"
                 android:fontFamily="sans-serif-smallcaps"
                 android:layout_gravity="center"
-                android:textColor="@color/black"
+                android:textColor="@color/neatWhite"
                 android:padding="10dp"/>
 
             <EditText
@@ -48,11 +48,11 @@
                 android:hint="Last Name"
                 android:textSize="13dp"
                 android:layout_marginTop="20dp"
-                android:textColorHint="@color/black"
+                android:textColorHint="@color/neatWhite"
                 android:background="@drawable/edit_text_shape"
                 android:fontFamily="sans-serif-smallcaps"
                 android:layout_gravity="center"
-                android:textColor="@color/black"
+                android:textColor="@color/neatWhite"
                 android:padding="10dp"/>
 
 
@@ -63,11 +63,11 @@
                 android:hint="Email"
                 android:textSize="13dp"
                 android:layout_marginTop="20dp"
-                android:textColorHint="@color/black"
+                android:textColorHint="@color/neatWhite"
                 android:background="@drawable/edit_text_shape"
                 android:fontFamily="sans-serif-smallcaps"
                 android:layout_gravity="center"
-                android:textColor="@color/black"
+                android:textColor="@color/neatWhite"
                 android:padding="10dp"/>
 
             />
@@ -81,10 +81,10 @@
                 android:hint="Password"
                 android:textSize="13dp"
                 android:fontFamily="sans-serif-smallcaps"
-                android:textColorHint="@color/black"
+                android:textColorHint="@color/neatWhite"
                 android:background="@drawable/edit_text_shape"
                 android:layout_gravity="center"
-                android:textColor="@color/black"
+                android:textColor="@color/neatWhite"
                 android:padding="10dp"/>
 
             <EditText
@@ -97,10 +97,10 @@
                 android:hint="Password"
                 android:textSize="13dp"
                 android:fontFamily="sans-serif-smallcaps"
-                android:textColorHint="@color/black"
+                android:textColorHint="@color/neatWhite"
                 android:background="@drawable/edit_text_shape"
                 android:layout_gravity="center"
-                android:textColor="@color/black"
+                android:textColor="@color/neatWhite"
                 android:padding="10dp"/>
 
 

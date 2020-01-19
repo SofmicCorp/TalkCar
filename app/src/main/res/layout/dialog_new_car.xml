@@ -20,7 +20,7 @@
             android:layout_gravity="center"
             android:fontFamily="sans-serif-smallcaps"
             android:text="Add New Car"
-            android:textColor="@color/neatBlue"
+            android:textColor="@color/black"
             android:textSize="30dp" />
 
         <LinearLayout

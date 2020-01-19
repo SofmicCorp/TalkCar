@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         };
 
         TextView popUpHeader = dynamicallyXML.createTextView(this,"PICK A CAR",30,Color.WHITE, Gravity.CENTER,0,0,0,0);
-        popUpHeader.setBackgroundColor(Color.rgb(44,167,239));
+        popUpHeader.setBackgroundColor(Color.rgb(255,128,0));
 //        popUpHeader.setTypeface(Typeface.create("sans-serif-smallcaps", Typeface.BOLD));
         AlertDialog alert = new AlertDialog.Builder(this).setCustomTitle(popUpHeader).setPositiveButton("NEW CAR", new DialogInterface.OnClickListener() {
             @Override
