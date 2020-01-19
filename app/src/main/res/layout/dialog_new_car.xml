@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/neatWhite"
+    android:background="@drawable/backgroundapp"
     tools:context=".MainActivity">
 
 
@@ -20,7 +20,7 @@
             android:layout_gravity="center"
             android:fontFamily="sans-serif-smallcaps"
             android:text="Add New Car"
-            android:textColor="@color/neatBlue"
+            android:textColor="@color/neatWhite"
             android:textSize="30dp" />
 
         <LinearLayout

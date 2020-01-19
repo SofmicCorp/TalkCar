@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/neatWhite"
+    android:background="@drawable/backgroundapp"
     tools:context=".LoginActivity">
 
         <ImageView
@@ -31,11 +31,11 @@
             android:hint="Email"
             android:textSize="15dp"
             android:inputType="textEmailAddress"
-            android:textColorHint="@color/black"
+            android:textColorHint="@color/neatWhite"
             android:background="@drawable/edit_text_shape"
             android:fontFamily="sans-serif-smallcaps"
             android:layout_gravity="center"
-            android:textColor="@color/black"
+            android:textColor="@color/neatWhite"
             android:padding="20dp"/>
 
             />
@@ -49,10 +49,10 @@
             android:hint="Password"
             android:textSize="15dp"
             android:fontFamily="sans-serif-smallcaps"
-            android:textColorHint="@color/black"
+            android:textColorHint="@color/neatWhite"
             android:background="@drawable/edit_text_shape"
             android:layout_gravity="center"
-            android:textColor="@color/black"
+            android:textColor="@color/neatWhite"
             android:padding="20dp"/>
         />
         <Button
@@ -73,7 +73,7 @@
             android:text="Don't have an account? Sign here!"
             android:textStyle="bold"
             android:fontFamily="sans-serif-smallcaps"
-            android:textColor="@color/black"
+            android:textColor="@color/neatWhite"
             android:layout_marginTop="20dp"
             android:gravity="center"/>
 
