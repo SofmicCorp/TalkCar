@@ -158,7 +158,9 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
     }
 
     private void openSettings() {
-        
+
+        Intent intent = new Intent(this,SettingsActivity.class);
+        startActivity(intent);
     }
 
     private void openListOfCarsDialog() {
