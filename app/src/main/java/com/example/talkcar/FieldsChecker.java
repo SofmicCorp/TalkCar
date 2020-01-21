@@ -59,7 +59,6 @@ public class FieldsChecker {
 
     public boolean checkUserDetailsFields(EditText firstNamePlaceHolder,EditText lastNamePlaceHolder, EditText emailPlaceHolder, EditText passwordPlaceHolder,EditText passwordConfirmationPlaceHolder){
 
-
         String firstName = firstNamePlaceHolder.getText().toString().trim();
         String lastName = lastNamePlaceHolder.getText().toString().trim();
         String pwd = passwordPlaceHolder.getText().toString().trim();

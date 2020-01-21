@@ -38,7 +38,6 @@ public class CarPickerDialog extends DialogFragment {
         allCars = new ArrayList<>();
         dynamicallyXML = new DynamicallyXML();
         context = getContext();
-
         addAllDriverCars();
 
         return view;
@@ -47,7 +46,6 @@ public class CarPickerDialog extends DialogFragment {
     private void addAllDriverCars() {
 
         //Set the array of car views
-
         for(int i = 0; i < driver.getCars().size(); i++){
 
             Car car = driver.getCars().get(i);

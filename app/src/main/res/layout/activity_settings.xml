@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/neatWhite"
+    tools:context=".SettingsActivity">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="settings"
+                android:gravity="center"
+                android:background="@color/neatBlue"
+                android:textSize="80dp"
+                android:fontFamily="sans-serif-smallcaps"
+                android:textColor="@color/neatWhite"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:id="@+id/signout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="sign out"
+                android:gravity="center"
+                android:layout_marginTop="20dp"
+                android:textSize="25dp"
+                android:fontFamily="sans-serif-smallcaps"
+                android:textColor="@color/neatBlue"
+                android:layout_gravity="center"/>
+
+        </LinearLayout>
+
+
+
+</RelativeLayout>

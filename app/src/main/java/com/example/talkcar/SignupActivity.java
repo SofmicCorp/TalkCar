@@ -76,8 +76,10 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
             return;
         }
 
-        if(!checker.checkUserDetailsFields(firstNamePlaceHolder,lastNamePlaceHolder,emailPlaceHolder, passwordPlaceHolder,passwordConfirmationPlaceHolder))
+        if(!checker.checkUserDetailsFields(firstNamePlaceHolder,lastNamePlaceHolder,emailPlaceHolder, passwordPlaceHolder,passwordConfirmationPlaceHolder)) {
+
             return;
+        }
 
             for(int i = 0; i < NewCarForm.allForms.size(); i++){
                 if(!checker.checkCarDetailsFields(NewCarForm.allForms.get(i).getCarNumberPlaceHolder(),NewCarForm.allForms.get(i).getNicknamePlaceHolder())){
