@@ -35,7 +35,7 @@ public class CarView {
         this.nickname = nickmame;
         this.emojiId = emojiId;
         this.context = context;
-        this.card = dynamicallyXML.createCardView(context,LinearLayout.LayoutParams.MATCH_PARENT,400,20,20,20,20,15,Color.rgb(254,210,0));
+        this.card = dynamicallyXML.createCardView(context,LinearLayout.LayoutParams.MATCH_PARENT,200,20,20,20,20,15,Color.rgb(254,210,0));
         card.setBackgroundResource(R.drawable.cardview_shape);
         this.container = container;
 
@@ -60,8 +60,8 @@ public class CarView {
         TextView nicknameTV = dynamicallyXML.createTextView(context,nickname.getText().toString(),40, Color.BLACK, Gravity.CENTER,20,50,10,10);
         nicknameTV.setTypeface(nicknameTV.getTypeface(), Typeface.BOLD);
 
-        ImageView delete = dynamicallyXML.createImageView(context,R.drawable.deleteicon,70,70,Gravity.CENTER,100,300,0,5);
-        ImageView edit = dynamicallyXML.createImageView(context,R.drawable.editicon,70,70,Gravity.CENTER,20,300,0,5);
+        ImageView delete = dynamicallyXML.createImageView(context,R.drawable.deleteicon,70,70,Gravity.CENTER,100,100,0,5);
+        ImageView edit = dynamicallyXML.createImageView(context,R.drawable.editicon,70,70,Gravity.CENTER,20,100,0,5);
 
         //Layout params
 

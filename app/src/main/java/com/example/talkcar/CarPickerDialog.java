@@ -48,8 +48,6 @@ public class CarPickerDialog extends DialogFragment {
 
         //Set the array of car views
 
-
-
         for(int i = 0; i < driver.getCars().size(); i++){
 
             Car car = driver.getCars().get(i);
@@ -64,7 +62,6 @@ public class CarPickerDialog extends DialogFragment {
                 }
             });
             allCars.add(carView);
-
         }
     }
 
