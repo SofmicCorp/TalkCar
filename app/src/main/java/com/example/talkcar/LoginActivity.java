@@ -1,5 +1,6 @@
 package com.example.talkcar;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -32,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     public  Database databaseRef;
     public CheckBox autoLogin;
     private int fail;
+    public static Activity activity;
     private final String LOGIN_FILE = "login";
     public static ApplicationModel applicationModel;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
@@ -43,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         SharedPreferences sharedPreferences = getSharedPreferences(LOGIN_FILE,MODE_PRIVATE);
         setIds();
+        activity = this;
 
         if(sharedPreferences.getBoolean("logged",false)){
             goToWaitingActivity();
@@ -151,7 +154,6 @@ public class LoginActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this,SignupActivity.class);
         startActivity(intent);
-        finish();
 
     }
 

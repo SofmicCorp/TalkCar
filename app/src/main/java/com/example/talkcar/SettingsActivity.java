@@ -31,6 +31,7 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 logout();
+                MainActivity.activity.finish();
                 goToLoginActivity();
 
             }

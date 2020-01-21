@@ -1,28 +1,20 @@
 package com.example.talkcar;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import android.content.DialogInterface;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Typeface;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
     private Effects effects;
     private Handler handler;
     private Runnable runnable;
+    public static Activity activity;
     private final int DELAY = 3*1000; //Delay for 3 seconds.  One second = 1000 milliseconds.
 
 
@@ -65,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         dynamicallyXML = new DynamicallyXML();
         effects = new Effects();
         handler = new Handler();
+        MainActivity.activity = this;
         setIds();
         setClickListeners();
         fieldsChecker = new FieldsChecker();
