@@ -47,9 +47,4 @@ public class Driver implements Serializable {
 
         cars.add(car);
     }
-
-    public String getCarNumber(int index){
-        return cars.get(index).getCarNumber();
-    }
-
 }

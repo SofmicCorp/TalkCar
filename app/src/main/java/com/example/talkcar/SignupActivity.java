@@ -136,8 +136,13 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
 
        TextView carNumber = dynamicallyXML.createTextView(this,car.getCarNumber(),10,Color.BLACK,Gravity.CENTER,0,0,0,0);
        TextView nickname = dynamicallyXML.createTextView(this,car.getNickname(),10,Color.BLACK,Gravity.CENTER,0,0,0,0);
-       ImageView delete = dynamicallyXML.createImageView(this,R.drawable.deleteicon,70,70,Gravity.CENTER,-300,5,0,5);
 
-       NewCarCard card = new NewCarCard(carNumber,nickname,car.getEmojiId(),delete,allFormContainer,this);
+       //card id here is 0 because it not neccesary at this point, so we give a fectiv index 0;
+       CarView card = new CarView(carNumber,nickname,car.getEmojiId(),0,allFormContainer,this);
+    }
+
+    @Override
+    public void sendInput(int index) {
+
     }
 }

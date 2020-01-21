@@ -34,7 +34,7 @@ public class Database {
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     Driver driver = postSnapshot.getValue(Driver.class);
                     for(int j = 0; j < driver.getCars().size(); j++){
-                        if(driver.getCarNumber(j).equals(carNumber)) {
+                        if(driver.getCars().get(j).equals(carNumber)) {
                             LoginActivity.applicationModel.setLastCarNumberSearch(carNumber);
                             listener.onSuccess(dataSnapshot);
                             return;
