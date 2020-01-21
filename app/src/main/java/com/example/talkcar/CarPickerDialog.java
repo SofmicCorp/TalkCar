@@ -3,12 +3,14 @@ package com.example.talkcar;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -34,11 +36,15 @@ public class CarPickerDialog extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_car_picker,container, false);
         setIds(view);
+        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         driver = LoginActivity.applicationModel.getCurrentDriver();
         allCars = new ArrayList<>();
         dynamicallyXML = new DynamicallyXML();
         context = getContext();
         addAllDriverCars();
+
+
 
         return view;
     }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/neatWhite"
+    android:background="@drawable/dialog_rounded_bg"
     tools:context=".MainActivity">
 
     <ScrollView
@@ -23,7 +23,7 @@
                 android:gravity="center"
                 android:fontFamily="sans-serif-smallcaps"
                 android:text="pick a car"
-                android:background="@color/neatBlue"
+                android:background="@drawable/header_dialog_shape"
                 android:textColor="@color/neatWhite"
                 android:textSize="30dp" />
 

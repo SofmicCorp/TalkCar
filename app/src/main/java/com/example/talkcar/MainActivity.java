@@ -3,6 +3,7 @@ package com.example.talkcar;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.DialogFragment;
 
 import android.app.Activity;
 import android.content.Intent;

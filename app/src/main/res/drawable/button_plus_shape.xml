@@ -4,5 +4,4 @@
     android:background="@drawable/plussign">
     <solid android:color="@color/neatBlue" />
     <corners android:radius="50dp" />
-
 </shape>
