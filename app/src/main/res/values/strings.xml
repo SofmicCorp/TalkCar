@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">TalkCar</string>
+    <string name="sign_in">Sign in</string>
+    <string name="remember_password">remember password?</string>
 </resources>

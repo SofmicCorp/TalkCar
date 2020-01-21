@@ -1,10 +1,12 @@
 package com.example.talkcar;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,15 +30,25 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth;
     private FieldsChecker checker;
     public  Database databaseRef;
+    public CheckBox autoLogin;
     private int fail;
+    private final String LOGIN_FILE = "login";
     public static ApplicationModel applicationModel;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        SharedPreferences sharedPreferences = getSharedPreferences(LOGIN_FILE,MODE_PRIVATE);
         setIds();
+
+        if(sharedPreferences.getBoolean("logged",false)){
+            goToWaitingActivity();
+        }
+
+
         databaseRef = new Database(new MD5());
         applicationModel = new ApplicationModel();
         mFirebaseAuth = FirebaseAuth.getInstance();
@@ -115,6 +127,7 @@ public class LoginActivity extends AppCompatActivity {
         emailPlaceHolder = (EditText)findViewById(R.id.email_placeholder);
         passwordPlaceHolder = (EditText)findViewById(R.id.password_placeholder);
         signupText = (TextView)findViewById(R.id.signup_text);
+        autoLogin = (CheckBox)findViewById(R.id.auto_login);
     }
 
 
@@ -125,13 +138,20 @@ public class LoginActivity extends AppCompatActivity {
         intent.putExtra("email",emailPlaceHolder.getText().toString());
         intent.putExtra("password",passwordPlaceHolder.getText().toString());
 
+        if(autoLogin.isChecked()){
+            intent.putExtra("autologin",true);
+        }
+
         startActivity(intent);
+        finish();
+
     }
 
     private void goToSignupActivity(){
 
         Intent intent = new Intent(this,SignupActivity.class);
         startActivity(intent);
+        finish();
 
     }
 

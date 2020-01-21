@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -20,6 +21,8 @@ public class WaitingActivity extends AppCompatActivity {
     private Database databaseRef;
     private final int AUTH = 0;
     private final int SIGN = 1;
+    private SharedPreferences sharedPreferences;
+    private final String LOGIN_FILE = "login";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +30,7 @@ public class WaitingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_waiting);
         mFirebaseAuth = FirebaseAuth.getInstance();
         databaseRef = new Database(new MD5());
+        sharedPreferences = getSharedPreferences(LOGIN_FILE,MODE_PRIVATE);
 
         int operation = getIntent().getIntExtra("operation",0);
         String firstname = getIntent().getStringExtra("firstname");
@@ -44,7 +48,15 @@ public class WaitingActivity extends AppCompatActivity {
         }
     }
 
-    public void authenticate(final String email, String password){
+    public void authenticate(final String email,final String password){
+
+        if(sharedPreferences.getBoolean("logged",false)){ ;
+            //If we are here it means someone was allready logged before and he set remember my password to be true
+            String saveEmail = sharedPreferences.getString("email",null);
+            Log.d("BUBA", "authenticate: email" + saveEmail);
+            automaticSignin(saveEmail);
+            return;
+        }
 
         mFirebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(WaitingActivity.this, new OnCompleteListener<AuthResult>() {
             @Override
@@ -57,6 +69,11 @@ public class WaitingActivity extends AppCompatActivity {
 
                         @Override
                         public void onSuccess(DataSnapshot dataSnapshot) {
+                            if(getIntent().getBooleanExtra("autologin",false)){
+                                //Auto login is saved in file after authenticate the email and password
+                                sharedPreferences.edit().putBoolean("logged",true).apply();
+                                sharedPreferences.edit().putString("email",email).apply();
+                            }
                             goToMainActivity();
                         }
 
@@ -74,6 +91,32 @@ public class WaitingActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void automaticSignin(String email) {
+
+        //finding the current driver in database
+        databaseRef.updateCurrentDriverByEmail(email, new OnGetDataListener(){
+
+            @Override
+            public void onSuccess(DataSnapshot dataSnapshot) {
+                goToMainActivity();
+            }
+
+            @Override
+            public void onStart() {
+                Log.d("CHECK", "Wait for data... ");
+            }
+
+            @Override
+            public void onFailure() {
+
+                Log.d("CHECK", "Data retrieving has been failed. ");
+            }
+        });
+
+
+
     }
 
     public void goToLoginActivity(){
