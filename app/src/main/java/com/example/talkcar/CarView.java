@@ -16,31 +16,32 @@ import androidx.cardview.widget.CardView;
 
 import org.w3c.dom.Text;
 
-public class NewCarCard {
+public class CarView {
 
     private TextView carNumber;
     private TextView nickname;
     private String emojiId;
-    private ImageView delete;
-    private ImageView edit;
-    private CardView card;
+    private androidx.cardview.widget.CardView card;
     private Context context;
-    private LinearLayout allFormContainer;
+    private LinearLayout container;
     private DynamicallyXML dynamicallyXML;
+    private int cardId;
 
 
-    public NewCarCard(TextView carNumber, TextView nickmame, String emojiId, ImageView delete /*ImageView edit*/, LinearLayout allFormContainer, Context context){
+    public CarView(TextView carNumber, TextView nickmame, String emojiId,int cardId, LinearLayout container, Context context){
 
         dynamicallyXML = new DynamicallyXML();
         this.carNumber = carNumber;
         this.nickname = nickmame;
         this.emojiId = emojiId;
-        this.delete = delete;
-        //this.edit = edit;
+        this.context = context;
         this.card = dynamicallyXML.createCardView(context,LinearLayout.LayoutParams.MATCH_PARENT,400,20,20,20,20,15,Color.rgb(254,210,0));
         card.setBackgroundResource(R.drawable.cardview_shape);
-        this.allFormContainer = allFormContainer;
-        this.context = context;
+        this.container = container;
+
+        if(LoginActivity.applicationModel.getCurrentDriver() != null){
+            this.cardId = cardId;
+        }
 
         createCard();
 
@@ -65,7 +66,6 @@ public class NewCarCard {
             nicknametv.setTextSize(10);
         }
 
-
         if(emojiId.equals("1")) {
             emoji = dynamicallyXML.createImageView(context, R.drawable.driver1, 200, 200, Gravity.CENTER, 800, 100, 5, 5);
         } else if(emojiId.equals("2")){
@@ -73,7 +73,9 @@ public class NewCarCard {
         } else {
             emoji = dynamicallyXML.createImageView(context, R.drawable.driver3, 200, 200, Gravity.CENTER, 800, 100, 5, 5);
         }
-        ImageView delete = dynamicallyXML.createImageView(context,R.drawable.deleteicon,70,70,Gravity.CENTER,20,300,0,5);
+        ImageView delete = dynamicallyXML.createImageView(context,R.drawable.deleteicon,70,70,Gravity.CENTER,100,300,0,5);
+        ImageView edit = dynamicallyXML.createImageView(context,R.drawable.editicon,70,70,Gravity.CENTER,20,300,0,5);
+
         //Layout params
         //Car number lp
         LinearLayout.LayoutParams carNumberLp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -89,17 +91,26 @@ public class NewCarCard {
 
         card.addView(emoji);
         card.addView(nicknametv);
-        card.addView(delete);
+        card.addView(edit);
+        if(LoginActivity.applicationModel.getCurrentDriver() == null){
+            card.addView(delete);
+        }
         card.addView(carNumbertv);
-
-        allFormContainer.addView(card);
+        container.addView(card);
 
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                allFormContainer.removeView(card);
+                container.removeView(card);
+                //Checks if we are from mainActivity which means there is a current driver and
+                //we need to delete his
+                if(LoginActivity.applicationModel.getCurrentDriver() != null){
+                    LoginActivity.applicationModel.getCurrentDriver().getCars().remove(cardId);
+                }
             }
         });
+
+
     }
 
     private StringBuilder addDashes(String carNumber) {
@@ -119,5 +130,13 @@ public class NewCarCard {
 
 
         return carNumberWithDashes;
+    }
+
+    public CardView getCard() {
+        return card;
+    }
+
+    public int getCardId() {
+        return cardId;
     }
 }

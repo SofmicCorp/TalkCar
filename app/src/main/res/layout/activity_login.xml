@@ -66,22 +66,35 @@
             android:layout_marginTop="20dp"
             android:layout_gravity="center" />
 
-        <TextView
-            android:id="@+id/signup_text"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Don't have an account? Sign here!"
-            android:textStyle="bold"
-            android:fontFamily="sans-serif-smallcaps"
-            android:textColor="@color/black"
-            android:layout_marginTop="20dp"
-            android:gravity="center"/>
+            android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="230dp"
-            android:layout_height="1dp"
-            android:layout_gravity="center"
-            android:background="@color/black"/>
+            <TextView
+                android:id="@+id/dont_have_account_text_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Don't have an account? "
+                android:textStyle="bold"
+                android:layout_marginLeft="87dp"
+                android:fontFamily="sans-serif-smallcaps"
+                android:textColor="@color/black"
+                android:layout_marginTop="20dp"
+                />
+
+            <TextView
+                android:id="@+id/signup_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_toRightOf="@id/dont_have_account_text_text"
+                android:fontFamily="sans-serif-smallcaps"
+                android:text="Sign up."
+                android:textColor="@color/darkBlue"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
     </LinearLayout>
 
 

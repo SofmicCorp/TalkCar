@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
             @Override
             public void onClick(View v) {
                 
-                createListOfCarsPopup();
+                openListOfCarsDialog();
             }
         });
 
@@ -145,52 +145,59 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         });
     }
 
-    private void createListOfCarsPopup() {
+    private void openListOfCarsDialog() {
 
-        ListAdapter adapter = new ArrayAdapter<Car>(
-                this, android.R.layout.select_dialog_item, android.R.id.text1, driver.getCars()){
-                 public View getView(int position, View convertView, ViewGroup parent) {
-                //Use super class to create the View
-                View v = super.getView(position, convertView, parent);
-                TextView tv = (TextView)v.findViewById(android.R.id.text1);
-                tv.setTypeface(Typeface.create("sans-serif-smallcaps", Typeface.BOLD));
-
-
-                //call setBounds with the required size and then call setCompoundDrawables
-
-                //Put the image on the TextView
-                if(driver.getCars().get(position).getEmojiId().equals("1")) {
-
-                    createImageToPopup(tv,R.drawable.driver1,R.drawable.editicon);
-
-                } else if(driver.getCars().get(position).getEmojiId().equals("2")){
-
-                    createImageToPopup(tv,R.drawable.driver2,R.drawable.editicon);
-                }
-                else {
-                    createImageToPopup(tv,R.drawable.driver3,R.drawable.editicon);
-                }
-
-                //Add margin between image and text (support various screen densities)
-                int dp5 = (int) (5 * getResources().getDisplayMetrics().density + 0.5f);
-                tv.setCompoundDrawablePadding(dp5);
-                return v;
-            }
-        };
-
-        TextView popUpHeader = dynamicallyXML.createTextView(this,"PICK A CAR",30,Color.WHITE, Gravity.CENTER,0,0,0,0);
-        popUpHeader.setBackgroundColor(Color.rgb(44,167,239));
-//        popUpHeader.setTypeface(Typeface.create("sans-serif-smallcaps", Typeface.BOLD));
-        AlertDialog alert = new AlertDialog.Builder(this).setCustomTitle(popUpHeader)
-                .setAdapter(adapter, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int item) {
-                        //do something when click...
-                        changeCurrentCar(item);
-                    }
-                }).show();
-
+        CarPickerDialog dialog = new CarPickerDialog();
+        dialog.show(getSupportFragmentManager(),"CarPickerDialog");
 
     }
+
+//    private void createListOfCarsPopup() {
+//
+//        ListAdapter adapter = new ArrayAdapter<Car>(
+//                this, android.R.layout.select_dialog_item, android.R.id.text1, driver.getCars()){
+//                 public View getView(int position, View convertView, ViewGroup parent) {
+//                //Use super class to create the View
+//                View v = super.getView(position, convertView, parent);
+//                TextView tv = (TextView)v.findViewById(android.R.id.text1);
+//                tv.setTypeface(Typeface.create("sans-serif-smallcaps", Typeface.BOLD));
+//
+//
+//                //call setBounds with the required size and then call setCompoundDrawables
+//
+//                //Put the image on the TextView
+//                if(driver.getCars().get(position).getEmojiId().equals("1")) {
+//
+//                    createImageToPopup(tv,R.drawable.driver1,R.drawable.editicon);
+//
+//                } else if(driver.getCars().get(position).getEmojiId().equals("2")){
+//
+//                    createImageToPopup(tv,R.drawable.driver2,R.drawable.editicon);
+//                }
+//                else {
+//                    createImageToPopup(tv,R.drawable.driver3,R.drawable.editicon);
+//                }
+//
+//                //Add margin between image and text (support various screen densities)
+//                int dp5 = (int) (5 * getResources().getDisplayMetrics().density + 0.5f);
+//                tv.setCompoundDrawablePadding(dp5);
+//                return v;
+//            }
+//        };
+//
+////        TextView popUpHeader = dynamicallyXML.createTextView(this,"PICK A CAR",30,Color.WHITE, Gravity.CENTER,0,0,0,0);
+////        popUpHeader.setBackgroundColor(Color.rgb(44,167,239));
+//////        popUpHeader.setTypeface(Typeface.create("sans-serif-smallcaps", Typeface.BOLD));
+////        AlertDialog alert = new AlertDialog.Builder(this).setCustomTitle(popUpHeader)
+////                .setAdapter(adapter, new DialogInterface.OnClickListener() {
+////                    public void onClick(DialogInterface dialog, int item) {
+////                        //do something when click...
+////                        changeCurrentCar(item);
+////                    }
+////                }).show();
+//
+//
+//    }
 
     private void openNewCarDialog() {
 
@@ -317,5 +324,10 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         driver.addCar(car);
         //Save car to database
         databaseRef.saveDriver(LoginActivity.applicationModel.getCurrentDriver());
+    }
+
+    @Override
+    public void sendInput(int index) {
+        changeCurrentCar(index);
     }
 }
