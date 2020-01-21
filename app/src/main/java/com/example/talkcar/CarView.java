@@ -54,48 +54,31 @@ public class CarView {
         StringBuilder carNumberWithDashes = addDashes(carNumber.getText().toString());
 
         if(nickname.getText().equals(carNumber.getText())){
-            nickname.setText("no nickmame");
+            nickname.setText(carNumberWithDashes);
         }
 
-        ImageView emoji;
-        TextView carNumbertv = dynamicallyXML.createTextView(context,carNumberWithDashes.toString(),40, Color.BLACK, Gravity.CENTER,20,50,10,10);
-        TextView nicknametv = dynamicallyXML.createTextView(context,nickname.getText().toString(),20, Color.BLACK, Gravity.CENTER,20,50,10,10);
-        carNumbertv.setTypeface(carNumbertv.getTypeface(), Typeface.BOLD);
+        TextView nicknameTV = dynamicallyXML.createTextView(context,nickname.getText().toString(),40, Color.BLACK, Gravity.CENTER,20,50,10,10);
+        nicknameTV.setTypeface(nicknameTV.getTypeface(), Typeface.BOLD);
 
-        if(nicknametv.getText().length() > LARGE_NICKNAME_LENGTH){
-            nicknametv.setTextSize(10);
-        }
-
-        if(emojiId.equals("1")) {
-            emoji = dynamicallyXML.createImageView(context, R.drawable.driver1, 200, 200, Gravity.CENTER, 800, 100, 5, 5);
-        } else if(emojiId.equals("2")){
-            emoji = dynamicallyXML.createImageView(context, R.drawable.driver2, 200, 200, Gravity.CENTER, 800, 100, 5, 5);
-        } else {
-            emoji = dynamicallyXML.createImageView(context, R.drawable.driver3, 200, 200, Gravity.CENTER, 800, 100, 5, 5);
-        }
         ImageView delete = dynamicallyXML.createImageView(context,R.drawable.deleteicon,70,70,Gravity.CENTER,100,300,0,5);
         ImageView edit = dynamicallyXML.createImageView(context,R.drawable.editicon,70,70,Gravity.CENTER,20,300,0,5);
 
         //Layout params
+
         //Car number lp
         LinearLayout.LayoutParams carNumberLp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         carNumberLp.setMargins(0,20,50,20);
 
-        //nickname lp
-        LinearLayout.LayoutParams nicknameLp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        nicknameLp.setMargins(790,300,5,5);
 
-        carNumbertv.setGravity(Gravity.CENTER);
-        carNumbertv.setLayoutParams(carNumberLp);
-        nicknametv.setLayoutParams(nicknameLp);
+        nicknameTV.setGravity(Gravity.CENTER);
+        nicknameTV.setLayoutParams(carNumberLp);
 
-        card.addView(emoji);
-        card.addView(nicknametv);
+
         card.addView(edit);
         if(LoginActivity.applicationModel.getCurrentDriver() == null){
             card.addView(delete);
         }
-        card.addView(carNumbertv);
+        card.addView(nicknameTV);
         container.addView(card);
 
         delete.setOnClickListener(new View.OnClickListener() {
@@ -109,8 +92,6 @@ public class CarView {
                 }
             }
         });
-
-
     }
 
     private StringBuilder addDashes(String carNumber) {

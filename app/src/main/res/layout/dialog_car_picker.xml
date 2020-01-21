@@ -7,28 +7,32 @@
     android:background="@color/neatWhite"
     tools:context=".MainActivity">
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:fontFamily="sans-serif-smallcaps"
-            android:text="pick a car"
-            android:background="@color/neatBlue"
-            android:textColor="@color/neatWhite"
-            android:textSize="30dp" />
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
 
         <LinearLayout
-            android:id="@+id/cars_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"></LinearLayout>
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:fontFamily="sans-serif-smallcaps"
+                android:text="pick a car"
+                android:background="@color/neatBlue"
+                android:textColor="@color/neatWhite"
+                android:textSize="30dp" />
 
+            <LinearLayout
+                android:id="@+id/cars_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"></LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
 </RelativeLayout>
