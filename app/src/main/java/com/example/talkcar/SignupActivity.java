@@ -12,11 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class SignupActivity extends AppCompatActivity implements OnInputListener {
@@ -88,35 +84,9 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
                     return;
                 }
             }
-            mFirebaseAuth.createUserWithEmailAndPassword(emailPlaceHolder.getText().toString(), passwordPlaceHolder.getText().toString()).addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if(!task.isSuccessful()){
-                        Toast.makeText(SignupActivity.this,"Sign in unsuccessful, please try again!", Toast.LENGTH_SHORT);
-                    }else{
-                       saveDriverToDatabase(firstNamePlaceHolder.getText().toString(), lastNamePlaceHolder.getText().toString(), emailPlaceHolder.getText().toString());
-                       Intent intent = new Intent(SignupActivity.this,MainActivity.class);
-                       startActivity(intent);
-                       finish();
-                    }
-                }
-            });
-    }
 
+        goToWaitingActivity();
 
-    private void saveDriverToDatabase(String firstname, String lastname, String email){
-
-        driver = new Driver(firstname, lastname,email);
-        for(int i = 0; i < NewCarForm.allForms.size(); i++){
-            String carNumber = NewCarForm.allForms.get(i).getCarNumberPlaceHolder().getText().toString();
-            String nickName = NewCarForm.allForms.get(i).getNicknamePlaceHolder().getText().toString();
-            String emojiId = NewCarForm.allForms.get(i).getEmojiID();
-            driver.addCar(new Car(carNumber, nickName,emojiId));
-        }
-        databaseRef.saveDriver(driver);
-
-        //Set current driver on app
-        LoginActivity.applicationModel.setCurrentDriver(driver);
     }
 
     private void setIds() {
@@ -144,5 +114,17 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
     @Override
     public void sendInput(int index) {
 
+    }
+
+    private void goToWaitingActivity(){
+
+        Intent intent = new Intent(this,WaitingActivity.class);
+        intent.putExtra("operation",1);
+        intent.putExtra("email",emailPlaceHolder.getText().toString());
+        intent.putExtra("password",passwordPlaceHolder.getText().toString());
+        intent.putExtra("firstname",firstNamePlaceHolder.getText().toString());
+        intent.putExtra("lastname",lastNamePlaceHolder.getText().toString());
+        startActivity(intent);
+        finish();
     }
 }
