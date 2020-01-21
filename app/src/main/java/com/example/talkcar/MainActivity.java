@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private ImageView takePhoto;
     private ImageView carPicker;
+    private ImageView settings;
     private Bitmap imageBitmap;
     private FieldsChecker fieldsChecker;
     private String carNumber;
@@ -115,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         takePhoto = (ImageView)findViewById(R.id.take_photo);
         carPicker = (ImageView)findViewById(R.id.car_picker);
         addCarBtn = (ImageView) findViewById(R.id.add_car_btn);
+        settings = (ImageView)findViewById(R.id.settings);
         shine = (ImageView)findViewById(R.id.shine);
 
     }
@@ -128,11 +130,11 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
                 dispatchTakePictureIntent();
             }
         });
-        
+
         carPicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+
                 openListOfCarsDialog();
             }
         });
@@ -144,6 +146,19 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
                 openNewCarDialog();
             }
         });
+
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                openSettings();
+
+            }
+        });
+    }
+
+    private void openSettings() {
+        
     }
 
     private void openListOfCarsDialog() {
