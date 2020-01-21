@@ -29,31 +29,19 @@
                 android:layout_gravity="center"/>
 
             <EditText
-                android:id="@+id/firstname_placeholder"
+                android:id="@+id/name_holder"
                 android:layout_width="300dp"
                 android:layout_height="40dp"
-                android:hint="first name"
+                android:hint="Name"
                 android:textSize="13dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="50dp"
                 android:textColorHint="@color/black"
                 android:background="@drawable/edit_text_shape"
-                android:fontFamily="sans-serif-smallcaps"
+                android:fontFamily="sans-serif-condensed"
                 android:layout_gravity="center"
                 android:textColor="@color/black"
-                android:padding="10dp"/>
-
-            <EditText
-                android:id="@+id/lastname_placeholder"
-                android:layout_width="300dp"
-                android:layout_height="40dp"
-                android:hint="last name"
-                android:textSize="13dp"
-                android:layout_marginTop="20dp"
-                android:textColorHint="@color/black"
-                android:background="@drawable/edit_text_shape"
-                android:fontFamily="sans-serif-smallcaps"
-                android:layout_gravity="center"
-                android:textColor="@color/black"
+                android:drawableLeft="@drawable/nameicon"
+                android:drawablePadding="5dp"
                 android:padding="10dp"/>
 
 
@@ -61,14 +49,16 @@
                 android:id="@+id/email_placeholder"
                 android:layout_width="300dp"
                 android:layout_height="40dp"
-                android:hint="email"
+                android:hint="Email"
                 android:textSize="13dp"
                 android:layout_marginTop="20dp"
                 android:textColorHint="@color/black"
                 android:background="@drawable/edit_text_shape"
-                android:fontFamily="sans-serif-smallcaps"
+                android:fontFamily="sans-serif-condensed"
                 android:layout_gravity="center"
                 android:textColor="@color/black"
+                android:drawableLeft="@drawable/emailicon"
+                android:drawablePadding="5dp"
                 android:padding="10dp"/>
 
             />
@@ -79,30 +69,17 @@
                 android:layout_height="40dp"
                 android:inputType="textPassword"
                 android:layout_marginTop="20dp"
-                android:hint="password"
+                android:hint="Password"
                 android:textSize="13dp"
-                android:fontFamily="sans-serif-smallcaps"
+                android:fontFamily="sans-serif-condensed"
                 android:textColorHint="@color/black"
                 android:background="@drawable/edit_text_shape"
                 android:layout_gravity="center"
                 android:textColor="@color/black"
+                android:drawableLeft="@drawable/passwordicon"
+                android:drawablePadding="5dp"
                 android:padding="10dp"/>
 
-            <EditText
-                android:id="@+id/password_placeholder_confirmation"
-                android:layout_width="300dp"
-                android:layout_height="40dp"
-                android:inputType="textPassword"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:hint="password"
-                android:textSize="13dp"
-                android:fontFamily="sans-serif-smallcaps"
-                android:textColorHint="@color/black"
-                android:background="@drawable/edit_text_shape"
-                android:layout_gravity="center"
-                android:textColor="@color/black"
-                android:padding="10dp"/>
 
 
             <LinearLayout

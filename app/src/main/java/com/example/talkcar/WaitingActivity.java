@@ -33,8 +33,8 @@ public class WaitingActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(LOGIN_FILE,MODE_PRIVATE);
 
         int operation = getIntent().getIntExtra("operation",0);
-        String firstname = getIntent().getStringExtra("firstname");
-        String lastname = getIntent().getStringExtra("lastname");
+
+        String name = getIntent().getStringExtra("name");
         String email = getIntent().getStringExtra("email");
         String password = getIntent().getStringExtra("password");
 
@@ -43,7 +43,7 @@ public class WaitingActivity extends AppCompatActivity {
                 authenticate(email,password);
                 break;
             case SIGN:
-                singUp(email,password, firstname, lastname);
+                singUp(email,password, name);
                 break;
         }
     }
@@ -134,7 +134,7 @@ public class WaitingActivity extends AppCompatActivity {
         finish();
     }
 
-    public void singUp(final String email, String password, final String firstname, final String lastname){
+    public void singUp(final String email, String password, final String name){
 
         mFirebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(WaitingActivity.this, new OnCompleteListener<AuthResult>() {
             @Override
@@ -142,7 +142,7 @@ public class WaitingActivity extends AppCompatActivity {
                 if(!task.isSuccessful()){
                     goToMainActivity();
                 }else{
-                    saveDriverToDatabase(firstname, lastname, email);
+                    saveDriverToDatabase(name, email);
                     Intent intent = new Intent(WaitingActivity.this,MainActivity.class);
                     startActivity(intent);
                     finish();
@@ -151,9 +151,9 @@ public class WaitingActivity extends AppCompatActivity {
         });
     }
 
-    private void saveDriverToDatabase(String firstname, String lastname, String email){
+    private void saveDriverToDatabase(String name, String email){
 
-        Driver driver = new Driver(firstname, lastname,email);
+        Driver driver = new Driver(name,email);
         for(int i = 0; i < NewCarForm.allForms.size(); i++){
             String carNumber = NewCarForm.allForms.get(i).getCarNumberPlaceHolder().getText().toString();
             String nickName = NewCarForm.allForms.get(i).getNicknamePlaceHolder().getText().toString();

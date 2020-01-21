@@ -57,30 +57,17 @@ public class FieldsChecker {
     }
 
 
-    public boolean checkUserDetailsFields(EditText firstNamePlaceHolder,EditText lastNamePlaceHolder, EditText emailPlaceHolder, EditText passwordPlaceHolder,EditText passwordConfirmationPlaceHolder){
+    public boolean checkUserDetailsFields(EditText namePlaceHolder, EditText emailPlaceHolder, EditText passwordPlaceHolder){
 
-        String firstName = firstNamePlaceHolder.getText().toString().trim();
-        String lastName = lastNamePlaceHolder.getText().toString().trim();
+        String name = namePlaceHolder.getText().toString().trim();
         String pwd = passwordPlaceHolder.getText().toString().trim();
-        String pwdConfirmation = passwordConfirmationPlaceHolder.getText().toString().trim();
 
-        if(firstName.isEmpty()){
-            firstNamePlaceHolder.setError("Please enter your first name");
+        if(name.isEmpty()){
+            namePlaceHolder.setError("Please enter your name");
             return false;
 
-        } else if(lastName.isEmpty()){
-            lastNamePlaceHolder.setError("Please enter your last name");
-            return false;
         }
-        if(!checkLoginFields(emailPlaceHolder,passwordPlaceHolder)){
-            return false;
-        }
-         else if(pwdConfirmation.isEmpty()){
-            passwordConfirmationPlaceHolder.setError("Please enter password");
-            return false;
-        }
-        else if(!pwd.equals(pwdConfirmation)){
-            passwordPlaceHolder.setError("Passwords don't match");
+         else if(!checkLoginFields(emailPlaceHolder,passwordPlaceHolder)){
             return false;
         }
         return true;

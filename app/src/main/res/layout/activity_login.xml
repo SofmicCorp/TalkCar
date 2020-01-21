@@ -26,14 +26,16 @@
             android:id="@+id/email_placeholder"
             android:layout_width="300dp"
             android:layout_height="70dp"
-            android:hint="email"
+            android:hint="Email"
             android:textSize="15dp"
             android:inputType="textEmailAddress"
             android:textColorHint="@color/black"
             android:background="@drawable/edit_text_shape"
-            android:fontFamily="sans-serif-smallcaps"
+            android:fontFamily="sans-serif-condensed"
             android:layout_gravity="center"
             android:textColor="@color/black"
+            android:drawablePadding="5dp"
+            android:drawableLeft="@drawable/emailicon"
             android:padding="20dp"/>
 
             />
@@ -44,13 +46,15 @@
             android:layout_height="70dp"
             android:inputType="textPassword"
             android:layout_marginTop="20dp"
-            android:hint="password"
+            android:hint="Password"
             android:textSize="15dp"
-            android:fontFamily="sans-serif-smallcaps"
+            android:fontFamily="sans-serif-condensed"
             android:textColorHint="@color/black"
             android:background="@drawable/edit_text_shape"
             android:layout_gravity="center"
             android:textColor="@color/black"
+            android:drawablePadding="5dp"
+            android:drawableLeft="@drawable/passwordicon"
             android:padding="20dp"/>
         />
         <Button
@@ -69,8 +73,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
-            android:fontFamily="sans-serif-smallcaps"
-            android:text="@string/remember_password" />
+            android:fontFamily="sans-serif-condensed"
+            android:text="Remember password?" />
 
 
         <RelativeLayout

@@ -7,8 +7,7 @@ import java.util.ArrayList;
 
 public class Driver implements Serializable {
 
-    private String firstname;
-    private String lastname;
+    private String name;;
     private String email;
     private ArrayList<Car> cars;
 
@@ -16,19 +15,14 @@ public class Driver implements Serializable {
 
     }
 
-    public Driver(String firstname, String lastname,String email){
-        this.firstname = firstname;
-        this.lastname = lastname;
+    public Driver(String name,String email){
+        this.name = name;
         this.email = email;
         cars = new ArrayList<>();
     }
 
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
+    public String getName() {
+        return name;
     }
 
     public String getEmail() {

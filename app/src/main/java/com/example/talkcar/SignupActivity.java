@@ -17,11 +17,9 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class SignupActivity extends AppCompatActivity implements OnInputListener {
 
-    private EditText firstNamePlaceHolder;
-    private EditText lastNamePlaceHolder;
+    private EditText namePlaceHolder;
     private EditText emailPlaceHolder;
     private EditText passwordPlaceHolder;
-    private EditText passwordConfirmationPlaceHolder;
     private Button signInBtn;
     private ImageView addCar;
     private Database databaseRef;
@@ -76,7 +74,7 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
             return;
         }
 
-        if(!checker.checkUserDetailsFields(firstNamePlaceHolder,lastNamePlaceHolder,emailPlaceHolder, passwordPlaceHolder,passwordConfirmationPlaceHolder)) {
+        if(!checker.checkUserDetailsFields(namePlaceHolder,emailPlaceHolder, passwordPlaceHolder)) {
 
             return;
         }
@@ -94,11 +92,9 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
     private void setIds() {
 
         allFormContainer = (LinearLayout)findViewById(R.id.all_forms_container);
-        firstNamePlaceHolder = (EditText)findViewById(R.id.firstname_placeholder);
-        lastNamePlaceHolder = (EditText)findViewById(R.id.lastname_placeholder);
+        namePlaceHolder = (EditText)findViewById(R.id.name_holder);
         emailPlaceHolder = (EditText)findViewById(R.id.email_placeholder);
         passwordPlaceHolder = (EditText)findViewById(R.id.password_placeholder);
-        passwordConfirmationPlaceHolder = (EditText)findViewById(R.id.password_placeholder_confirmation);
         signInBtn = (Button)findViewById(R.id.signin_btn);
         addCar = (ImageView)findViewById(R.id.plus_sign);
     }
@@ -124,8 +120,7 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
         intent.putExtra("operation",1);
         intent.putExtra("email",emailPlaceHolder.getText().toString());
         intent.putExtra("password",passwordPlaceHolder.getText().toString());
-        intent.putExtra("firstname",firstNamePlaceHolder.getText().toString());
-        intent.putExtra("lastname",lastNamePlaceHolder.getText().toString());
+        intent.putExtra("name",namePlaceHolder.getText().toString());
         startActivity(intent);
         LoginActivity.activity.finish();
         finish();
