@@ -44,8 +44,8 @@ public class NewCarForm extends RelativeLayout {
         formHeaderAndDeleteContainer.setOrientation(LinearLayout.HORIZONTAL);
         emojiContainer.setOrientation(LinearLayout.HORIZONTAL);
 
-        carNumberPlaceHolder =  dynamicallyXML.createEditText(context,"car number", InputType.TYPE_CLASS_PHONE);
-        nicknamePlaceHolder = dynamicallyXML.createEditText(context,"nickname",InputType.TYPE_CLASS_TEXT);
+        carNumberPlaceHolder =  dynamicallyXML.createEditText(context,"Car Number", InputType.TYPE_CLASS_PHONE);
+        nicknamePlaceHolder = dynamicallyXML.createEditText(context,"Nickname (optional)",InputType.TYPE_CLASS_TEXT);
         TextView pickYourEmojiText = dynamicallyXML.createTextView(context,"pick your emoji's car!",13,Color.BLACK,Gravity.CENTER,220,50,0,0);
         dynamicallyXML.addAllViewsLayout(inputUserContainer,carNumberPlaceHolder,nicknamePlaceHolder,pickYourEmojiText);
 
