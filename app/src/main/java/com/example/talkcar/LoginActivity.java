@@ -31,7 +31,6 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth;
     private FieldsChecker checker;
     public  Database databaseRef;
-    public CheckBox autoLogin;
     private int fail;
     public static Activity activity;
     private final String LOGIN_FILE = "login";
@@ -130,7 +129,6 @@ public class LoginActivity extends AppCompatActivity {
         emailPlaceHolder = (EditText)findViewById(R.id.email_placeholder);
         passwordPlaceHolder = (EditText)findViewById(R.id.password_placeholder);
         signupText = (TextView)findViewById(R.id.signup_text);
-        autoLogin = (CheckBox)findViewById(R.id.auto_login);
     }
 
 
@@ -140,10 +138,7 @@ public class LoginActivity extends AppCompatActivity {
         intent.putExtra("operation",0);
         intent.putExtra("email",emailPlaceHolder.getText().toString());
         intent.putExtra("password",passwordPlaceHolder.getText().toString());
-
-        if(autoLogin.isChecked()){
-            intent.putExtra("autologin",true);
-        }
+        intent.putExtra("autologin",true);
 
         startActivity(intent);
         finish();

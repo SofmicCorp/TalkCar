@@ -52,7 +52,7 @@ public class DynamicallyXML {
         editText.setHint(hint);
         editText.setTextSize(13);
         editText.setPadding(40,0,0,0);
-        editText.setTypeface(Typeface.create("sans-serif-smallcaps", Typeface.NORMAL));
+        editText.setTypeface(Typeface.create("sans-serif-condensed", Typeface.NORMAL));
         editText.setHintTextColor(Color.BLACK);
         editText.setTextColor(Color.BLACK);
         editText.setBackgroundResource(R.drawable.edit_text_shape);

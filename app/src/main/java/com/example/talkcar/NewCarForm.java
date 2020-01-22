@@ -52,7 +52,7 @@ public class NewCarForm extends RelativeLayout {
         //add To Emoji Container
         addEmojiToContainer(emojiContainer);
         dynamicallyXML.addAllViewsLayout(allFormContainer,formHeaderAndDeleteContainer,inputUserContainer,emojiContainer);
-        allForms.add(this);
+
     }
 
 

@@ -69,21 +69,14 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
 
     private void createFireBaseUser(){
 
+        if(!checker.checkUserDetailsFields(namePlaceHolder,emailPlaceHolder, passwordPlaceHolder)) {
+            return;
+        }
+
         if(NewCarForm.allForms.size() == 0) {
             Toast.makeText(this, "You need to have at least one car", Toast.LENGTH_SHORT).show();
             return;
         }
-
-        if(!checker.checkUserDetailsFields(namePlaceHolder,emailPlaceHolder, passwordPlaceHolder)) {
-
-            return;
-        }
-
-            for(int i = 0; i < NewCarForm.allForms.size(); i++){
-                if(!checker.checkCarDetailsFields(NewCarForm.allForms.get(i).getCarNumberPlaceHolder(),NewCarForm.allForms.get(i).getNicknamePlaceHolder())){
-                    return;
-                }
-            }
 
         goToWaitingActivity();
 
@@ -120,7 +113,6 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
         intent.putExtra("operation",1);
         intent.putExtra("email",emailPlaceHolder.getText().toString());
         intent.putExtra("password",passwordPlaceHolder.getText().toString());
-        intent.putExtra("name",namePlaceHolder.getText().toString());
         intent.putExtra("name",namePlaceHolder.getText().toString());
         startActivity(intent);
         LoginActivity.activity.finish();

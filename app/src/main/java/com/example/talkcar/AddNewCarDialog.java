@@ -48,11 +48,12 @@ public class AddNewCarDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
 
-                Car car;
-                car = createNewCar();
+                Car car = createNewCar();
                 if(car == null){
                     return;
                 }
+                //Adding car to the new form list.
+                NewCarForm.allForms.add(newCarForm);
                 onInputListener.sendInput(car);
                 getDialog().dismiss();
             }
