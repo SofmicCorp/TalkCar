@@ -121,6 +121,7 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
         intent.putExtra("email",emailPlaceHolder.getText().toString());
         intent.putExtra("password",passwordPlaceHolder.getText().toString());
         intent.putExtra("name",namePlaceHolder.getText().toString());
+        intent.putExtra("name",namePlaceHolder.getText().toString());
         startActivity(intent);
         LoginActivity.activity.finish();
         finish();

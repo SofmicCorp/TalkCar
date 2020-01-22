@@ -85,11 +85,7 @@ public class CarView {
             @Override
             public void onClick(View v) {
                 container.removeView(card);
-                //Checks if we are from mainActivity which means there is a current driver and
-                //we need to delete his
-                if(LoginActivity.applicationModel.getCurrentDriver() != null){
-                    LoginActivity.applicationModel.getCurrentDriver().getCars().remove(cardId);
-                }
+                NewCarForm.allForms.remove(cardId);
             }
         });
     }
@@ -97,8 +93,6 @@ public class CarView {
     private StringBuilder addDashes(String carNumber) {
 
         StringBuilder carNumberWithDashes = new StringBuilder();
-
-
 
         for(int i = 0; i < carNumber.length(); i++){
 

@@ -274,7 +274,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
                     return;
                 }
             }
-            //if you are here it means we iterate all elements in foor loop and no car number is valid.
+            //if you are here it means we iterate all elements in for loop and no car number is valid.
             Toast.makeText(this, "car number was not found. try to take another picture.", Toast.LENGTH_SHORT).show();
         }
     }

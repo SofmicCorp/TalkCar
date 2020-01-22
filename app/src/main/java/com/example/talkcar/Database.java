@@ -1,6 +1,8 @@
 package com.example.talkcar;
 
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,7 +36,7 @@ public class Database {
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     Driver driver = postSnapshot.getValue(Driver.class);
                     for(int j = 0; j < driver.getCars().size(); j++){
-                        if(driver.getCars().get(j).equals(carNumber)) {
+                        if(driver.getCars().get(j).getCarNumber().equals(carNumber)) {
                             LoginActivity.applicationModel.setLastCarNumberSearch(carNumber);
                             listener.onSuccess(dataSnapshot);
                             return;
