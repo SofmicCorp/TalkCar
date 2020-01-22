@@ -50,8 +50,9 @@ public class WaitingActivity extends AppCompatActivity {
 
     public void authenticate(final String email,final String password){
 
-        if(sharedPreferences.getBoolean("logged",false)){ ;
-            //If we are here it means someone was allready logged before and he set remember my password to be true
+        if(sharedPreferences.getBoolean("logged",false)){
+            //If the user is allready have been in the app once, it will autologin his user/
+            //so load the data for that user is here.
             String saveEmail = sharedPreferences.getString("email",null);
             Log.d("BUBA", "authenticate: email" + saveEmail);
             automaticSignin(saveEmail);
@@ -71,8 +72,7 @@ public class WaitingActivity extends AppCompatActivity {
                         public void onSuccess(DataSnapshot dataSnapshot) {
                             if(getIntent().getBooleanExtra("autologin",false)){
                                 //Auto login is saved in file after authenticate the email and password
-                                sharedPreferences.edit().putBoolean("logged",true).apply();
-                                sharedPreferences.edit().putString("email",email).apply();
+                                saveCurrentApplicationUserTosharedPreferences(email);
                             }
                             goToMainActivity();
                         }
@@ -114,9 +114,6 @@ public class WaitingActivity extends AppCompatActivity {
                 Log.d("CHECK", "Data retrieving has been failed. ");
             }
         });
-
-
-
     }
 
     public void goToLoginActivity(){
@@ -142,6 +139,7 @@ public class WaitingActivity extends AppCompatActivity {
                 if(!task.isSuccessful()){
                     goToMainActivity();
                 }else{
+                    saveCurrentApplicationUserTosharedPreferences(email);
                     saveDriverToDatabase(name, email);
                     Intent intent = new Intent(WaitingActivity.this,MainActivity.class);
                     startActivity(intent);
@@ -164,6 +162,12 @@ public class WaitingActivity extends AppCompatActivity {
 
         //Set current driver on app
         LoginActivity.applicationModel.setCurrentDriver(driver);
+    }
+
+    private void saveCurrentApplicationUserTosharedPreferences(final String email){
+
+        sharedPreferences.edit().putBoolean("logged",true).apply();
+        sharedPreferences.edit().putString("email",email).apply();
     }
 }
 
