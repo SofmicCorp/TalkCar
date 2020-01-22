@@ -55,7 +55,6 @@ public class NewCarForm extends RelativeLayout {
 
     }
 
-
     private void addEmojiToContainer(LinearLayout emojiContainer) {
 
         ImageView driverOne = dynamicallyXML.createImageView(context,R.drawable.driver1,150,150,Gravity.CENTER,100,10,0,0);
@@ -151,6 +150,5 @@ public class NewCarForm extends RelativeLayout {
     public void setEmojiID(String emojiID) {
         this.emojiID = emojiID;
     }
-
 
 }
