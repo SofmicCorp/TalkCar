@@ -33,7 +33,7 @@ public class NewCarForm extends RelativeLayout {
         this.context = context;
 
         //Create Form layouts
-        LinearLayout formHeaderAndDeleteContainer = new LinearLayout(context);
+        LinearLayout formHeader = new LinearLayout(context);
         LinearLayout inputUserContainer = new LinearLayout(context);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 250);
         LinearLayout emojiContainer = new LinearLayout(context);
@@ -41,7 +41,7 @@ public class NewCarForm extends RelativeLayout {
 
         //Set Layouts Orientation
         inputUserContainer.setOrientation(LinearLayout.VERTICAL);
-        formHeaderAndDeleteContainer.setOrientation(LinearLayout.HORIZONTAL);
+        formHeader.setOrientation(LinearLayout.HORIZONTAL);
         emojiContainer.setOrientation(LinearLayout.HORIZONTAL);
 
         carNumberPlaceHolder =  dynamicallyXML.createEditText(context,"Car Number", InputType.TYPE_CLASS_PHONE);
@@ -51,7 +51,7 @@ public class NewCarForm extends RelativeLayout {
 
         //add To Emoji Container
         addEmojiToContainer(emojiContainer);
-        dynamicallyXML.addAllViewsLayout(allFormContainer,formHeaderAndDeleteContainer,inputUserContainer,emojiContainer);
+        dynamicallyXML.addAllViewsLayout(allFormContainer,formHeader,inputUserContainer,emojiContainer);
 
     }
 

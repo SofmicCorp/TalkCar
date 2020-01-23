@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.media.Image;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,8 @@ import androidx.cardview.widget.CardView;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+
 public class CarView {
 
     private TextView carNumber;
@@ -26,6 +29,7 @@ public class CarView {
     private LinearLayout container;
     private DynamicallyXML dynamicallyXML;
     private int cardId;
+    public static ArrayList<CarView> allCarViews =  new ArrayList<>();
 
 
     public CarView(TextView carNumber, TextView nickmame, String emojiId,int cardId, LinearLayout container, Context context){
@@ -84,10 +88,22 @@ public class CarView {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                container.removeView(card);
-                NewCarForm.allForms.remove(cardId);
+
+                container.removeView(card); // remove from container - only removal from gui
+                allCarViews.remove(cardId); // remove from array of carsViews
+                NewCarForm.allForms.remove(cardId); //delete the car from forms
+                updateAllCarViewsIds(); //update all car views id after removal
             }
         });
+
+
+    }
+
+    private void updateAllCarViewsIds(){
+
+        for(int i = 0; i < allCarViews.size(); i++){
+            allCarViews.get(i).setCardId(i);
+        }
     }
 
     private StringBuilder addDashes(String carNumber) {
@@ -107,11 +123,24 @@ public class CarView {
         return carNumberWithDashes;
     }
 
+    public static void removeAllCarViews(){
+
+        allCarViews.removeAll(allCarViews);
+    }
+
     public CardView getCard() {
         return card;
     }
 
     public int getCardId() {
         return cardId;
+    }
+
+    public void setCarNumber(TextView carNumber) {
+        this.carNumber = carNumber;
+    }
+
+    public void setCardId(int cardId) {
+        this.cardId = cardId;
     }
 }
