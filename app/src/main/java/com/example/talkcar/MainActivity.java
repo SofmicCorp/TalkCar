@@ -2,9 +2,7 @@ package com.example.talkcar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.DialogFragment;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,8 +13,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,7 +28,21 @@ import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.text.FirebaseVisionText;
 import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
 
+import java.util.ArrayList;
 import java.util.List;
+
+
+//For Future Sarel And Mor!
+//There is one really important thing about how this system works.
+//When we sign up - first we create for each car a form
+//Form include data about the car.
+//After the form is created we create the "GUI" for those details - which is the yellow
+//Licenece plate.
+//When you are in Main Activity - we always delete the arrays of all forms and all car views first
+//Then we create it again with the data from the current driver.
+//As we said above for each CarView we need a form- they are highly copuled!
+//So we create a forms array withthe data of the current drives
+//And we create CarsViews array from with the data of the current drivers!
 
 
 public class MainActivity extends AppCompatActivity implements OnInputListener {
@@ -66,9 +80,13 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         fieldsChecker = new FieldsChecker();
         updateCarPickerIcon(0);
 
-        //Clean forms
-        NewCarForm.removeAllForms();
+        //Clean Forms and Car Views
+        CarForm.removeAllForms();
         CarView.removeAllCarViews();
+
+        //Create Forms And Card Views
+        CarForm.createFormsFromCars(LoginActivity.applicationModel.getCurrentDriver().getCars(),this);
+        createCarViewsFromCars();
     }
 
     @Override
@@ -299,8 +317,46 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
     }
 
     @Override
-    public void sendInputToEdit(Car car, CarView carView, NewCarForm newCarForm) {
+    public void sendInputToEdit(Car newCar, CarView carView, CarForm carForm) {
 
+        //Update data base and update all car views.
+        LoginActivity.applicationModel.getCurrentDriver().getCars().get(carView.getCardId()).setCarNumber(newCar.getCarNumber());
+        LoginActivity.applicationModel.getCurrentDriver().getCars().get(carView.getCardId()).setNickname(newCar.getNickname());
+        LoginActivity.applicationModel.getCurrentDriver().getCars().get(carView.getCardId()).setEmojiId(newCar.getEmojiId());
+        databaseRef.saveDriver(driver);
+
+        updateCarView(driver.getCars().get(carView.getCardId()),carView.getCardId());
+
+    }
+
+    private void updateCarView(Car newCar, int index) {
+
+            CarView.allCarViews.get(index).getNickname().setText(newCar.getNickname());
+    }
+
+    public void createCarViewsFromCars(){
+
+        StringBuilder carNickname;
+        LinearLayout container = new LinearLayout(this); // fake container
+
+        //Set the array of car views
+        for(int i = 0; i < driver.getCars().size(); i++) {
+
+            Car car = driver.getCars().get(i);
+            if (car.getNickname().equals(car.getCarNumber())) {
+                carNickname = FieldsChecker.addDashes(car.getNickname());
+            } else {
+                carNickname = new StringBuilder(car.getNickname());
+            }
+            TextView nickname = dynamicallyXML.createTextView(this, carNickname.toString(), 40, Color.BLACK, Gravity.CENTER, 20, 50, 10, 10);
+            final CarView carView = new CarView(nickname, i, container, this, MainActivity.activity, car.getCarNumber());
+
+            CarForm.allForms.get(i).getCarNumberPlaceHolder().setText(car.getCarNumber());
+            CarForm.allForms.get(i).getNicknamePlaceHolder().setText(car.getNickname());
+            CarForm.allForms.get(i).setEmojiID(car.getEmojiId());
+
+            CarView.allCarViews.add(carView);
+        }
     }
 
     @Override

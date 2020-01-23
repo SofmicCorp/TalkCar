@@ -1,9 +1,7 @@
 package com.example.talkcar;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +17,7 @@ public class EditCarDialog extends DialogFragment {
     private OnInputListener onInputListener;
     private Database databaseRef;
     private Button finishEditBtn;
-    private NewCarForm newCarForm;
+    private CarForm carForm;
     private LinearLayout formContainer;
     private FieldsChecker checker;
     private CarView carView;
@@ -29,9 +27,8 @@ public class EditCarDialog extends DialogFragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            Log.d("BUBA", "here: ");
             carView = (CarView)getArguments().getSerializable("carview");
-            newCarForm = (NewCarForm)getArguments().getSerializable("newcarform");
+            carForm = (CarForm)getArguments().getSerializable("newcarform");
         }
     }
 
@@ -41,7 +38,7 @@ public class EditCarDialog extends DialogFragment {
         View view = inflater.inflate(R.layout.dialog_edit_car,container, false);
 
         setIds(view);
-        newCarForm.changeContainer(formContainer);
+        carForm.changeContainer(formContainer);
         setClickListeners();
         databaseRef = new Database(new MD5());
         checker = new FieldsChecker();
@@ -66,7 +63,7 @@ public class EditCarDialog extends DialogFragment {
                     //if we are here details of car are empty or ilegal
                     return;
                 }
-                onInputListener.sendInputToEdit(car,carView, newCarForm);
+                onInputListener.sendInputToEdit(car,carView, carForm);
                 getDialog().dismiss();
             }
         });
@@ -74,11 +71,11 @@ public class EditCarDialog extends DialogFragment {
 
     private Car createNewCar(){
 
-        if(!checker.checkCarDetailsFields(newCarForm.getCarNumberPlaceHolder(),newCarForm.getNicknamePlaceHolder())){
+        if(!checker.checkCarDetailsFields(carForm.getCarNumberPlaceHolder(), carForm.getNicknamePlaceHolder())){
             return null;
         }
 
-        Car car = new Car(newCarForm.getCarNumberPlaceHolder().getText().toString(),newCarForm.getNicknamePlaceHolder().getText().toString(),newCarForm.getEmojiID());
+        Car car = new Car(carForm.getCarNumberPlaceHolder().getText().toString(), carForm.getNicknamePlaceHolder().getText().toString(), carForm.getEmojiID());
 
         return car;
     }

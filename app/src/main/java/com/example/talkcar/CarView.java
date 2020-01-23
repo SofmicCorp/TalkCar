@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -12,15 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
-
-import org.w3c.dom.Text;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -46,10 +41,7 @@ public class CarView implements Serializable {
         this.card = dynamicallyXML.createCardView(context,LinearLayout.LayoutParams.MATCH_PARENT,200,20,20,20,20,15,Color.rgb(254,210,0));
         card.setBackgroundResource(R.drawable.cardview_shape);
         this.container = container;
-
-        if(LoginActivity.applicationModel.getCurrentDriver() != null){
-            this.cardId = cardId;
-        }
+        this.cardId = cardId;
 
         createCard(carNumber);
 
@@ -93,7 +85,7 @@ public class CarView implements Serializable {
 
                 container.removeView(card); // remove from container - only removal from gui
                 allCarViews.remove(cardId); // remove from array of carsViews
-                NewCarForm.allForms.remove(cardId); //delete the car from forms
+                CarForm.allForms.remove(cardId); //delete the car from forms
                 updateAllCarViewsIds(); //update all car views id after removal
             }
         });
@@ -106,12 +98,19 @@ public class CarView implements Serializable {
 
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("carview",allCarViews.get(cardId));
-                bundle.putSerializable("newcarform",NewCarForm.allForms.get(cardId));
+                bundle.putSerializable("newcarform", CarForm.allForms.get(cardId));
                 dialog.setArguments(bundle);
                 FragmentManager ft = ((FragmentActivity)activity).getSupportFragmentManager();
                 dialog.show(ft,"EditCarDialog");
             }
         });
+    }
+
+    public void changeContainer(LinearLayout formContainer){
+
+        container.removeView(card);
+        dynamicallyXML.addAllViewsLayout(formContainer,card);
+        container= formContainer;
     }
 
     private void updateAllCarViewsIds(){
@@ -120,15 +119,6 @@ public class CarView implements Serializable {
             allCarViews.get(i).setCardId(i);
         }
     }
-
-    public void addOneCarToAllCarViews(Car car,int id,LinearLayout container){
-
-        TextView nickname = dynamicallyXML.createTextView(context,car.getNickname(),40, Color.BLACK, Gravity.CENTER,20,50,10,10);
-        CarView cardView = new CarView(nickname,id,container,context,activity,car.getCarNumber());
-        allCarViews.add(cardView);
-
-    }
-
 
     public static void removeAllCarViews(){
 
@@ -150,10 +140,4 @@ public class CarView implements Serializable {
     public void setCardId(int cardId) {
         this.cardId = cardId;
     }
-
-    public void setNickname(TextView nickname) {
-        this.nickname = nickname;
-    }
-
-
 }

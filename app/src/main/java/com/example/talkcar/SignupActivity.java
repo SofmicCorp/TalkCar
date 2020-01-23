@@ -3,7 +3,6 @@ package com.example.talkcar;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -35,7 +34,7 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         setIds();
-        NewCarForm.removeAllForms();
+        CarForm.removeAllForms();
         CarView.removeAllCarViews();
         mFirebaseAuth = FirebaseAuth.getInstance();
         databaseRef = new Database(new MD5());
@@ -74,7 +73,7 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
             return;
         }
 
-        if(NewCarForm.allForms.size() == 0) {
+        if(CarForm.allForms.size() == 0) {
             Toast.makeText(this, "You need to have at least one car", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -99,15 +98,15 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
         //get the new car details and create a card view to that car
        TextView nickname = dynamicallyXML.createTextView(this,car.getNickname(),40, Color.BLACK, Gravity.CENTER,20,50,10,10);
 
-       CarView card = new CarView(nickname,NewCarForm.allForms.size() - 1 ,allFormContainer,this,this,car.getCarNumber());
+       CarView card = new CarView(nickname, CarForm.allForms.size() - 1 ,allFormContainer,this,this,car.getCarNumber());
        CarView.allCarViews.add(card);
     }
 
     @Override
-    public void sendInputToEdit(Car car, CarView carView, NewCarForm newCarForm) {
+    public void sendInputToEdit(Car car, CarView carView, CarForm carForm) {
 
         StringBuilder stringBuilder;
-        updateFormValues(newCarForm,car);
+        updateFormValues(carForm,car);
         if(car.getNickname().equals(car.getCarNumber())) {
             stringBuilder = FieldsChecker.addDashes(car.getCarNumber());
         } else {
@@ -116,11 +115,11 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
         carView.getNickname().setText(stringBuilder.toString());
     }
 
-    private void updateFormValues(NewCarForm newCarForm,Car car){
+    private void updateFormValues(CarForm carForm, Car car){
 
-        newCarForm.getCarNumberPlaceHolder().setText(car.getCarNumber());
-        newCarForm.getNicknamePlaceHolder().setText(car.getNickname());
-        newCarForm.setEmojiID(car.getEmojiId());
+        carForm.getCarNumberPlaceHolder().setText(car.getCarNumber());
+        carForm.getNicknamePlaceHolder().setText(car.getNickname());
+        carForm.setEmojiID(car.getEmojiId());
     }
 
     @Override

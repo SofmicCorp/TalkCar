@@ -35,17 +35,17 @@ public class CarPickerDialog extends DialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_car_picker,container, false);
+
         setIds(view);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         driver = LoginActivity.applicationModel.getCurrentDriver();
         allCars = new ArrayList<>();
+        changeContainerToAllCarViews();
         dynamicallyXML = new DynamicallyXML();
         context = getContext();
         addAllDriverCars();
-
-
-
+        
         return view;
     }
 
@@ -55,15 +55,8 @@ public class CarPickerDialog extends DialogFragment {
 
         //Set the array of car views
         for(int i = 0; i < driver.getCars().size(); i++){
-
-            Car car = driver.getCars().get(i);
-            if(car.getNickname().equals(car.getCarNumber())){
-                carNickname = FieldsChecker.addDashes(car.getNickname());
-            } else {
-                carNickname = new StringBuilder(car.getNickname());
-            }
-            TextView nickname = dynamicallyXML.createTextView(context,carNickname.toString(),40, Color.BLACK, Gravity.CENTER,20,50,10,10);
-            final CarView carView = new CarView(nickname,i,carsContainer,context,MainActivity.activity,car.getCarNumber());
+            
+            final CarView carView = CarView.allCarViews.get(i);
             carView.getCard().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -71,8 +64,16 @@ public class CarPickerDialog extends DialogFragment {
                     getDialog().dismiss();
                 }
             });
-            allCars.add(carView);
+            allCars.add(CarView.allCarViews.get(i));
         }
+    }
+
+    private void changeContainerToAllCarViews(){
+
+        for(int i = 0; i < CarView.allCarViews.size(); i++){
+            CarView.allCarViews.get(i).changeContainer(carsContainer);
+        }
+
     }
 
     private void setIds(View view) {

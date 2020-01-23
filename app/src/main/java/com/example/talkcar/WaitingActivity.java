@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -152,10 +151,10 @@ public class WaitingActivity extends AppCompatActivity {
     private void saveDriverToDatabase(String name, String email){
 
         Driver driver = new Driver(name,email);
-        for(int i = 0; i < NewCarForm.allForms.size(); i++){
-            String carNumber = NewCarForm.allForms.get(i).getCarNumberPlaceHolder().getText().toString();
-            String nickName = NewCarForm.allForms.get(i).getNicknamePlaceHolder().getText().toString();
-            String emojiId = NewCarForm.allForms.get(i).getEmojiID();
+        for(int i = 0; i < CarForm.allForms.size(); i++){
+            String carNumber = CarForm.allForms.get(i).getCarNumberPlaceHolder().getText().toString();
+            String nickName = CarForm.allForms.get(i).getNicknamePlaceHolder().getText().toString();
+            String emojiId = CarForm.allForms.get(i).getEmojiID();
             Log.d("buba", "car number: " + carNumber);
             driver.addCar(new Car(carNumber, nickName,emojiId));
         }

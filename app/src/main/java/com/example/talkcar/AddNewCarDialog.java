@@ -1,9 +1,7 @@
 package com.example.talkcar;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +17,7 @@ public class AddNewCarDialog extends DialogFragment {
     private OnInputListener onInputListener;
     private Database databaseRef;
     private Button addNewCarBtn;
-    private NewCarForm newCarForm;
+    private CarForm carForm;
     private LinearLayout formContainer;
     private FieldsChecker checker;
 
@@ -31,7 +29,7 @@ public class AddNewCarDialog extends DialogFragment {
         setIds(view);
         setClickListeners();
         databaseRef = new Database(new MD5());
-        newCarForm = new NewCarForm((getContext()),formContainer);
+        carForm = new CarForm((getContext()),formContainer);
         checker = new FieldsChecker();
 
         return view;
@@ -55,7 +53,7 @@ public class AddNewCarDialog extends DialogFragment {
                     return;
                 }
                 //Adding car to the new form list.
-                NewCarForm.allForms.add(newCarForm);
+                CarForm.allForms.add(carForm);
                 onInputListener.sendInput(car);
                 getDialog().dismiss();
             }
@@ -64,11 +62,11 @@ public class AddNewCarDialog extends DialogFragment {
 
     public Car createNewCar(){
 
-       if(!checker.checkCarDetailsFields(newCarForm.getCarNumberPlaceHolder(),newCarForm.getNicknamePlaceHolder())){
+       if(!checker.checkCarDetailsFields(carForm.getCarNumberPlaceHolder(), carForm.getNicknamePlaceHolder())){
             return null;
         }
 
-        Car car = new Car(newCarForm.getCarNumberPlaceHolder().getText().toString(),newCarForm.getNicknamePlaceHolder().getText().toString(),newCarForm.getEmojiID());
+        Car car = new Car(carForm.getCarNumberPlaceHolder().getText().toString(), carForm.getNicknamePlaceHolder().getText().toString(), carForm.getEmojiID());
 
         return car;
     }

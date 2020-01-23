@@ -87,7 +87,4 @@ public class Database {
         databaseReference.child(hashRef.hash(driver.getEmail().toString())).setValue(driver);
     }
 
-    public void updateDriver(Driver driver){
-
-    }
 }

@@ -16,7 +16,7 @@ import android.widget.TextView;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class NewCarForm extends RelativeLayout implements Serializable {
+public class CarForm extends RelativeLayout implements Serializable {
 
     private DynamicallyXML dynamicallyXML;
     private int formNumber;
@@ -29,9 +29,9 @@ public class NewCarForm extends RelativeLayout implements Serializable {
     private LinearLayout inputUserContainer;
     private LinearLayout emojiContainer;
     private LinearLayout currentContainer;
-    public static ArrayList<NewCarForm> allForms = new ArrayList<>();
+    public static ArrayList<CarForm> allForms = new ArrayList<>();
 
-    public NewCarForm(Context context,LinearLayout formContainer) {
+    public CarForm(Context context, LinearLayout formContainer) {
         super(context);
 
         this.currentContainer = formContainer; //Saving current container
@@ -72,8 +72,6 @@ public class NewCarForm extends RelativeLayout implements Serializable {
 
         dynamicallyXML.addAllViewsLayout(formContainer,formHeader,inputUserContainer,emojiContainer);
         currentContainer= formContainer;
-
-
     }
 
     private void addEmojiToContainer(LinearLayout emojiContainer) {
@@ -146,6 +144,16 @@ public class NewCarForm extends RelativeLayout implements Serializable {
     public static void removeAllForms(){
 
         allForms.removeAll(allForms);
+    }
+
+    public static void createFormsFromCars(ArrayList<Car> cars,Context context){
+
+        LinearLayout container = new LinearLayout(context); //Fake container
+
+        for(int i = 0; i < cars.size(); i++){
+            CarForm form = new CarForm(context, container);
+            allForms.add(form);
+        }
     }
 
     public EditText getCarNumberPlaceHolder() {
