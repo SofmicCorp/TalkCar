@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         SharedPreferences sharedPreferences = getSharedPreferences(LOGIN_FILE,MODE_PRIVATE);
-//        sharedPreferences.edit().clear().apply();
+//        sharedPreferences.edit().clear().apply(); clear sp for some tests
         setIds();
         activity = this;
 
