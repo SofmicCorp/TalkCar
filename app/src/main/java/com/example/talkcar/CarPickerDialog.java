@@ -55,7 +55,7 @@ public class CarPickerDialog extends DialogFragment {
 
         //Set the array of car views
         for(int i = 0; i < driver.getCars().size(); i++){
-            
+
             final CarView carView = CarView.allCarViews.get(i);
             carView.getCard().setOnClickListener(new View.OnClickListener() {
                 @Override
