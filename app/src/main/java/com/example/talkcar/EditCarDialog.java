@@ -14,11 +14,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-public class AddNewCarDialog extends DialogFragment {
+public class EditCarDialog extends DialogFragment {
 
     private OnInputListener onInputListener;
     private Database databaseRef;
-    private Button addNewCarBtn;
+    private Button finishEditBtn;
     private NewCarForm newCarForm;
     private LinearLayout formContainer;
     private FieldsChecker checker;
@@ -39,13 +39,13 @@ public class AddNewCarDialog extends DialogFragment {
 
     private void setIds(View view) {
 
-        addNewCarBtn = view.findViewById(R.id.add_car_btn);
-        formContainer = view.findViewById(R.id.form_container);
+        finishEditBtn = view.findViewById(R.id.finish_edit_btn);
+        formContainer= view.findViewById(R.id.form_container);
     }
 
     private void setClickListeners() {
 
-        addNewCarBtn.setOnClickListener(new View.OnClickListener() {
+        finishEditBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -55,7 +55,6 @@ public class AddNewCarDialog extends DialogFragment {
                     return;
                 }
                 //Adding car to the new form list.
-                NewCarForm.allForms.add(newCarForm);
                 onInputListener.sendInput(car);
                 getDialog().dismiss();
             }
@@ -64,7 +63,7 @@ public class AddNewCarDialog extends DialogFragment {
 
     public Car createNewCar(){
 
-       if(!checker.checkCarDetailsFields(newCarForm.getCarNumberPlaceHolder(),newCarForm.getNicknamePlaceHolder())){
+        if(!checker.checkCarDetailsFields(newCarForm.getCarNumberPlaceHolder(),newCarForm.getNicknamePlaceHolder())){
             return null;
         }
 

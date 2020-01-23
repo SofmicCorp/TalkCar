@@ -1,5 +1,6 @@
 package com.example.talkcar;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -13,13 +14,15 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.FragmentActivity;
 
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
-public class CarView {
+public class CarView{
 
     private TextView carNumber;
     private TextView nickname;
@@ -93,6 +96,15 @@ public class CarView {
                 allCarViews.remove(cardId); // remove from array of carsViews
                 NewCarForm.allForms.remove(cardId); //delete the car from forms
                 updateAllCarViewsIds(); //update all car views id after removal
+            }
+        });
+
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+//                EditCarDialog dialog = new EditCarDialog();
+//                dialog.show(getSupportFragmentManager(),"AddNewCarDialog");
             }
         });
 

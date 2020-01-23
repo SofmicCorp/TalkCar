@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
     private Handler handler;
     private Runnable runnable;
     public static Activity activity;
-    private final int DELAY = 3*1000; //Delay for 3 seconds.  One second = 1000 milliseconds.
+    private final int DELAY = 3*1000; //Delay for 3 seconds.
 
 
     @Override
@@ -64,6 +64,10 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         setClickListeners();
         fieldsChecker = new FieldsChecker();
         updateCarPickerIcon(0);
+
+        //Clean forms
+        NewCarForm.removeAllForms();
+        CarView.removeAllCarViews();
     }
 
     @Override
