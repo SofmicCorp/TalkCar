@@ -36,14 +36,14 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
     private ImageView takePhoto;
     private ImageView carPicker;
     private ImageView settings;
+    private ImageView addCarBtn;
+    private ImageView shine;
     private Bitmap imageBitmap;
     private FieldsChecker fieldsChecker;
     private String carNumber;
     private Driver driver;
     private Database databaseRef;
     private DynamicallyXML dynamicallyXML;
-    private ImageView addCarBtn;
-    private ImageView shine;
     private Effects effects;
     private Handler handler;
     private Runnable runnable;
