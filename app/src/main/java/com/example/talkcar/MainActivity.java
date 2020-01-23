@@ -2,6 +2,7 @@ package com.example.talkcar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
@@ -295,6 +296,11 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         driver.addCar(car);
         //Save car to database
         databaseRef.saveDriver(LoginActivity.applicationModel.getCurrentDriver());
+    }
+
+    @Override
+    public void sendInputToEdit(Car car, CarView carView, NewCarForm newCarForm) {
+
     }
 
     @Override

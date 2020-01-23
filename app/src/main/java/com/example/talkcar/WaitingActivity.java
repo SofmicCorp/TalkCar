@@ -156,6 +156,7 @@ public class WaitingActivity extends AppCompatActivity {
             String carNumber = NewCarForm.allForms.get(i).getCarNumberPlaceHolder().getText().toString();
             String nickName = NewCarForm.allForms.get(i).getNicknamePlaceHolder().getText().toString();
             String emojiId = NewCarForm.allForms.get(i).getEmojiID();
+            Log.d("buba", "car number: " + carNumber);
             driver.addCar(new Car(carNumber, nickName,emojiId));
         }
         databaseRef.saveDriver(driver);

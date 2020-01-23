@@ -13,9 +13,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class NewCarForm extends RelativeLayout {
+public class NewCarForm extends RelativeLayout implements Serializable {
 
     private DynamicallyXML dynamicallyXML;
     private int formNumber;
@@ -23,20 +24,28 @@ public class NewCarForm extends RelativeLayout {
     private EditText nicknamePlaceHolder;
     private String emojiID;
     private Context context;
+
+    private LinearLayout formHeader;
+    private LinearLayout inputUserContainer;
+    private LinearLayout emojiContainer;
+    private LinearLayout currentContainer;
     public static ArrayList<NewCarForm> allForms = new ArrayList<>();
 
-    public NewCarForm(Context context,LinearLayout allFormContainer) {
+    public NewCarForm(Context context,LinearLayout formContainer) {
         super(context);
 
+        this.currentContainer = formContainer; //Saving current container
         dynamicallyXML = new DynamicallyXML();
         this.formNumber = allForms.size();
         this.context = context;
 
         //Create Form layouts
-        LinearLayout formHeader = new LinearLayout(context);
-        LinearLayout inputUserContainer = new LinearLayout(context);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 250);
-        LinearLayout emojiContainer = new LinearLayout(context);
+         formHeader = new LinearLayout(context);
+         inputUserContainer = new LinearLayout(context);
+         emojiContainer = new LinearLayout(context);
+
+         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 250);
+
         emojiContainer.setLayoutParams(lp);
 
         //Set Layouts Orientation
@@ -51,7 +60,19 @@ public class NewCarForm extends RelativeLayout {
 
         //add To Emoji Container
         addEmojiToContainer(emojiContainer);
-        dynamicallyXML.addAllViewsLayout(allFormContainer,formHeader,inputUserContainer,emojiContainer);
+        dynamicallyXML.addAllViewsLayout(formContainer,formHeader,inputUserContainer,emojiContainer);
+
+    }
+
+    public void changeContainer(LinearLayout formContainer){
+
+        currentContainer.removeView(formHeader);
+        currentContainer.removeView(inputUserContainer);
+        currentContainer.removeView(emojiContainer);
+
+        dynamicallyXML.addAllViewsLayout(formContainer,formHeader,inputUserContainer,emojiContainer);
+        currentContainer= formContainer;
+
 
     }
 
