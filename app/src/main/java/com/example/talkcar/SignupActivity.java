@@ -3,6 +3,7 @@ package com.example.talkcar;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -35,6 +36,7 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
         setContentView(R.layout.activity_signup);
         setIds();
         NewCarForm.removeAllForms();
+        CarView.removeAllCarViews();
         mFirebaseAuth = FirebaseAuth.getInstance();
         databaseRef = new Database(new MD5());
         dynamicallyXML = new DynamicallyXML();
@@ -95,11 +97,14 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
     @Override
     public void sendInput(Car car) {
 
+        //get the new car details and create a card view to that car
+
        TextView carNumber = dynamicallyXML.createTextView(this,car.getCarNumber(),10,Color.BLACK,Gravity.CENTER,0,0,0,0);
        TextView nickname = dynamicallyXML.createTextView(this,car.getNickname(),10,Color.BLACK,Gravity.CENTER,0,0,0,0);
 
-       //card id here is 0 because it not neccesary at this point, so we give a fectiv index 0;
-       CarView card = new CarView(carNumber,nickname,car.getEmojiId(),0,allFormContainer,this);
+       CarView card = new CarView(carNumber,nickname,car.getEmojiId(),NewCarForm.allForms.size() - 1 ,allFormContainer,this);
+        Log.d("BUBA", "card id is  : " + (NewCarForm.allForms.size() - 1));
+        CarView.allCarViews.add(card);
     }
 
     @Override

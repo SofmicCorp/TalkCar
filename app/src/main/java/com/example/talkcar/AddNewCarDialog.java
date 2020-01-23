@@ -3,6 +3,7 @@ package com.example.talkcar;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,10 +51,12 @@ public class AddNewCarDialog extends DialogFragment {
 
                 Car car = createNewCar();
                 if(car == null){
+                    //if we are here details of car are empty or ilegal
                     return;
                 }
                 //Adding car to the new form list.
                 NewCarForm.allForms.add(newCarForm);
+                Log.d("BUBA", "size is : " + NewCarForm.allForms.size());
                 onInputListener.sendInput(car);
                 getDialog().dismiss();
             }
