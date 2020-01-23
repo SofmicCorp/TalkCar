@@ -22,16 +22,28 @@ public class EditCarDialog extends DialogFragment {
     private NewCarForm newCarForm;
     private LinearLayout formContainer;
     private FieldsChecker checker;
+    private CarView carView;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (getArguments() != null) {
+            Log.d("BUBA", "here: ");
+            carView = (CarView)getArguments().getSerializable("carview");
+            newCarForm = (NewCarForm)getArguments().getSerializable("newcarform");
+        }
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dialog_new_car,container, false);
+        View view = inflater.inflate(R.layout.dialog_edit_car,container, false);
+
         setIds(view);
+        newCarForm.changeContainer(formContainer);
         setClickListeners();
         databaseRef = new Database(new MD5());
-        newCarForm = new NewCarForm((getContext()),formContainer);
         checker = new FieldsChecker();
 
         return view;
@@ -54,14 +66,13 @@ public class EditCarDialog extends DialogFragment {
                     //if we are here details of car are empty or ilegal
                     return;
                 }
-                //Adding car to the new form list.
-                onInputListener.sendInput(car);
+                onInputListener.sendInputToEdit(car,carView, newCarForm);
                 getDialog().dismiss();
             }
         });
     }
 
-    public Car createNewCar(){
+    private Car createNewCar(){
 
         if(!checker.checkCarDetailsFields(newCarForm.getCarNumberPlaceHolder(),newCarForm.getNicknamePlaceHolder())){
             return null;

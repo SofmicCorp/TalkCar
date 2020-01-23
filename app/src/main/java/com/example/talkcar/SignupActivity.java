@@ -42,7 +42,6 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
         dynamicallyXML = new DynamicallyXML();
         checker = new FieldsChecker();
         setClickListeners();
-
     }
 
     private void setClickListeners(){
@@ -98,13 +97,30 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
     public void sendInput(Car car) {
 
         //get the new car details and create a card view to that car
+       TextView nickname = dynamicallyXML.createTextView(this,car.getNickname(),40, Color.BLACK, Gravity.CENTER,20,50,10,10);
 
-       TextView carNumber = dynamicallyXML.createTextView(this,car.getCarNumber(),10,Color.BLACK,Gravity.CENTER,0,0,0,0);
-       TextView nickname = dynamicallyXML.createTextView(this,car.getNickname(),10,Color.BLACK,Gravity.CENTER,0,0,0,0);
+       CarView card = new CarView(nickname,NewCarForm.allForms.size() - 1 ,allFormContainer,this,this,car.getCarNumber());
+       CarView.allCarViews.add(card);
+    }
 
-       CarView card = new CarView(carNumber,nickname,car.getEmojiId(),NewCarForm.allForms.size() - 1 ,allFormContainer,this);
-        Log.d("BUBA", "card id is  : " + (NewCarForm.allForms.size() - 1));
-        CarView.allCarViews.add(card);
+    @Override
+    public void sendInputToEdit(Car car, CarView carView, NewCarForm newCarForm) {
+
+        StringBuilder stringBuilder;
+        updateFormValues(newCarForm,car);
+        if(car.getNickname().equals(car.getCarNumber())) {
+            stringBuilder = FieldsChecker.addDashes(car.getCarNumber());
+        } else {
+            stringBuilder = new StringBuilder(car.getNickname());
+        }
+        carView.getNickname().setText(stringBuilder.toString());
+    }
+
+    private void updateFormValues(NewCarForm newCarForm,Car car){
+
+        newCarForm.getCarNumberPlaceHolder().setText(car.getCarNumber());
+        newCarForm.getNicknamePlaceHolder().setText(car.getNickname());
+        newCarForm.setEmojiID(car.getEmojiId());
     }
 
     @Override

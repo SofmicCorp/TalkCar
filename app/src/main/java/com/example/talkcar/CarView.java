@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.media.Image;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -17,31 +18,31 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 
 import org.w3c.dom.Text;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class CarView{
+public class CarView implements Serializable {
 
-    private TextView carNumber;
     private TextView nickname;
-    private String emojiId;
     private androidx.cardview.widget.CardView card;
     private Context context;
     private LinearLayout container;
     private DynamicallyXML dynamicallyXML;
     private int cardId;
+    private Activity activity;
     public static ArrayList<CarView> allCarViews =  new ArrayList<>();
 
 
-    public CarView(TextView carNumber, TextView nickmame, String emojiId,int cardId, LinearLayout container, Context context){
+    public CarView(TextView nickname,int cardId, LinearLayout container, Context context,Activity activity, String carNumber){
 
         dynamicallyXML = new DynamicallyXML();
-        this.carNumber = carNumber;
-        this.nickname = nickmame;
-        this.emojiId = emojiId;
+        this.nickname = nickname;
         this.context = context;
+        this.activity = activity;
         this.card = dynamicallyXML.createCardView(context,LinearLayout.LayoutParams.MATCH_PARENT,200,20,20,20,20,15,Color.rgb(254,210,0));
         card.setBackgroundResource(R.drawable.cardview_shape);
         this.container = container;
@@ -50,22 +51,13 @@ public class CarView{
             this.cardId = cardId;
         }
 
-        createCard();
+        createCard(carNumber);
 
     }
 
-    private void createCard() {
+    private void createCard(String carNumber) {
 
-        final int LARGE_NICKNAME_LENGTH = 6;
-
-        StringBuilder carNumberWithDashes = addDashes(carNumber.getText().toString());
-
-        if(nickname.getText().equals(carNumber.getText())){
-            nickname.setText(carNumberWithDashes);
-        }
-
-        TextView nicknameTV = dynamicallyXML.createTextView(context,nickname.getText().toString(),40, Color.BLACK, Gravity.CENTER,20,50,10,10);
-        nicknameTV.setTypeface(nicknameTV.getTypeface(), Typeface.BOLD);
+        nickname.setTypeface(nickname.getTypeface(), Typeface.BOLD);
 
         ImageView delete = dynamicallyXML.createImageView(context,R.drawable.deleteicon,70,70,Gravity.CENTER,100,100,0,5);
         ImageView edit = dynamicallyXML.createImageView(context,R.drawable.editicon,70,70,Gravity.CENTER,20,100,0,5);
@@ -76,17 +68,24 @@ public class CarView{
         LinearLayout.LayoutParams carNumberLp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         carNumberLp.setMargins(0,20,50,20);
 
+        if(carNumber.equals(nickname.getText())){
+            nickname.setText(FieldsChecker.addDashes(carNumber));
+        }
 
-        nicknameTV.setGravity(Gravity.CENTER);
-        nicknameTV.setLayoutParams(carNumberLp);
-
+        nickname.setGravity(Gravity.CENTER);
+        nickname.setLayoutParams(carNumberLp);
 
         card.addView(edit);
         if(LoginActivity.applicationModel.getCurrentDriver() == null){
             card.addView(delete);
         }
-        card.addView(nicknameTV);
+        card.addView(nickname);
         container.addView(card);
+
+        setClickListeners(delete,edit);
+    }
+
+    void setClickListeners(ImageView delete,ImageView edit){
 
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,12 +102,16 @@ public class CarView{
             @Override
             public void onClick(View v) {
 
-//                EditCarDialog dialog = new EditCarDialog();
-//                dialog.show(getSupportFragmentManager(),"AddNewCarDialog");
+                EditCarDialog dialog = new EditCarDialog();
+
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("carview",allCarViews.get(cardId));
+                bundle.putSerializable("newcarform",NewCarForm.allForms.get(cardId));
+                dialog.setArguments(bundle);
+                FragmentManager ft = ((FragmentActivity)activity).getSupportFragmentManager();
+                dialog.show(ft,"EditCarDialog");
             }
         });
-
-
     }
 
     private void updateAllCarViewsIds(){
@@ -118,22 +121,14 @@ public class CarView{
         }
     }
 
-    private StringBuilder addDashes(String carNumber) {
+    public void addOneCarToAllCarViews(Car car,int id,LinearLayout container){
 
-        StringBuilder carNumberWithDashes = new StringBuilder();
+        TextView nickname = dynamicallyXML.createTextView(context,car.getNickname(),40, Color.BLACK, Gravity.CENTER,20,50,10,10);
+        CarView cardView = new CarView(nickname,id,container,context,activity,car.getCarNumber());
+        allCarViews.add(cardView);
 
-        for(int i = 0; i < carNumber.length(); i++){
-
-            if(i ==  2 || i == 5){
-                carNumberWithDashes.append('-');
-            }
-            carNumberWithDashes.append(carNumber.charAt(i));
-
-        }
-
-
-        return carNumberWithDashes;
     }
+
 
     public static void removeAllCarViews(){
 
@@ -148,11 +143,17 @@ public class CarView{
         return cardId;
     }
 
-    public void setCarNumber(TextView carNumber) {
-        this.carNumber = carNumber;
+    public TextView getNickname() {
+        return nickname;
     }
 
     public void setCardId(int cardId) {
         this.cardId = cardId;
     }
+
+    public void setNickname(TextView nickname) {
+        this.nickname = nickname;
+    }
+
+
 }

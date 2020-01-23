@@ -97,4 +97,21 @@ public class FieldsChecker {
         return false;
 
     }
+
+    public static StringBuilder addDashes(String carNumber) {
+
+        StringBuilder carNumberWithDashes = new StringBuilder();
+
+        for(int i = 0; i < carNumber.length(); i++){
+
+            if(i ==  2 || i == 5){
+                carNumberWithDashes.append('-');
+            }
+            carNumberWithDashes.append(carNumber.charAt(i));
+
+        }
+
+
+        return carNumberWithDashes;
+    }
 }

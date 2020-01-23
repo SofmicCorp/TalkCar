@@ -51,13 +51,19 @@ public class CarPickerDialog extends DialogFragment {
 
     private void addAllDriverCars() {
 
+        StringBuilder carNickname;
+
         //Set the array of car views
         for(int i = 0; i < driver.getCars().size(); i++){
 
             Car car = driver.getCars().get(i);
-            TextView carNumber = dynamicallyXML.createTextView(context,car.getCarNumber(),10, Color.BLACK, Gravity.CENTER,0,0,0,0);
-            TextView nickname = dynamicallyXML.createTextView(context,car.getNickname(),10,Color.BLACK,Gravity.CENTER,0,0,0,0);
-            final CarView carView = new CarView(carNumber,nickname,car.getEmojiId(),i,carsContainer,context);
+            if(car.getNickname().equals(car.getCarNumber())){
+                carNickname = FieldsChecker.addDashes(car.getNickname());
+            } else {
+                carNickname = new StringBuilder(car.getNickname());
+            }
+            TextView nickname = dynamicallyXML.createTextView(context,carNickname.toString(),40, Color.BLACK, Gravity.CENTER,20,50,10,10);
+            final CarView carView = new CarView(nickname,i,carsContainer,context,MainActivity.activity,car.getCarNumber());
             carView.getCard().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -68,7 +74,6 @@ public class CarPickerDialog extends DialogFragment {
             allCars.add(carView);
         }
     }
-
 
     private void setIds(View view) {
 
