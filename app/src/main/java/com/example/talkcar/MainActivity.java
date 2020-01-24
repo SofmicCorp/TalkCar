@@ -335,6 +335,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         databaseRef.saveDriver(driver);
 
         updateCarView(driver.getCars().get(carView.getCardId()),carView.getCardId());
+        updateCarPickerIcon(carView.getCardId());
 
     }
 
