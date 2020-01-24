@@ -97,9 +97,8 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
 
         //get the new car details and create a card view to that car
        TextView nickname = dynamicallyXML.createTextView(this,car.getNickname(),40, Color.BLACK, Gravity.CENTER,20,50,10,10);
-
-       CarView card = new CarView(nickname, CarForm.allForms.size() - 1 ,allFormContainer,this,this,car.getCarNumber());
-       CarView.allCarViews.add(card);
+       CarView carView= new CarView(nickname, CarForm.allForms.size() - 1 ,allFormContainer,this,this,car.getCarNumber());
+       CarView.allCarViews.add(carView);
     }
 
     @Override

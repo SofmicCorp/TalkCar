@@ -2,6 +2,7 @@ package com.example.talkcar;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,13 @@ public class EditCarDialog extends DialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_edit_car,container, false);
+
+        //If there is no nickname the nickname of the car will be the car number.
+        //when user press edit the nickname edit text should be empty and not show the car number
+        if(carForm.getCarNumberPlaceHolder().getText().toString().equals(
+                carForm.getNicknamePlaceHolder().getText().toString())){
+            carForm.getNicknamePlaceHolder().setText("");
+        }
 
         setIds(view);
         carForm.changeContainer(formContainer);

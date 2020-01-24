@@ -60,7 +60,7 @@ public class CarView implements Serializable {
         LinearLayout.LayoutParams carNumberLp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         carNumberLp.setMargins(0,20,50,20);
 
-        if(carNumber.equals(nickname.getText())){
+        if(carNumber.equals(nickname.getText().toString())){
             nickname.setText(FieldsChecker.addDashes(carNumber));
         }
 

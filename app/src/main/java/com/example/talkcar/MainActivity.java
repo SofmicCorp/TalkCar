@@ -338,7 +338,15 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
 
     private void updateCarView(Car newCar, int index) {
 
-            CarView.allCarViews.get(index).getNickname().setText(newCar.getNickname());
+        StringBuilder stringBuilder;
+
+        if(newCar.getNickname().equals(newCar.getCarNumber())){
+            stringBuilder = FieldsChecker.addDashes(newCar.getNickname());
+        } else{
+            stringBuilder = new StringBuilder(newCar.getNickname());
+        }
+
+        CarView.allCarViews.get(index).getNickname().setText(stringBuilder);
     }
 
     public void createCarViewsFromCars(){
@@ -350,7 +358,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         for(int i = 0; i < driver.getCars().size(); i++) {
 
             Car car = driver.getCars().get(i);
-            if (car.getNickname().equals(car.getCarNumber())) {
+            if (car.getNickname().isEmpty()) {
                 carNickname = FieldsChecker.addDashes(car.getNickname());
             } else {
                 carNickname = new StringBuilder(car.getNickname());

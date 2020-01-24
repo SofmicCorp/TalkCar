@@ -51,6 +51,7 @@ public class FieldsChecker {
         }
 
         if(nicknamePlaceHolder.getText().toString().isEmpty()){
+            //Nickname becomes car number
             nicknamePlaceHolder.setText(carNumberPlaceHolder.getText());
         }
         return true;
