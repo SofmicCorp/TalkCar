@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
@@ -17,7 +18,7 @@ public class EditCarDialog extends DialogFragment {
 
     private OnInputListener onInputListener;
     private Database databaseRef;
-    private Button finishEditBtn;
+    private ImageView finishEditBtn;
     private CarForm carForm;
     private LinearLayout formContainer;
     private FieldsChecker checker;

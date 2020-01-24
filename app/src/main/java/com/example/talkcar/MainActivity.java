@@ -35,11 +35,13 @@ import java.util.List;
 //For Future Sarel And Mor!
 //There is one really important thing about how this system works.
 //When we sign up - first we create for each car a form
-//Form include data about the car.
+//Form include data about the car. The form where you pick car number, nickname and emoji
 //After the form is created we create the "GUI" for those details - which is the yellow
 //Licenece plate.
 //When you are in Main Activity - we always delete the arrays of all forms and all car views first
-//Then we create it again with the data from the current driver.
+//only for the one scanrio when user go to main activity from sign up
+//Then we fill the array with the data from the current driver database (that is why we delete it, we dont want them to be
+//משוכפלים
 //As we said above for each CarView we need a form- they are highly copuled!
 //So we create a forms array withthe data of the current drives
 //And we create CarsViews array from with the data of the current drivers!
