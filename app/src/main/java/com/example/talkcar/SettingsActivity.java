@@ -5,13 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 public class SettingsActivity extends AppCompatActivity {
 
     private TextView signout;
+    private TextView username;
     private SharedPreferences sharedPreferences;
     private final String LOGIN_FILE = "login";
 
@@ -21,7 +21,14 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         sharedPreferences = getSharedPreferences(LOGIN_FILE,MODE_PRIVATE);
         setIds();
+        username.setText(ApplicationModel.getCurrentDriver().getName());
         setClickListeners();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
     }
 
     private void setClickListeners() {
@@ -41,6 +48,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         sharedPreferences.edit().putBoolean("logged",false).apply();
         ApplicationModel.setCurrentDriver(null);
+        overridePendingTransition(R.anim.enter, R.anim.exit);
     }
 
     public void goToLoginActivity(){
@@ -52,6 +60,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public void setIds(){
-        signout = (TextView)findViewById(R.id.signout);
+        signout = (TextView)findViewById(R.id.logout);
+        username = (TextView)findViewById(R.id.username);
     }
 }

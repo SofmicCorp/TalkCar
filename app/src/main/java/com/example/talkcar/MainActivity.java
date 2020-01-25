@@ -22,15 +22,11 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.text.FirebaseVisionText;
 import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -202,6 +198,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
 
         Intent intent = new Intent(this,SettingsActivity.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.enter, R.anim.exit);
     }
 
     private void openListOfCarsDialog() {
