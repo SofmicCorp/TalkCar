@@ -14,27 +14,66 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="settings"
-                android:gravity="center"
-                android:background="@color/neatBlue"
-                android:textSize="80dp"
-                android:fontFamily="sans-serif-smallcaps"
-                android:textColor="@color/neatWhite"
-                android:layout_gravity="center"/>
+                android:text="user name"
+                android:gravity="left"
+                android:layout_marginTop="20dp"
+                android:textSize="50dp"
+                android:layout_marginLeft="10dp"
+                android:fontFamily="sans-serif-condensed"
+                android:textColor="@color/neatBlue"
+               />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@color/lightGray" />
 
             <TextView
-                android:id="@+id/signout"
+                android:id="@+id/messages"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="sign out"
-                android:gravity="center"
+                android:layout_marginLeft="10dp"
+                android:text="Messages"
+                android:gravity="left"
                 android:layout_marginTop="20dp"
                 android:textSize="25dp"
-                android:fontFamily="sans-serif-smallcaps"
-                android:textColor="@color/neatBlue"
-                android:layout_gravity="center"/>
+                android:fontFamily="sans-serif-condensed"
+                android:textColor="@color/black"
+                android:drawableLeft="@drawable/messageicon"
+                android:drawablePadding="5dp"/>
+
+            <TextView
+                android:id="@+id/terms"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Terms and Policies"
+                android:layout_marginLeft="10dp"
+                android:gravity="left"
+                android:layout_marginTop="20dp"
+                android:textSize="25dp"
+                android:fontFamily="sans-serif-condensed"
+                android:textColor="@color/black"
+                android:drawableLeft="@drawable/termsicon"
+                android:drawablePadding="2dp"
+                />
+
+            <TextView
+                android:id="@+id/logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Log out"
+                android:gravity="left"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:textSize="25dp"
+                android:fontFamily="sans-serif-condensed"
+                android:textColor="@color/black"
+                android:drawableLeft="@drawable/dooricon"
+                android:drawablePadding="2dp"
+                />
 
         </LinearLayout>
 
