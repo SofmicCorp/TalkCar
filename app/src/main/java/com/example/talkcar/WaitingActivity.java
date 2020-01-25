@@ -53,7 +53,6 @@ public class WaitingActivity extends AppCompatActivity {
             //If the user is allready have been in the app once, it will autologin his user/
             //so load the data for that user is here.
             String saveEmail = sharedPreferences.getString("email",null);
-            Log.d("BUBA", "authenticate: email" + saveEmail);
             automaticSignin(saveEmail);
             return;
         }
@@ -65,13 +64,12 @@ public class WaitingActivity extends AppCompatActivity {
                     goToLoginActivity();
                 }else {
                     //finding the current driver in database
-                    databaseRef.updateCurrentDriverByEmail(email, new OnGetDataListener(){
-
+                    databaseRef.searchDriverByEmail(email, new OnGetDataListener(){
                         @Override
-                        public void onSuccess(DataSnapshot dataSnapshot) {
+                        public void onSuccess(Driver driver) {
                             if(getIntent().getBooleanExtra("autologin",false)){
                                 //Auto login is saved in file after authenticate the email and password
-                                saveCurrentApplicationUserTosharedPreferences(email);
+                                saveCurrentApplicationUserDetailsToSharedPreferences(email);
                             }
                             goToMainActivity();
                         }
@@ -95,10 +93,10 @@ public class WaitingActivity extends AppCompatActivity {
     private void automaticSignin(String email) {
 
         //finding the current driver in database
-        databaseRef.updateCurrentDriverByEmail(email, new OnGetDataListener(){
+        databaseRef.searchDriverByEmail(email, new OnGetDataListener(){
 
             @Override
-            public void onSuccess(DataSnapshot dataSnapshot) {
+            public void onSuccess(Driver driver) {
                 goToMainActivity();
             }
 
@@ -138,7 +136,7 @@ public class WaitingActivity extends AppCompatActivity {
                 if(!task.isSuccessful()){
                     goToMainActivity();
                 }else{
-                    saveCurrentApplicationUserTosharedPreferences(email);
+                    saveCurrentApplicationUserDetailsToSharedPreferences(email);
                     saveDriverToDatabase(name, email);
                     Intent intent = new Intent(WaitingActivity.this,MainActivity.class);
                     startActivity(intent);
@@ -161,13 +159,14 @@ public class WaitingActivity extends AppCompatActivity {
         databaseRef.saveDriver(driver);
 
         //Set current driver on app
-        LoginActivity.applicationModel.setCurrentDriver(driver);
+        ApplicationModel.setCurrentDriver(driver);
     }
 
-    private void saveCurrentApplicationUserTosharedPreferences(final String email){
+    private void saveCurrentApplicationUserDetailsToSharedPreferences(final String email){
 
         sharedPreferences.edit().putBoolean("logged",true).apply();
         sharedPreferences.edit().putString("email",email).apply();
+
     }
 }
 

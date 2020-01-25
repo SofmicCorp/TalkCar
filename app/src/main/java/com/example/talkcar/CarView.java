@@ -68,7 +68,7 @@ public class CarView implements Serializable {
         nickname.setLayoutParams(carNumberLp);
 
         card.addView(edit);
-        if(LoginActivity.applicationModel.getCurrentDriver() == null){
+        if(ApplicationModel.getCurrentDriver() == null){
             card.addView(delete);
         }
         card.addView(nickname);

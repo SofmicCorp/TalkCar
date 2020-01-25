@@ -39,7 +39,7 @@ public class CarPickerDialog extends DialogFragment {
         setIds(view);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        driver = LoginActivity.applicationModel.getCurrentDriver();
+        driver = ApplicationModel.getCurrentDriver();
         allCars = new ArrayList<>();
         changeContainerToAllCarViews();
         dynamicallyXML = new DynamicallyXML();
