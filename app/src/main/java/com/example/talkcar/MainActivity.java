@@ -23,6 +23,8 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.text.FirebaseVisionText;
@@ -87,8 +89,27 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         CarView.removeAllCarViews();
 
         //Create Forms And Card Views
-        CarForm.createFormsFromCars(LoginActivity.applicationModel.getCurrentDriver().getCars(),this);
+        CarForm.createFormsFromCars(ApplicationModel.getCurrentDriver().getCars(),this);
         createCarViewsFromCars();
+
+        //Script check
+//
+//        databaseRef.databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+//
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//
+//                Car car = dataSnapshot.child("33226de4860fdea8c3496bd151553756").child("cars").getValue(Car.class);
+//                Log.d("BUBA", "onDataChange: " + car.getCarNumber());
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+
     }
 
     @Override
@@ -114,8 +135,8 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
 
     private void updateCarPickerIcon(int index) {
 
-        driver = LoginActivity.applicationModel.getCurrentDriver();
-        LoginActivity.applicationModel.setCurrentCar(driver.getCars().get(index));
+        driver = ApplicationModel.getCurrentDriver();
+        ApplicationModel.setCurrentCar(driver.getCars().get(index));
 
         switch(driver.getCars().get(index).getEmojiId()){
             case "1":
@@ -199,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
 
 
     private void changeCurrentCar(int index) {
-        LoginActivity.applicationModel.setCurrentCar(driver.getCars().get(index));
+        ApplicationModel.setCurrentCar(driver.getCars().get(index));
         updateCarPickerIcon(index);
     }
 
@@ -217,12 +238,12 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         if(carNumber != null) {
             carNumber = fieldsChecker.removeAllTokensFromCarNumber(carNumber);
             //Check if car number is in database, and if it does, open a conversation!
-            databaseRef.updateLastCarNumberSearch(carNumber, new OnGetDataListener() {
+            databaseRef.searchCarByCarNumber(carNumber, new OnGetDataListener() {
                 @Override
-                public void onSuccess(DataSnapshot dataSnapshot) {
+                public void onSuccess(Driver driver) {
 
-                    if(LoginActivity.applicationModel.getLastCarNumberSearch() != null)
-                        openChat(LoginActivity.applicationModel.getLastCarNumberSearch());
+                    if(ApplicationModel.getLastCarNumberSearch() != null)
+                        openChat(ApplicationModel.getLastCarNumberSearch());
                     else
                         Toast.makeText(MainActivity.this, "Car was not found in the system...", Toast.LENGTH_SHORT).show();
 
@@ -314,7 +335,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
 
         LinearLayout container = new LinearLayout(this);//fake container;
 
-        Driver driver = LoginActivity.applicationModel.getCurrentDriver();
+        Driver driver = ApplicationModel.getCurrentDriver();
         driver.addCar(car);
 
         //get the new car details and create a card view to that car
@@ -322,16 +343,16 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         CarView card = new CarView(nickname, CarForm.allForms.size() - 1 ,container,this,this,car.getCarNumber());
         CarView.allCarViews.add(card);
         //Save car to database
-        databaseRef.saveDriver(LoginActivity.applicationModel.getCurrentDriver());
+        databaseRef.saveDriver(ApplicationModel.getCurrentDriver());
     }
 
     @Override
     public void sendInputToEdit(Car newCar, CarView carView, CarForm carForm) {
 
         //Update data base and update all car views.
-        LoginActivity.applicationModel.getCurrentDriver().getCars().get(carView.getCardId()).setCarNumber(newCar.getCarNumber());
-        LoginActivity.applicationModel.getCurrentDriver().getCars().get(carView.getCardId()).setNickname(newCar.getNickname());
-        LoginActivity.applicationModel.getCurrentDriver().getCars().get(carView.getCardId()).setEmojiId(newCar.getEmojiId());
+        ApplicationModel.getCurrentDriver().getCars().get(carView.getCardId()).setCarNumber(newCar.getCarNumber());
+        ApplicationModel.getCurrentDriver().getCars().get(carView.getCardId()).setNickname(newCar.getNickname());
+        ApplicationModel.getCurrentDriver().getCars().get(carView.getCardId()).setEmojiId(newCar.getEmojiId());
         databaseRef.saveDriver(driver);
 
         updateCarView(driver.getCars().get(carView.getCardId()),carView.getCardId());

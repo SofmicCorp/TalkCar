@@ -11,10 +11,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
+
 public class Database {
 
-    private DatabaseReference databaseReference;
+    public DatabaseReference databaseReference;
     private Hashable hashRef;
+    private static long startTime;
+    private static long difference;
 
 
     public Database(Hashable hashRef){
@@ -23,8 +26,11 @@ public class Database {
         this.hashRef = hashRef;
     }
 
-    public void updateLastCarNumberSearch(final String carNumber,final OnGetDataListener listener) {
+    public void searchCarByCarNumber(final String carNumber,final OnGetDataListener listener) {
 
+        startTime = System.currentTimeMillis();
+
+        Log.d("BUBA", "start search in database...");
         listener.onStart();
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -37,15 +43,19 @@ public class Database {
                     Driver driver = postSnapshot.getValue(Driver.class);
                     for(int j = 0; j < driver.getCars().size(); j++){
                         if(driver.getCars().get(j).getCarNumber().equals(carNumber)) {
-                            LoginActivity.applicationModel.setLastCarNumberSearch(carNumber);
-                            listener.onSuccess(dataSnapshot);
+                            ApplicationModel.setLastCarNumberSearch(carNumber);
+                            listener.onSuccess(driver);
+
+                            difference = System.currentTimeMillis() - startTime;
+                            Log.d("BUBA", "time that search take : " + difference);
                             return;
                          }
                     }
                 }
 
-                LoginActivity.applicationModel.setLastCarNumberSearch(null);
-                listener.onSuccess(dataSnapshot);
+                //car number was not found.
+                ApplicationModel.setLastCarNumberSearch(null);
+                listener.onSuccess(null);
             }
 
             @Override
@@ -55,8 +65,10 @@ public class Database {
         });
     }
 
-    public void updateCurrentDriverByEmail(final String email,final OnGetDataListener listener){
+    public void searchDriverByEmail(final String email,final OnGetDataListener listener){
 
+        startTime = System.currentTimeMillis();
+        Log.d("BUBA", "start search in database...");
         listener.onStart();
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -68,8 +80,10 @@ public class Database {
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     Driver driver = postSnapshot.getValue(Driver.class);
                     if(driver.getEmail().equals(email)) {
-                        LoginActivity.applicationModel.setCurrentDriver(driver);
-                        listener.onSuccess(dataSnapshot);
+                        ApplicationModel.setCurrentDriver(driver);
+                        listener.onSuccess(driver);
+                        difference = System.currentTimeMillis() - startTime;
+                        Log.d("BUBA", "time that search take : " + difference);
                         return;
                     }
                 }

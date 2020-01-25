@@ -34,7 +34,6 @@ public class LoginActivity extends AppCompatActivity {
     private int fail;
     public static Activity activity;
     private final String LOGIN_FILE = "login";
-    public static ApplicationModel applicationModel;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private SharedPreferences sharedPreferences;
 
@@ -43,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         SharedPreferences sharedPreferences = getSharedPreferences(LOGIN_FILE,MODE_PRIVATE);
-//        sharedPreferences.edit().clear().apply(); clear sp for some tests
+        //sharedPreferences.edit().clear().apply(); //clear sp for some tests
         setIds();
         activity = this;
 
@@ -51,31 +50,20 @@ public class LoginActivity extends AppCompatActivity {
             goToWaitingActivity();
         }
 
-
         databaseRef = new Database(new MD5());
-        applicationModel = new ApplicationModel();
         mFirebaseAuth = FirebaseAuth.getInstance();
         checker = new FieldsChecker();
 
-
-        //Check with mor what is that code????
-//        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
-//            @Override
-//            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-//                FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
-//                if(mFirebaseUser != null) {
-//                    Toast.makeText(LoginActivity.this, "You are logged in", Toast.LENGTH_SHORT).show();
-//                    goToMainActivity();
-//                }else{
-//                    Toast.makeText(LoginActivity.this, "Please Login",Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        };
-
         setClickListeners();
 
+        //Creating fake users script
+//        for(int i = 0; i < 900; i++){
+//            Driver driver = new Driver("nana","nana" + i  + "@gmail.com") ;
+//            driver.addCar(new Car("" + i,"babushka","" + 1));
+//            Log.d("BUBA", "driver : " + driver.getEmail());
+//            databaseRef.saveDriver(driver);
+//        }
     }
-
 
     @Override
     protected void onStart() {

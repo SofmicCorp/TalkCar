@@ -40,7 +40,7 @@ public class SettingsActivity extends AppCompatActivity {
     private void logout() {
 
         sharedPreferences.edit().putBoolean("logged",false).apply();
-        LoginActivity.applicationModel.setCurrentDriver(null);
+        ApplicationModel.setCurrentDriver(null);
     }
 
     public void goToLoginActivity(){
