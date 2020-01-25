@@ -21,13 +21,13 @@
                 android:gravity="left"
                 android:layout_marginTop="20dp"
                 android:textSize="50dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="30dp"
                 android:fontFamily="sans-serif-condensed"
                 android:textColor="@color/neatBlue"
                />
 
             <View
-                android:layout_width="400dp"
+                android:layout_width="330dp"
                 android:layout_gravity="center"
                 android:layout_height="1dp"
                 android:background="@color/lightGray" />
