@@ -148,6 +148,12 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         }
     }
 
+    //When puting thr super call on note the app doesnt crash and it works fine..
+//    @Override
+//    protected void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//    }
+
     private void setIds(){
 
         takePhoto = (ImageView)findViewById(R.id.take_photo);

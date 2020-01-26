@@ -31,12 +31,14 @@ public class EditCarDialog extends DialogFragment {
         if (getArguments() != null) {
             carView = (CarView)getArguments().getSerializable("carview");
             carForm = (CarForm)getArguments().getSerializable("newcarform");
+            Log.d("BUBA", "here!: ");
         }
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.dialog_edit_car,container, false);
 
         //If there is no nickname the nickname of the car will be the car number.
@@ -54,6 +56,7 @@ public class EditCarDialog extends DialogFragment {
 
         return view;
     }
+
 
     private void setIds(View view) {
 
