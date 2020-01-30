@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         databaseRef = new Database(new MD5());
@@ -244,9 +245,8 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
             databaseRef.searchCarByCarNumber(carNumber, new OnGetDataListener() {
                 @Override
                 public void onSuccess(Driver driver) {
-
-                    if(ApplicationModel.getLastCarNumberSearch() != null)
-                        openChat(ApplicationModel.getLastCarNumberSearch());
+                    if(driver != null)
+                        openChat(ApplicationModel.getLastCarNumberSearch().getCarNumber());
                     else
                         Toast.makeText(MainActivity.this, "Car was not found in the system...", Toast.LENGTH_SHORT).show();
 

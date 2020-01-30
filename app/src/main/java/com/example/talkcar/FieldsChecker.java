@@ -1,5 +1,6 @@
 package com.example.talkcar;
 
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -11,6 +12,12 @@ public class FieldsChecker {
     private final int SPACE = 32;
     private final int DOTS = 58;
     private final int CAR_NUMBER_LENGTH = 7;
+    private Database database;
+    private static Boolean isExits;
+
+    public FieldsChecker(){
+        database = new Database(new MD5());
+    }
 
 
     public boolean isValidCarNumber(String text) {
@@ -61,7 +68,9 @@ public class FieldsChecker {
     public boolean checkUserDetailsFields(EditText namePlaceHolder, EditText emailPlaceHolder, EditText passwordPlaceHolder){
 
         String name = namePlaceHolder.getText().toString().trim();
+        String email = emailPlaceHolder.getText().toString().trim();
         String pwd = passwordPlaceHolder.getText().toString().trim();
+
 
         if(name.isEmpty()){
             namePlaceHolder.setError("Please enter your name");
@@ -71,6 +80,7 @@ public class FieldsChecker {
          else if(!checkLoginFields(emailPlaceHolder,passwordPlaceHolder)){
             return false;
         }
+
         return true;
 
     }

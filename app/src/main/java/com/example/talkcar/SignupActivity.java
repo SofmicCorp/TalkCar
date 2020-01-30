@@ -1,8 +1,10 @@
 package com.example.talkcar;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -28,6 +30,11 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
     private LinearLayout allFormContainer;
     private DynamicallyXML dynamicallyXML;
     private FieldsChecker checker;
+    public static Activity activity;
+    private int ERROR_WEAK_PASSWORD = 1;
+    private int ERROR_MALFORMED_EMAIL = 2;
+    private int ERROR_EXISTS_EMAIL = 3;
+    private int ERROR_UNKNOWN = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +47,28 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
         databaseRef = new Database(new MD5());
         dynamicallyXML = new DynamicallyXML();
         checker = new FieldsChecker();
+        activity = this;
         setClickListeners();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        Log.d("BUBA", "hereee: ");
+        super.onResume();
+
+        int error = intent.getIntExtra("error", 0);
+
+          if(error ==  ERROR_MALFORMED_EMAIL){
+            emailPlaceHolder.setError("Email contains illegal values.");
+        } else if(error == ERROR_EXISTS_EMAIL){
+            emailPlaceHolder.setError("Email is already in use.");
+        }else if(error == ERROR_WEAK_PASSWORD){
+            passwordPlaceHolder.setError("Password should include at lease 6 characters.");
+        } else if(error == ERROR_UNKNOWN){
+            Toast.makeText(this, "Something went wrong...", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void setClickListeners(){
@@ -77,7 +105,6 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
             Toast.makeText(this, "You need to have at least one car", Toast.LENGTH_SHORT).show();
             return;
         }
-
         goToWaitingActivity();
 
     }
@@ -134,8 +161,5 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
         intent.putExtra("password",passwordPlaceHolder.getText().toString());
         intent.putExtra("name",namePlaceHolder.getText().toString());
         startActivity(intent);
-        LoginActivity.activity.finish();
-        finish();
-
     }
 }

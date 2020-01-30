@@ -12,6 +12,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.database.DataSnapshot;
 
 public class WaitingActivity extends AppCompatActivity {
@@ -61,13 +64,14 @@ public class WaitingActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(!task.isSuccessful()) {
-                    goToLoginActivity();
+                    goToLoginActivity(1);
                 }else {
                     //finding the current driver in database
                     databaseRef.searchDriverByEmail(email, new OnGetDataListener(){
                         @Override
                         public void onSuccess(Driver driver) {
                             if(getIntent().getBooleanExtra("autologin",false)){
+                                ApplicationModel.setCurrentDriver(driver);
                                 //Auto login is saved in file after authenticate the email and password
                                 saveCurrentApplicationUserDetailsToSharedPreferences(email);
                             }
@@ -92,12 +96,21 @@ public class WaitingActivity extends AppCompatActivity {
 
     private void automaticSignin(String email) {
 
+
         //finding the current driver in database
         databaseRef.searchDriverByEmail(email, new OnGetDataListener(){
 
             @Override
             public void onSuccess(Driver driver) {
-                goToMainActivity();
+                if(driver != null){
+                    Log.d("buba", "founded!: driver is " + driver.getName());
+                    ApplicationModel.setCurrentDriver(driver);
+                    goToMainActivity();
+                } else {
+                    sharedPreferences.edit().clear().apply(); //clear sp for some tests
+                    goToLoginActivity(0);
+                }
+
             }
 
             @Override
@@ -113,10 +126,10 @@ public class WaitingActivity extends AppCompatActivity {
         });
     }
 
-    public void goToLoginActivity(){
+    public void goToLoginActivity(int ERROR){
 
         Intent intent = new Intent(this,LoginActivity.class);
-        intent.putExtra("fail", 1); //failed on authincate
+        intent.putExtra("error", ERROR); //failed on authincate
         startActivity(intent);
 
     }
@@ -128,25 +141,61 @@ public class WaitingActivity extends AppCompatActivity {
         finish();
     }
 
-    public void singUp(final String email, String password, final String name){
+    private void gotToSignUpActivity(int ERROR){
 
+        Intent intent = new Intent(this,SignupActivity.class);
+        intent.putExtra("error", ERROR); //failed on signup
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+        finish();
+
+    }
+
+    public void singUp(final String email, final String password, final String name){
+        //Sign up!
         mFirebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(WaitingActivity.this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(!task.isSuccessful()){
-                    goToMainActivity();
-                }else{
+                if (!task.isSuccessful()) {
+                    try {
+                        throw task.getException();
+                    }
+                    // if user enters wrong email.
+                    catch (FirebaseAuthWeakPasswordException weakPassword) {
+                        Log.d("BUBA", "onComplete: weak_password");
+                        gotToSignUpActivity(1);
+                    }
+                    // if user enters wrong password.
+                    catch (FirebaseAuthInvalidCredentialsException malformedEmail) {
+                        Log.d("BUBA", "onComplete: malformed_email");
+                        gotToSignUpActivity(2);
+                    }
+                    catch (FirebaseAuthUserCollisionException existEmail) {
+                        Log.d("BUBA", "onComplete: exist_email");
+                        gotToSignUpActivity(3);
+                    }
+
+                    catch (Exception e) {
+                        Log.d("BUBA", "onComplete: " + e.getMessage());
+                        gotToSignUpActivity(4);
+                    }
+            }else{
                     saveCurrentApplicationUserDetailsToSharedPreferences(email);
-                    saveDriverToDatabase(name, email);
-                    Intent intent = new Intent(WaitingActivity.this,MainActivity.class);
-                    startActivity(intent);
+                    Driver driver = saveDriverToDatabase(name, email);
+                    //Set current driver on app
+                    ApplicationModel.setCurrentDriver(driver);
+                    goToMainActivity();
+                    SignupActivity.activity.finish();
+                    LoginActivity.activity.finish();
                     finish();
                 }
             }
         });
     }
 
-    private void saveDriverToDatabase(String name, String email){
+
+
+    private Driver saveDriverToDatabase(String name, String email){
 
         Driver driver = new Driver(name,email);
         for(int i = 0; i < CarForm.allForms.size(); i++){
@@ -158,8 +207,8 @@ public class WaitingActivity extends AppCompatActivity {
         }
         databaseRef.saveDriver(driver);
 
-        //Set current driver on app
-        ApplicationModel.setCurrentDriver(driver);
+        //return the driver that has been saved in database
+        return driver;
     }
 
     private void saveCurrentApplicationUserDetailsToSharedPreferences(final String email){

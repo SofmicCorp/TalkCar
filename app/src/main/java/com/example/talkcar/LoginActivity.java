@@ -31,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth;
     private FieldsChecker checker;
     public  Database databaseRef;
-    private int fail;
+    private int error;
     public static Activity activity;
     private final String LOGIN_FILE = "login";
     private FirebaseAuth.AuthStateListener mAuthStateListener;
@@ -42,7 +42,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         SharedPreferences sharedPreferences = getSharedPreferences(LOGIN_FILE,MODE_PRIVATE);
-        //sharedPreferences.edit().clear().apply(); //clear sp for some tests
         setIds();
         activity = this;
 
@@ -72,12 +71,13 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+
         super.onResume();
-        fail = getIntent().getIntExtra("fail",0);
-        if(fail == 1){
+        error = getIntent().getIntExtra("fail",0);
+        if(error == 1){
             Toast.makeText(LoginActivity.this, "email or password were incorrect.", Toast.LENGTH_SHORT).show();
         }
-        fail = 0;
+        error = 0;
     }
 
     @Override

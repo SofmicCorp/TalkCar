@@ -43,18 +43,15 @@ public class Database {
                     Driver driver = postSnapshot.getValue(Driver.class);
                     for(int j = 0; j < driver.getCars().size(); j++){
                         if(driver.getCars().get(j).getCarNumber().equals(carNumber)) {
-                            ApplicationModel.setLastCarNumberSearch(carNumber);
+                            ApplicationModel.setLastCarNumberSearch(driver.getCars().get(j));
                             listener.onSuccess(driver);
-
                             difference = System.currentTimeMillis() - startTime;
                             Log.d("BUBA", "time that search take : " + difference);
                             return;
                          }
                     }
                 }
-
                 //car number was not found.
-                ApplicationModel.setLastCarNumberSearch(null);
                 listener.onSuccess(null);
             }
 
@@ -80,13 +77,15 @@ public class Database {
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     Driver driver = postSnapshot.getValue(Driver.class);
                     if(driver.getEmail().equals(email)) {
-                        ApplicationModel.setCurrentDriver(driver);
                         listener.onSuccess(driver);
                         difference = System.currentTimeMillis() - startTime;
                         Log.d("BUBA", "time that search take : " + difference);
                         return;
                     }
                 }
+
+                listener.onSuccess(null);
+                //If no driver with that email found
             }
 
             @Override
