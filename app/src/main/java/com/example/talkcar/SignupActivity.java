@@ -55,9 +55,6 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
 
-        Log.d("BUBA", "hereee: ");
-        super.onResume();
-
         int error = intent.getIntExtra("error", 0);
 
           if(error ==  ERROR_MALFORMED_EMAIL){
