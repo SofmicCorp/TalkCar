@@ -103,14 +103,12 @@ public class WaitingActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Driver driver) {
                 if(driver != null){
-                    Log.d("buba", "founded!: driver is " + driver.getName());
                     ApplicationModel.setCurrentDriver(driver);
                     goToMainActivity();
                 } else {
                     sharedPreferences.edit().clear().apply(); //clear sp for some tests
                     goToLoginActivity(0);
                 }
-
             }
 
             @Override

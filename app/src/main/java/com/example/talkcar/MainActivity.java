@@ -228,14 +228,6 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         updateCarPickerIcon(index);
     }
 
-    private void createImageToPopup(TextView tv, int carImgId, int editIconId){
-
-        Drawable carIcon = ContextCompat.getDrawable(MainActivity.this,carImgId);
-        Drawable  editIcon = ContextCompat.getDrawable(MainActivity.this,editIconId);
-        carIcon.setBounds(-30, 0, 180, 150);
-        editIcon.setBounds(0,0,100,100);
-        tv.setCompoundDrawables(carIcon, null, editIcon, null);
-    }
 
     private void startChatWithAnotherCar() {
 
@@ -359,7 +351,10 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         databaseRef.saveDriver(driver);
 
         updateCarView(driver.getCars().get(carView.getCardId()),carView.getCardId());
-        updateCarPickerIcon(carView.getCardId());
+        if(ApplicationModel.getCurrentCar().getCarNumber().equals(driver.getCars().get(carView.getCardId()).getCarNumber())){
+            updateCarPickerIcon(carView.getCardId());
+        }
+
 
     }
 
