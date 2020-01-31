@@ -354,8 +354,6 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         if(ApplicationModel.getCurrentCar().getCarNumber().equals(driver.getCars().get(carView.getCardId()).getCarNumber())){
             updateCarPickerIcon(carView.getCardId());
         }
-
-
     }
 
     private void updateCarView(Car newCar, int index) {
