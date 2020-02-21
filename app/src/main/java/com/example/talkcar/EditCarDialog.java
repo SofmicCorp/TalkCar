@@ -31,7 +31,6 @@ public class EditCarDialog extends DialogFragment {
         if (getArguments() != null) {
             carView = (CarView)getArguments().getSerializable("carview");
             carForm = (CarForm)getArguments().getSerializable("newcarform");
-            Log.d("BUBA", "here!: ");
         }
     }
 

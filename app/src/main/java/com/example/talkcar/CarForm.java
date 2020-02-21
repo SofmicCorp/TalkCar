@@ -1,9 +1,12 @@
 package com.example.talkcar;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +15,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -24,25 +30,29 @@ public class CarForm extends RelativeLayout implements Serializable {
     private EditText nicknamePlaceHolder;
     private String emojiID;
     private Context context;
-
+    private ImageView[] allEmojies;
     private LinearLayout formHeader;
     private LinearLayout inputUserContainer;
     private LinearLayout emojiContainer;
+    private LinearLayout seeMoreContainer;
     private LinearLayout currentContainer;
+    private TextView seeMore;
+    private int emojiPosition = 0;
     public static ArrayList<CarForm> allForms = new ArrayList<>();
 
     public CarForm(Context context, LinearLayout formContainer) {
         super(context);
-
         this.currentContainer = formContainer; //Saving current container
         dynamicallyXML = new DynamicallyXML();
         this.formNumber = allForms.size();
         this.context = context;
-
+        setEmojiID("1"); //In every form the default emoji will be the emoji in place 1 in the array.
+        createAllEmojies();
         //Create Form layouts
          formHeader = new LinearLayout(context);
          inputUserContainer = new LinearLayout(context);
          emojiContainer = new LinearLayout(context);
+         seeMoreContainer = new LinearLayout(context);
 
          LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 250);
 
@@ -52,16 +62,70 @@ public class CarForm extends RelativeLayout implements Serializable {
         inputUserContainer.setOrientation(LinearLayout.VERTICAL);
         formHeader.setOrientation(LinearLayout.HORIZONTAL);
         emojiContainer.setOrientation(LinearLayout.HORIZONTAL);
+        seeMoreContainer.setOrientation(LinearLayout.VERTICAL);
 
         carNumberPlaceHolder =  dynamicallyXML.createEditText(context,"Car Number", InputType.TYPE_CLASS_PHONE);
         nicknamePlaceHolder = dynamicallyXML.createEditText(context,"Nickname (optional)",InputType.TYPE_CLASS_TEXT);
         TextView pickYourEmojiText = dynamicallyXML.createTextView(context,"pick your emoji's car!",13,Color.BLACK,Gravity.CENTER,220,50,0,0);
         dynamicallyXML.addAllViewsLayout(inputUserContainer,carNumberPlaceHolder,nicknamePlaceHolder,pickYourEmojiText);
 
+        //Set click listener to all emojis.
+        setEmojiClickListeners(allEmojies);
         //add To Emoji Container
         addEmojiToContainer(emojiContainer);
-        dynamicallyXML.addAllViewsLayout(formContainer,formHeader,inputUserContainer,emojiContainer);
+        seeMore = dynamicallyXML.createTextView(context,"see more",13,Color.BLACK,Gravity.CENTER,370,50,0,0);
+        setSeeMoreClickListener();
+        dynamicallyXML.addAllViewsLayout(seeMoreContainer,seeMore);
 
+        dynamicallyXML.addAllViewsLayout(formContainer,formHeader,inputUserContainer,emojiContainer,seeMoreContainer);
+
+    }
+
+    private void setSeeMoreClickListener() {
+
+        seeMore.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openEmojiStorageDialog();
+            }
+        });
+    }
+
+    private void openEmojiStorageDialog() {
+
+        EmojiStorageDialog dialog = new EmojiStorageDialog();
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("newcarform", this);
+        dialog.setArguments(bundle);
+        FragmentManager ft = ((FragmentActivity)getContext()).getSupportFragmentManager();
+        dialog.show(ft,"EmojiStorageDialog");
+    }
+
+    private void createAllEmojies() {
+
+        final int SIZE = 9;
+
+        allEmojies = new ImageView[SIZE];
+
+        //Adding all Emoji to the array
+        allEmojies[0] = dynamicallyXML.createImageView(getContext(),R.drawable.driver1,150,150, Gravity.CENTER,100,10,0,0);
+        allEmojies[1] = dynamicallyXML.createImageView(getContext(),R.drawable.driver2,150,150, Gravity.CENTER,100,10,0,0);
+        allEmojies[2] = dynamicallyXML.createImageView(getContext(),R.drawable.driver3,150,150, Gravity.CENTER,100,10,0,0);
+        allEmojies[3] = dynamicallyXML.createImageView(getContext(),R.drawable.twoboys,150,150, Gravity.CENTER,100,10,0,0);
+        allEmojies[4] = dynamicallyXML.createImageView(getContext(),R.drawable.twogirls,150,150, Gravity.CENTER,100,10,0,0);
+        allEmojies[5] = dynamicallyXML.createImageView(getContext(),R.drawable.batmobile,150,150, Gravity.CENTER,100,10,0,0);
+        allEmojies[6] = dynamicallyXML.createImageView(getContext(),R.drawable.backtothefuture,150,150, Gravity.CENTER,100,10,0,0);
+        allEmojies[7] = dynamicallyXML.createImageView(getContext(),R.drawable.blondegirl,150,150, Gravity.CENTER,100,10,0,0);
+        allEmojies[8] = dynamicallyXML.createImageView(getContext(),R.drawable.oldman,150,150, Gravity.CENTER,100,10,0,0);
+
+        setEmojiTags(SIZE);
+
+    }
+    private void setEmojiTags(int size){
+        for(int i = 0; i < size; i++){
+            allEmojies[i].setTag(i);
+        }
     }
 
     public void changeContainer(LinearLayout formContainer){
@@ -69,76 +133,73 @@ public class CarForm extends RelativeLayout implements Serializable {
         currentContainer.removeView(formHeader);
         currentContainer.removeView(inputUserContainer);
         currentContainer.removeView(emojiContainer);
+        currentContainer.removeView(seeMoreContainer);
 
-        dynamicallyXML.addAllViewsLayout(formContainer,formHeader,inputUserContainer,emojiContainer);
+        setEmojiContainer();
+        dynamicallyXML.addAllViewsLayout(formContainer,formHeader,inputUserContainer,emojiContainer,seeMoreContainer);
         currentContainer= formContainer;
     }
 
     private void addEmojiToContainer(LinearLayout emojiContainer) {
 
-        ImageView driverOne = dynamicallyXML.createImageView(context,R.drawable.driver1,150,150,Gravity.CENTER,100,10,0,0);
-        ImageView driverTwo = dynamicallyXML.createImageView(context,R.drawable.driver2,150,150, Gravity.CENTER,100,10,0,0);
-        ImageView driverThree = dynamicallyXML.createImageView(context,R.drawable.driver3,150,150,Gravity.CENTER,100,10,0,0);
+//        emojiID =  allEmojies[1].getTag().toString();
 
-        driverOne.setTag(1);
-        driverTwo.setTag(2);
-        driverThree.setTag(3);
+        int middleIndex = Integer.parseInt(emojiID);
+        int firstIndex = middleIndex - 1;
+        int lastIndex = middleIndex + 1;
+
+        if(firstIndex < 0){
+            firstIndex = allEmojies.length - 1;
+        }
+        if(lastIndex > allEmojies.length - 1){
+            lastIndex = 0;
+        }
+
+
+        dynamicallyXML.addAllViewsLayout(emojiContainer,allEmojies[firstIndex], allEmojies[middleIndex], allEmojies[lastIndex]);
 
         //Default value if driver doesnt pick an emoji
-        markEmoji(driverTwo,Color.rgb(44,167,239));
-        emojiID =  driverTwo.getTag().toString();
-
-        setEmojiClickListeners(driverOne,driverTwo,driverThree);
-        dynamicallyXML.addAllViewsLayout(emojiContainer,driverOne, driverTwo, driverThree);
+        markEmoji(allEmojies[Integer.parseInt(emojiID)],Color.rgb(44,167,239));
     }
 
-    private void setEmojiClickListeners(final ImageView driverOne, final ImageView driverTwo, final ImageView driverThree) {
+    public void setEmojiContainer(){
 
-        driverOne.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        emojiContainer.removeAllViews();
+        addEmojiToContainer(emojiContainer);
 
-                markEmoji(driverOne,Color.rgb(44,167,239));
-                markEmoji(driverTwo, Color.WHITE);
-                markEmoji(driverThree, Color.WHITE);
-
-
-                    emojiID =  driverOne.getTag().toString();
-            }
-        });
-
-        driverTwo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                markEmoji(driverOne, Color.WHITE);
-                markEmoji(driverTwo,Color.rgb(44,167,239));
-                markEmoji(driverThree, Color.WHITE);
-
-                emojiID =  driverTwo.getTag().toString();
-            }
-        });
-
-        driverThree.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                markEmoji(driverOne, Color.WHITE);
-                markEmoji(driverTwo, Color.WHITE);
-                markEmoji(driverThree,Color.rgb(44,167,239));
-
-
-                emojiID =  driverThree.getTag().toString();
-            }
-        });
     }
 
-    private void markEmoji(ImageView emoji,int color) {
+    private void setEmojiClickListeners(final ImageView[] allEmojies) {
+
+        for(int i = 0; i < allEmojies.length; i++){
+            allEmojies[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    markEmoji(allEmojies[Integer.parseInt(v.getTag().toString())],Color.rgb(44,167,239));
+                    for(int j = 0; j < allEmojies.length; j++){
+                        if(j != Integer.parseInt(v.getTag().toString())){
+                            markEmoji(allEmojies[j], Color.WHITE);
+                        }
+                    }
+                    setEmojiID(allEmojies[Integer.parseInt(v.getTag().toString())].getTag().toString());
+                }
+            });
+        }
+    }
+
+    public void markEmoji(ImageView emoji,int color) {
 
         GradientDrawable gd = new GradientDrawable();
         gd.setColor(Color.WHITE);
         gd.setCornerRadius(100);
         gd.setStroke(4, color);
         emoji.setBackgroundDrawable(gd);
+    }
+
+    public void unmarkAllEmojis(){
+        for(int i = 0; i < allEmojies.length; i++){
+            markEmoji(allEmojies[i],Color.WHITE);
+        }
     }
 
     public static void removeAllForms(){

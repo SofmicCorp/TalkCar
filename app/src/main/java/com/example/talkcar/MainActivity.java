@@ -132,19 +132,40 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
 
     private void updateCarPickerIcon(int index) {
 
+
+
         driver = ApplicationModel.getCurrentDriver();
         ApplicationModel.setCurrentCar(driver.getCars().get(index));
 
+        Log.d("BUBA", "emojie id is : " + driver.getCars().get(index).getEmojiId());
+        //Set icon
         switch(driver.getCars().get(index).getEmojiId()){
-            case "1":
+            case "0":
                 carPicker.setImageResource(R.drawable.driver1);
                 break;
-            case "2":
+            case "1":
                 carPicker.setImageResource(R.drawable.driver2);
                 break;
-            case "3":
+            case "2":
                 carPicker.setImageResource(R.drawable.driver3);
                 break;
+            case "3":
+                carPicker.setImageResource(R.drawable.twoboys);
+                break;
+            case "4":
+                carPicker.setImageResource(R.drawable.twogirls);
+                break;
+            case "5":
+                carPicker.setImageResource(R.drawable.batmobile);
+                break;
+            case "6":
+                carPicker.setImageResource(R.drawable.backtothefuture);
+                break;
+            case "7":
+                carPicker.setImageResource(R.drawable.blondegirl);
+                break;
+            case "8":
+                carPicker.setImageResource(R.drawable.oldman);
             default:
         }
     }
@@ -398,4 +419,8 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
     public void sendInput(int index) {
         changeCurrentCar(index);
     }
+
+
+
+
 }
