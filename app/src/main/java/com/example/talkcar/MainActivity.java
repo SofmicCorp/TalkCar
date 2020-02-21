@@ -393,7 +393,12 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         StringBuilder stringBuilder;
 
         if(newCar.getNickname().equals(newCar.getCarNumber())){
-            stringBuilder = FieldsChecker.addDashes(newCar.getNickname());
+            if(newCar.getNickname().length() == 7){
+                stringBuilder = FieldsChecker.addDashesSevenDigit(newCar.getNickname());
+            } else {
+                stringBuilder = FieldsChecker.addDashesEightDigit(newCar.getNickname());
+            }
+
         } else{
             stringBuilder = new StringBuilder(newCar.getNickname());
         }
@@ -410,11 +415,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         for(int i = 0; i < driver.getCars().size(); i++) {
 
             Car car = driver.getCars().get(i);
-            if (car.getNickname().isEmpty()) {
-                carNickname = FieldsChecker.addDashes(car.getNickname());
-            } else {
-                carNickname = new StringBuilder(car.getNickname());
-            }
+            carNickname = new StringBuilder(car.getNickname());
             TextView nickname = dynamicallyXML.createTextView(this, carNickname.toString(), 40, Color.BLACK, Gravity.CENTER, 20, 50, 10, 10);
             final CarView carView = new CarView(nickname, i, container, this, MainActivity.activity, car.getCarNumber());
 

@@ -131,7 +131,11 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
         StringBuilder stringBuilder;
         updateFormValues(carForm,car);
         if(car.getNickname().equals(car.getCarNumber())) {
-            stringBuilder = FieldsChecker.addDashes(car.getCarNumber());
+            if(car.getNickname().length() == 7) {
+                stringBuilder = FieldsChecker.addDashesSevenDigit(car.getCarNumber());
+            } else {
+                stringBuilder = FieldsChecker.addDashesEightDigit(car.getCarNumber());
+            }
         } else {
             stringBuilder = new StringBuilder(car.getNickname());
         }

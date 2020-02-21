@@ -11,7 +11,8 @@ public class FieldsChecker {
     private final int DASH = 45;
     private final int SPACE = 32;
     private final int DOTS = 58;
-    private final int CAR_NUMBER_LENGTH = 7;
+    private final int MIN_CAR_NUMBER_LENGTH = 7;
+    private final int MAX_CAR_NUMBER_LENGTH = 8;
     private Database database;
     private static Boolean isExits;
 
@@ -22,7 +23,7 @@ public class FieldsChecker {
 
     public boolean isValidCarNumber(String text) {
 
-        if(text.length() < CAR_NUMBER_LENGTH)
+        if(text.length() < MIN_CAR_NUMBER_LENGTH)
             return false;
 
         for(int i = 0; i < text.length(); i++){
@@ -52,7 +53,8 @@ public class FieldsChecker {
             return false;
         }
 
-        if(carNumberPlaceHolder.getText().toString().length() !=  CAR_NUMBER_LENGTH || !carNumberPlaceHolder.getText().toString().matches("[0-9]+")){
+        if(carNumberPlaceHolder.getText().toString().length() <  MIN_CAR_NUMBER_LENGTH ||
+                carNumberPlaceHolder.getText().toString().length() >  MAX_CAR_NUMBER_LENGTH || !carNumberPlaceHolder.getText().toString().matches("[0-9]+")){
             carNumberPlaceHolder.setError("Illegal car number");
             return false;
         }
@@ -109,13 +111,30 @@ public class FieldsChecker {
 
     }
 
-    public static StringBuilder addDashes(String carNumber) {
+    public static StringBuilder addDashesSevenDigit(String carNumber) {
 
         StringBuilder carNumberWithDashes = new StringBuilder();
 
         for(int i = 0; i < carNumber.length(); i++){
 
             if(i ==  2 || i == 5){
+                carNumberWithDashes.append('-');
+            }
+            carNumberWithDashes.append(carNumber.charAt(i));
+
+        }
+
+
+        return carNumberWithDashes;
+    }
+
+    public static StringBuilder addDashesEightDigit(String carNumber) {
+
+        StringBuilder carNumberWithDashes = new StringBuilder();
+
+        for(int i = 0; i < carNumber.length(); i++){
+
+            if(i ==  3 || i == 5){
                 carNumberWithDashes.append('-');
             }
             carNumberWithDashes.append(carNumber.charAt(i));

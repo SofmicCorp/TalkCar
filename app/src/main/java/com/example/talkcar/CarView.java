@@ -61,7 +61,12 @@ public class CarView implements Serializable {
         carNumberLp.setMargins(0,20,50,20);
 
         if(carNumber.equals(nickname.getText().toString())){
-            nickname.setText(FieldsChecker.addDashes(carNumber));
+            if(carNumber.length() == 7){
+                nickname.setText(FieldsChecker.addDashesSevenDigit(carNumber));
+            } else {
+                nickname.setText(FieldsChecker.addDashesEightDigit(carNumber));
+            }
+
         }
 
         nickname.setGravity(Gravity.CENTER);
