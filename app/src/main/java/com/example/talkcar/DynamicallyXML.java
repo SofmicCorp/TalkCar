@@ -3,6 +3,7 @@ package com.example.talkcar;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.media.Image;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -88,7 +89,7 @@ public class DynamicallyXML {
 
 
 
-    public void addAllViewsLayout(LinearLayout layout, View... view) {
+    public void addAllViewsLayout(LinearLayout layout, View...view) {
 
         for(View v: view){
             layout.addView(v);
