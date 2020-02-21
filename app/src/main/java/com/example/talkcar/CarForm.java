@@ -104,7 +104,7 @@ public class CarForm extends RelativeLayout implements Serializable {
 
     private void createAllEmojies() {
 
-        final int SIZE = 9;
+        final int SIZE = 12;
 
         allEmojies = new ImageView[SIZE];
 
@@ -118,6 +118,9 @@ public class CarForm extends RelativeLayout implements Serializable {
         allEmojies[6] = dynamicallyXML.createImageView(getContext(),R.drawable.backtothefuture,150,150, Gravity.CENTER,100,10,0,0);
         allEmojies[7] = dynamicallyXML.createImageView(getContext(),R.drawable.blondegirl,150,150, Gravity.CENTER,100,10,0,0);
         allEmojies[8] = dynamicallyXML.createImageView(getContext(),R.drawable.oldman,150,150, Gravity.CENTER,100,10,0,0);
+        allEmojies[9] = dynamicallyXML.createImageView(getContext(),R.drawable.taxidriver,150,150, Gravity.CENTER,100,10,0,0);
+        allEmojies[10] = dynamicallyXML.createImageView(getContext(),R.drawable.taxidriver2,150,150, Gravity.CENTER,100,10,0,0);
+        allEmojies[11] = dynamicallyXML.createImageView(getContext(),R.drawable.simpsons,150,150, Gravity.CENTER,100,10,0,0);
 
         setEmojiTags(SIZE);
 

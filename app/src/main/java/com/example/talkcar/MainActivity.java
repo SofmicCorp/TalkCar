@@ -166,6 +166,17 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
                 break;
             case "8":
                 carPicker.setImageResource(R.drawable.oldman);
+                break;
+            case "9":
+                carPicker.setImageResource(R.drawable.taxidriver);
+                break;
+            case "10":
+                carPicker.setImageResource(R.drawable.taxidriver2);
+                break;
+            case "11":
+                carPicker.setImageResource(R.drawable.simpsons);
+                break;
+
             default:
         }
     }
