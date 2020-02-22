@@ -14,7 +14,8 @@ import com.google.firebase.database.ValueEventListener;
 
 public class Database {
 
-    public DatabaseReference databaseReference;
+    public DatabaseReference databaseReferenceDrivers;
+    public DatabaseReference databaseReferenceChats;
     private Hashable hashRef;
     private static long startTime;
     private static long difference;
@@ -22,7 +23,8 @@ public class Database {
 
     public Database(Hashable hashRef){
 
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Drivers");
+        databaseReferenceDrivers = FirebaseDatabase.getInstance().getReference().child("Drivers");
+        databaseReferenceChats = FirebaseDatabase.getInstance().getReference().child("Chats");
         this.hashRef = hashRef;
     }
 
@@ -32,7 +34,7 @@ public class Database {
 
         Log.d("BUBA", "start search in database...");
         listener.onStart();
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReferenceDrivers.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -68,15 +70,14 @@ public class Database {
         Log.d("BUBA", "start search in database...");
         listener.onStart();
 
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReferenceDrivers.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                //Could be a lot more efficent! not iterate through all data base but to look spicfivly\
-                //car with that car number "text" have to be fixed!
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     Driver driver = postSnapshot.getValue(Driver.class);
                     if(driver.getEmail().equals(email)) {
+                        Log.d("BUBA", "driver is from onDataChange : " + driver);
                         listener.onSuccess(driver);
                         difference = System.currentTimeMillis() - startTime;
                         Log.d("BUBA", "time that search take : " + difference);
@@ -95,9 +96,51 @@ public class Database {
         });
     }
 
+    public void searchChatByKey(final String key,final OnGetDataListener listener){
+
+        Log.d("BUBA", "key to search is : " + key);
+        startTime = System.currentTimeMillis();
+        Log.d("BUBA", "start search in database...");
+        listener.onStart();
+
+
+        databaseReferenceChats.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    Chat chat = postSnapshot.getValue(Chat.class);
+                    Log.d("BUBA", "chhhhat is : " + chat);
+                    if(chat.getKey().equals(key)) {
+                        listener.onSuccess(chat);
+                        difference = System.currentTimeMillis() - startTime;
+                        Log.d("BUBA", "time that search take : " + difference);
+                        return;
+                    }
+                }
+
+                //If no chat with that key found
+                listener.onSuccess(null);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                listener.onFailure();
+            }
+        });
+
+
+    }
+
     public void saveDriver(Driver driver) {
 
-        databaseReference.child(hashRef.hash(driver.getEmail().toString())).setValue(driver);
+        databaseReferenceDrivers.child(hashRef.hash(driver.getEmail().toString())).setValue(driver);
+    }
+
+    public void saveChat(Chat chat){
+
+        databaseReferenceChats.child(chat.getKey()).setValue(chat);
     }
 
 }

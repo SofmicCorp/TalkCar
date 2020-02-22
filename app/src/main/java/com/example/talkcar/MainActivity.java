@@ -27,6 +27,8 @@ import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.text.FirebaseVisionText;
 import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
 
+import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -53,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
     private ImageView settings;
     private ImageView addCarBtn;
     private ImageView shine;
+    private ImageView chats;
+    public static HashMap<String,Integer> emojiMap;
     private Bitmap imageBitmap;
     private FieldsChecker fieldsChecker;
     private String carNumber;
@@ -78,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         MainActivity.activity = this;
         setIds();
         setClickListeners();
+        initEmojiMap();
         fieldsChecker = new FieldsChecker();
         updateCarPickerIcon(0);
 
@@ -109,6 +114,24 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
 
     }
 
+    private void initEmojiMap() {
+
+        emojiMap = new HashMap<>();
+        emojiMap.put("0",R.drawable.driver1);
+        emojiMap.put("1",R.drawable.driver2);
+        emojiMap.put("2",R.drawable.driver3);
+        emojiMap.put("3",R.drawable.twoboys);
+        emojiMap.put("4",R.drawable.twogirls);
+        emojiMap.put("5",R.drawable.batmobile);
+        emojiMap.put("6",R.drawable.backtothefuture);
+        emojiMap.put("7",R.drawable.blondegirl);
+        emojiMap.put("8",R.drawable.oldman);
+        emojiMap.put("9",R.drawable.taxidriver);
+        emojiMap.put("10",R.drawable.taxidriver2);
+        emojiMap.put("11",R.drawable.simpsons);
+
+    }
+
     @Override
     protected void onResume() {
         //start handler as activity become visible
@@ -133,52 +156,13 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
     private void updateCarPickerIcon(int index) {
 
 
-
         driver = ApplicationModel.getCurrentDriver();
         ApplicationModel.setCurrentCar(driver.getCars().get(index));
 
         Log.d("BUBA", "emojie id is : " + driver.getCars().get(index).getEmojiId());
         //Set icon
-        switch(driver.getCars().get(index).getEmojiId()){
-            case "0":
-                carPicker.setImageResource(R.drawable.driver1);
-                break;
-            case "1":
-                carPicker.setImageResource(R.drawable.driver2);
-                break;
-            case "2":
-                carPicker.setImageResource(R.drawable.driver3);
-                break;
-            case "3":
-                carPicker.setImageResource(R.drawable.twoboys);
-                break;
-            case "4":
-                carPicker.setImageResource(R.drawable.twogirls);
-                break;
-            case "5":
-                carPicker.setImageResource(R.drawable.batmobile);
-                break;
-            case "6":
-                carPicker.setImageResource(R.drawable.backtothefuture);
-                break;
-            case "7":
-                carPicker.setImageResource(R.drawable.blondegirl);
-                break;
-            case "8":
-                carPicker.setImageResource(R.drawable.oldman);
-                break;
-            case "9":
-                carPicker.setImageResource(R.drawable.taxidriver);
-                break;
-            case "10":
-                carPicker.setImageResource(R.drawable.taxidriver2);
-                break;
-            case "11":
-                carPicker.setImageResource(R.drawable.simpsons);
-                break;
+        carPicker.setImageResource(emojiMap.get(driver.getCars().get(index).getEmojiId()));
 
-            default:
-        }
     }
 
     //When puting thr super call on note the app doesnt crash and it works fine..
@@ -194,6 +178,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         addCarBtn = (ImageView) findViewById(R.id.add_car_btn);
         settings = (ImageView)findViewById(R.id.settings);
         shine = (ImageView)findViewById(R.id.shine);
+        chats = (ImageView)findViewById(R.id.chats);
 
     }
 
@@ -231,6 +216,20 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
 
             }
         });
+
+        chats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                openAllChats();
+            }
+        });
+    }
+
+    private void openAllChats() {
+
+        Intent intent = new Intent(this,AllChatsActivity.class);
+        startActivity(intent);
     }
 
     private void openSettings() {
@@ -268,9 +267,9 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
             //Check if car number is in database, and if it does, open a conversation!
             databaseRef.searchCarByCarNumber(carNumber, new OnGetDataListener() {
                 @Override
-                public void onSuccess(Driver driver) {
+                public void onSuccess(Object driver) {
                     if(driver != null)
-                        openChat(ApplicationModel.getLastCarNumberSearch().getCarNumber());
+                        openChat(ApplicationModel.getLastCarNumberSearch());
                     else
                         Toast.makeText(MainActivity.this, "Car was not found in the system...", Toast.LENGTH_SHORT).show();
 
@@ -352,9 +351,14 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         }
     }
 
-    private void openChat(String carNumber) {
+    private void openChat(Car chattedCar) {
 
-        Toast.makeText(this, "chat has been open with " + carNumber, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "chat has been open with " + chattedCar.getCarNumber(), Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent(this,ChatActivity.class);
+        intent.putExtra("chattedCar", chattedCar);
+        startActivity(intent);
+
     }
 
     @Override
