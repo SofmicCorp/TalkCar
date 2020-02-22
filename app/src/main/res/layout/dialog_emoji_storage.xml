@@ -7,6 +7,8 @@
     android:background="@drawable/dialog_rounded_bg"
     tools:context=".MainActivity">
 
+
+
     <ScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
@@ -26,6 +28,7 @@
                 android:background="@drawable/header_dialog_shape"
                 android:textColor="@color/neatWhite"
                 android:textSize="30dp" />
+
 
             <LinearLayout
                 android:id="@+id/emoji_container"

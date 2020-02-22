@@ -2,13 +2,11 @@ package com.example.talkcar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -267,8 +265,10 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
             databaseRef.searchCarByCarNumber(carNumber, new OnGetDataListener() {
                 @Override
                 public void onSuccess(Object driver) {
-                    if(driver != null)
+                    if(driver != null) {
+                        ApplicationModel.setLastDriverSearch((Driver)driver);
                         openChat(ApplicationModel.getLastCarNumberSearch());
+                    }
                     else
                         Toast.makeText(MainActivity.this, "Car was not found in the system...", Toast.LENGTH_SHORT).show();
 
@@ -352,31 +352,37 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
 
     private void openChat(Car chattedCar) {
 
+        String messageKey;
+
         Toast.makeText(this, "chat has been open with " + chattedCar.getCarNumber(), Toast.LENGTH_SHORT).show();
 
         Intent intent = new Intent(this,ChatActivity.class);
         intent.putExtra("chattedCar", chattedCar);
-        String messageKey = ApplicationModel.getCurrentCar().getCarNumber() + chattedCar.getCarNumber();
 
-        Log.d("TUTA", "HASH MAP IS : " + ApplicationModel.getCurrentCar().getHashMap() );
-
-        if(ApplicationModel.getCurrentCar().getHashMap() != null ){
-            ApplicationModel.getCurrentCar().getHashMap().put(chattedCar.getCarNumber(),messageKey);
+        if(ApplicationModel.getCurrentCar().getHashMap() == null ){
+            //Current driver dont have a conversation at all
+            ApplicationModel.getCurrentCar().setHashMap(new HashMap<String, String>());
+            messageKey = ApplicationModel.getCurrentCar().getCarNumber() + chattedCar.getCarNumber();
         } else {
-
-            HashMap<String, String> hashMap = new HashMap<>();
-            hashMap.put(chattedCar.getCarNumber(),messageKey);
-            ApplicationModel.getCurrentCar().setHashMap(hashMap);
+            if(ApplicationModel.getCurrentCar().getHashMap().get(chattedCar.getCarNumber()) != null){
+                //Converstaion with chattedCar was allready happenened before
+                messageKey = ApplicationModel.getCurrentCar().getHashMap().get(chattedCar.getCarNumber());
+            } else {
+                //Converstaion with chattedCar was NOT happenened before
+                messageKey = ApplicationModel.getCurrentCar().getCarNumber() + chattedCar.getCarNumber();
+            }
         }
 
-        if(chattedCar.getHashMap() != null){
-        chattedCar.getHashMap().put(ApplicationModel.getCurrentCar().getCarNumber(),messageKey);
-        } else {
-            //if we are here it means the other car didnt have a hashmap
-            HashMap<String, String> hashMap = new HashMap<>();
-            hashMap.put(ApplicationModel.getCurrentCar().getCarNumber(),messageKey);
-            chattedCar.setHashMap(hashMap);
+        Log.d("SUSA", "loadOldChat:  keyy is " + messageKey);
+
+
+        ApplicationModel.getCurrentCar().getHashMap().put(chattedCar.getCarNumber(),messageKey);
+
+        int index = ApplicationModel.getLastDriverSearch().getCars().indexOf(chattedCar);
+        if(ApplicationModel.getLastDriverSearch().getCars().get(index).getHashMap() == null ){
+            ApplicationModel.getLastDriverSearch().getCars().get(index).setHashMap(new HashMap<String, String>());
         }
+        ApplicationModel.getLastDriverSearch().getCars().get(index).getHashMap().put(ApplicationModel.getCurrentCar().getCarNumber(),messageKey);
 
 
         //update the driver to database with the new chat hash

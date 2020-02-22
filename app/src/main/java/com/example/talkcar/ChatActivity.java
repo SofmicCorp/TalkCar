@@ -58,7 +58,7 @@ public class ChatActivity extends AppCompatActivity {
 
         final String chatKey = ApplicationModel.getCurrentCar().getHashMap().get(chattedCar.getCarNumber());
 
-        Log.d("BUBA", "loadOldChat:  key is " + chatKey);
+        Log.d("SUSA", "loadOldChat:  key is " + chatKey);
 
         database.searchChatByKey(chatKey, new OnGetDataListener() {
             @Override

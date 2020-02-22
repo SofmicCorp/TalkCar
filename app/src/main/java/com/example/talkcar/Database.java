@@ -42,7 +42,6 @@ public class Database {
                     Driver driver = postSnapshot.getValue(Driver.class);
                     for(int j = 0; j < driver.getCars().size(); j++){
                         if(driver.getCars().get(j).getCarNumber().equals(carNumber)) {
-                            ApplicationModel.setLastDriverSearch(driver);
                             ApplicationModel.setLastCarNumberSearch(driver.getCars().get(j));
                             listener.onSuccess(driver);
                             difference = System.currentTimeMillis() - startTime;
