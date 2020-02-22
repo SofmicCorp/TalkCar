@@ -38,13 +38,11 @@ public class Database {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                //Could be a lot more efficent! not iterate through all data base but to look spicfivly\
-                //car with that car number "text" have to be fixed!
-
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     Driver driver = postSnapshot.getValue(Driver.class);
                     for(int j = 0; j < driver.getCars().size(); j++){
                         if(driver.getCars().get(j).getCarNumber().equals(carNumber)) {
+                            ApplicationModel.setLastDriverSearch(driver);
                             ApplicationModel.setLastCarNumberSearch(driver.getCars().get(j));
                             listener.onSuccess(driver);
                             difference = System.currentTimeMillis() - startTime;
@@ -110,7 +108,6 @@ public class Database {
 
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     Chat chat = postSnapshot.getValue(Chat.class);
-                    Log.d("BUBA", "chhhhat is : " + chat);
                     if(chat.getKey().equals(key)) {
                         listener.onSuccess(chat);
                         difference = System.currentTimeMillis() - startTime;

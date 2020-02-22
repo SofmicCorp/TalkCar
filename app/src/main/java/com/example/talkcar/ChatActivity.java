@@ -1,6 +1,8 @@
 package com.example.talkcar;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +34,10 @@ public class ChatActivity extends AppCompatActivity {
     private ImageButton btnSend;
     private EditText textSend;
 
+    private ChatAdapter chatAdapter;
+
+    private RecyclerView recyclerView;
+
     private Intent intent;
 
     @Override
@@ -41,8 +48,38 @@ public class ChatActivity extends AppCompatActivity {
         setIds();
         getIntentDetails();
         setClickListeners();
+        loadOldChat(chattedCar);
 
 
+
+    }
+
+    private void loadOldChat(Car chattedCar) {
+
+        final String chatKey = ApplicationModel.getCurrentCar().getHashMap().get(chattedCar.getCarNumber());
+
+        Log.d("BUBA", "loadOldChat:  key is " + chatKey);
+
+        database.searchChatByKey(chatKey, new OnGetDataListener() {
+            @Override
+            public void onSuccess(Object object) {
+
+                if(object != null) {
+                    readChat(chatKey);
+                }
+            }
+
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onFailure() {
+
+                Log.d("BUBA", "onFailure: i failed bitch ");
+            }
+        });
     }
 
     private void setClickListeners() {
@@ -82,14 +119,21 @@ public class ChatActivity extends AppCompatActivity {
         profieImage = (ImageView)findViewById(R.id.profile_image);
         chattedCarNicknameTV = (TextView)findViewById(R.id.nickname);
         chattedCarNumberTV = (TextView)findViewById(R.id.car_number);
+        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        linearLayoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
     }
 
     private void sendMessage(final Message newMessage){
 
         Log.d("BUBA", "message = : " + newMessage);
-        final String key = newMessage.getSender() + newMessage.getReceiver();
+        final String chatKey = ApplicationModel.getCurrentCar().getHashMap().get(newMessage.getReceiver());
 
-        database.searchChatByKey(key, new OnGetDataListener() {
+        database.searchChatByKey(chatKey, new OnGetDataListener() {
             @Override
             public void onSuccess(Object object) {
 
@@ -104,11 +148,13 @@ public class ChatActivity extends AppCompatActivity {
                 } else {
                     //if there is no chat between those cars.
                     Log.d("BUBA", "chat was not found in database: ");
-                    chat = new Chat(key);
+                    chat = new Chat(chatKey);
                     chat.addMessage(newMessage);
                     Log.d("BUBA", "chat: " + chat.getMessages().get(0).getMessage());
                     database.saveChat(chat);
                 }
+
+                readChat(chatKey);
             }
 
             @Override
@@ -122,5 +168,33 @@ public class ChatActivity extends AppCompatActivity {
                 Log.d("BUBA", "onFailure: i failed bitch ");
             }
         });
+    }
+
+    private void readChat(String chatKey){
+
+        database.searchChatByKey(chatKey, new OnGetDataListener() {
+            @Override
+            public void onSuccess(Object object) {
+
+                Chat chat = (Chat)object;
+
+                Log.d("BUBA", "chat is : " + chat);
+
+                chatAdapter = new ChatAdapter(ChatActivity.this,chat);
+                recyclerView.setAdapter(chatAdapter);
+
+            }
+
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+        });
+
     }
 }
