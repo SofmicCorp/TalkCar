@@ -24,7 +24,7 @@ public class EmojiStorageDialog extends DialogFragment {
     private CarForm carForm;
 
     private ImageView[] allEmojis;
-    private final int SIZE = 12;
+    private final int SIZE = 15;
 
     @Nullable
     @Override
@@ -76,6 +76,10 @@ public class EmojiStorageDialog extends DialogFragment {
         allEmojis[9] = dynamicallyXML.createImageView(getContext(),R.drawable.taxidriver,150,150, Gravity.CENTER,100,10,0,0);
         allEmojis[10] = dynamicallyXML.createImageView(getContext(),R.drawable.taxidriver2,150,150, Gravity.CENTER,100,10,0,0);
         allEmojis[11] = dynamicallyXML.createImageView(getContext(),R.drawable.simpsons,150,150, Gravity.CENTER,100,10,0,0);
+        allEmojis[12] = dynamicallyXML.createImageView(getContext(),R.drawable.blackcar,150,150, Gravity.CENTER,100,10,0,0);
+        allEmojis[13] = dynamicallyXML.createImageView(getContext(),R.drawable.girlwithbluecar,150,150, Gravity.CENTER,100,10,0,0);
+        allEmojis[14] = dynamicallyXML.createImageView(getContext(),R.drawable.youngadult,150,150, Gravity.CENTER,100,10,0,0);
+
     }
 
     private void setEmojiTags(){

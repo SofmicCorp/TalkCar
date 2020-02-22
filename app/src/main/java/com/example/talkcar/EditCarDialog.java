@@ -53,6 +53,11 @@ public class EditCarDialog extends DialogFragment {
         databaseRef = new Database(new MD5());
         checker = new FieldsChecker();
 
+        if(getContext() instanceof MainActivity){
+            //If we are in edit mode in main activity
+            carForm.getCarNumberPlaceHolder().setEnabled(false);
+        }
+
         return view;
     }
 

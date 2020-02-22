@@ -127,6 +127,9 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         emojiMap.put("9",R.drawable.taxidriver);
         emojiMap.put("10",R.drawable.taxidriver2);
         emojiMap.put("11",R.drawable.simpsons);
+        emojiMap.put("12",R.drawable.blackcar);
+        emojiMap.put("13",R.drawable.girlwithbluecar);
+        emojiMap.put("14",R.drawable.youngadult);
 
     }
 

@@ -30,13 +30,14 @@ public class CarForm extends RelativeLayout implements Serializable {
     private EditText nicknamePlaceHolder;
     private String emojiID;
     private Context context;
-    private ImageView[] allEmojies;
+    private ImageView[] allEmojis;
     private LinearLayout formHeader;
     private LinearLayout inputUserContainer;
     private LinearLayout emojiContainer;
     private LinearLayout seeMoreContainer;
     private LinearLayout currentContainer;
     private TextView seeMore;
+    private int fromWhere;
     private int emojiPosition = 0;
     public static ArrayList<CarForm> allForms = new ArrayList<>();
 
@@ -70,7 +71,7 @@ public class CarForm extends RelativeLayout implements Serializable {
         dynamicallyXML.addAllViewsLayout(inputUserContainer,carNumberPlaceHolder,nicknamePlaceHolder,pickYourEmojiText);
 
         //Set click listener to all emojis.
-        setEmojiClickListeners(allEmojies);
+        setEmojiClickListeners(allEmojis);
         //add To Emoji Container
         addEmojiToContainer(emojiContainer);
         seeMore = dynamicallyXML.createTextView(context,"see more",13,Color.BLACK,Gravity.CENTER,370,50,0,0);
@@ -104,30 +105,33 @@ public class CarForm extends RelativeLayout implements Serializable {
 
     private void createAllEmojies() {
 
-        final int SIZE = 12;
+        final int SIZE = 15;
 
-        allEmojies = new ImageView[SIZE];
+        allEmojis = new ImageView[SIZE];
 
         //Adding all Emoji to the array
-        allEmojies[0] = dynamicallyXML.createImageView(getContext(),R.drawable.driver1,150,150, Gravity.CENTER,100,10,0,0);
-        allEmojies[1] = dynamicallyXML.createImageView(getContext(),R.drawable.driver2,150,150, Gravity.CENTER,100,10,0,0);
-        allEmojies[2] = dynamicallyXML.createImageView(getContext(),R.drawable.driver3,150,150, Gravity.CENTER,100,10,0,0);
-        allEmojies[3] = dynamicallyXML.createImageView(getContext(),R.drawable.twoboys,150,150, Gravity.CENTER,100,10,0,0);
-        allEmojies[4] = dynamicallyXML.createImageView(getContext(),R.drawable.twogirls,150,150, Gravity.CENTER,100,10,0,0);
-        allEmojies[5] = dynamicallyXML.createImageView(getContext(),R.drawable.batmobile,150,150, Gravity.CENTER,100,10,0,0);
-        allEmojies[6] = dynamicallyXML.createImageView(getContext(),R.drawable.backtothefuture,150,150, Gravity.CENTER,100,10,0,0);
-        allEmojies[7] = dynamicallyXML.createImageView(getContext(),R.drawable.blondegirl,150,150, Gravity.CENTER,100,10,0,0);
-        allEmojies[8] = dynamicallyXML.createImageView(getContext(),R.drawable.oldman,150,150, Gravity.CENTER,100,10,0,0);
-        allEmojies[9] = dynamicallyXML.createImageView(getContext(),R.drawable.taxidriver,150,150, Gravity.CENTER,100,10,0,0);
-        allEmojies[10] = dynamicallyXML.createImageView(getContext(),R.drawable.taxidriver2,150,150, Gravity.CENTER,100,10,0,0);
-        allEmojies[11] = dynamicallyXML.createImageView(getContext(),R.drawable.simpsons,150,150, Gravity.CENTER,100,10,0,0);
+        allEmojis[0] = dynamicallyXML.createImageView(getContext(),R.drawable.driver1,150,150, Gravity.CENTER,100,10,0,0);
+        allEmojis[1] = dynamicallyXML.createImageView(getContext(),R.drawable.driver2,150,150, Gravity.CENTER,100,10,0,0);
+        allEmojis[2] = dynamicallyXML.createImageView(getContext(),R.drawable.driver3,150,150, Gravity.CENTER,100,10,0,0);
+        allEmojis[3] = dynamicallyXML.createImageView(getContext(),R.drawable.twoboys,150,150, Gravity.CENTER,100,10,0,0);
+        allEmojis[4] = dynamicallyXML.createImageView(getContext(),R.drawable.twogirls,150,150, Gravity.CENTER,100,10,0,0);
+        allEmojis[5] = dynamicallyXML.createImageView(getContext(),R.drawable.batmobile,150,150, Gravity.CENTER,100,10,0,0);
+        allEmojis[6] = dynamicallyXML.createImageView(getContext(),R.drawable.backtothefuture,150,150, Gravity.CENTER,100,10,0,0);
+        allEmojis[7] = dynamicallyXML.createImageView(getContext(),R.drawable.blondegirl,150,150, Gravity.CENTER,100,10,0,0);
+        allEmojis[8] = dynamicallyXML.createImageView(getContext(),R.drawable.oldman,150,150, Gravity.CENTER,100,10,0,0);
+        allEmojis[9] = dynamicallyXML.createImageView(getContext(),R.drawable.taxidriver,150,150, Gravity.CENTER,100,10,0,0);
+        allEmojis[10] = dynamicallyXML.createImageView(getContext(),R.drawable.taxidriver2,150,150, Gravity.CENTER,100,10,0,0);
+        allEmojis[11] = dynamicallyXML.createImageView(getContext(),R.drawable.simpsons,150,150, Gravity.CENTER,100,10,0,0);
+        allEmojis[12] = dynamicallyXML.createImageView(getContext(),R.drawable.blackcar,150,150, Gravity.CENTER,100,10,0,0);
+        allEmojis[13] = dynamicallyXML.createImageView(getContext(),R.drawable.girlwithbluecar,150,150, Gravity.CENTER,100,10,0,0);
+        allEmojis[14] = dynamicallyXML.createImageView(getContext(),R.drawable.youngadult,150,150, Gravity.CENTER,100,10,0,0);
 
         setEmojiTags(SIZE);
 
     }
     private void setEmojiTags(int size){
         for(int i = 0; i < size; i++){
-            allEmojies[i].setTag(i);
+            allEmojis[i].setTag(i);
         }
     }
 
@@ -152,17 +156,17 @@ public class CarForm extends RelativeLayout implements Serializable {
         int lastIndex = middleIndex + 1;
 
         if(firstIndex < 0){
-            firstIndex = allEmojies.length - 1;
+            firstIndex = allEmojis.length - 1;
         }
-        if(lastIndex > allEmojies.length - 1){
+        if(lastIndex > allEmojis.length - 1){
             lastIndex = 0;
         }
 
 
-        dynamicallyXML.addAllViewsLayout(emojiContainer,allEmojies[firstIndex], allEmojies[middleIndex], allEmojies[lastIndex]);
+        dynamicallyXML.addAllViewsLayout(emojiContainer,allEmojis[firstIndex], allEmojis[middleIndex], allEmojis[lastIndex]);
 
         //Default value if driver doesnt pick an emoji
-        markEmoji(allEmojies[Integer.parseInt(emojiID)],Color.rgb(44,167,239));
+        markEmoji(allEmojis[Integer.parseInt(emojiID)],Color.rgb(44,167,239));
     }
 
     public void setEmojiContainer(){
@@ -200,8 +204,8 @@ public class CarForm extends RelativeLayout implements Serializable {
     }
 
     public void unmarkAllEmojis(){
-        for(int i = 0; i < allEmojies.length; i++){
-            markEmoji(allEmojies[i],Color.WHITE);
+        for(int i = 0; i < allEmojis.length; i++){
+            markEmoji(allEmojis[i],Color.WHITE);
         }
     }
 
