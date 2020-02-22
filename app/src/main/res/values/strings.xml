@@ -2,4 +2,6 @@
     <string name="app_name">TalkCar</string>
     <string name="sign_in">Sign in</string>
     <string name="remember_password">remember password?</string>
+    <string name="his_nickname">His nickname</string>
+    <string name="his_car_number">his car number</string>
 </resources>

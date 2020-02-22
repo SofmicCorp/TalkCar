@@ -4,7 +4,7 @@ import com.google.firebase.database.DataSnapshot;
 
 public interface OnGetDataListener {
     //this is for callbacks
-    void onSuccess(Driver driver);
+    void onSuccess(Object object);
     void onStart();
     void onFailure();
 }

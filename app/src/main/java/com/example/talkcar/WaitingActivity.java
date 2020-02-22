@@ -69,9 +69,10 @@ public class WaitingActivity extends AppCompatActivity {
                     //finding the current driver in database
                     databaseRef.searchDriverByEmail(email, new OnGetDataListener(){
                         @Override
-                        public void onSuccess(Driver driver) {
+                        public void onSuccess(Object driver) {
+                            Log.d("BUBA", "driver is from ONsucceses: " + driver);
                             if(getIntent().getBooleanExtra("autologin",false)){
-                                ApplicationModel.setCurrentDriver(driver);
+                                ApplicationModel.setCurrentDriver((Driver)driver);
                                 //Auto login is saved in file after authenticate the email and password
                                 saveCurrentApplicationUserDetailsToSharedPreferences(email);
                             }
@@ -101,9 +102,9 @@ public class WaitingActivity extends AppCompatActivity {
         databaseRef.searchDriverByEmail(email, new OnGetDataListener(){
 
             @Override
-            public void onSuccess(Driver driver) {
+            public void onSuccess(Object driver) {
                 if(driver != null){
-                    ApplicationModel.setCurrentDriver(driver);
+                    ApplicationModel.setCurrentDriver((Driver)driver);
                     goToMainActivity();
                 } else {
                     sharedPreferences.edit().clear().apply(); //clear sp for some tests
