@@ -139,4 +139,8 @@ public class Database {
         databaseReferenceChats.child(chat.getKey()).setValue(chat);
     }
 
+    public void deleteCar(String index){
+        databaseReferenceDrivers.child(hashRef.hash(ApplicationModel.getCurrentDriver().getEmail().toString())).child(index).removeValue();
+    }
+
 }

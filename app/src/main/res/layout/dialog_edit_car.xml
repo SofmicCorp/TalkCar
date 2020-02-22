@@ -27,16 +27,35 @@
             android:id="@+id/form_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"></LinearLayout>
+            android:orientation="vertical">
+        </LinearLayout>
 
-        <ImageView
-            android:id="@+id/finish_edit_btn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="30dp"
-            android:background="@drawable/vi"/>
+        <RelativeLayout
+            android:id="@+id/edit_delete_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/delete_btn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@id/finish_edit_btn"
+                android:visibility="invisible"
+                android:background="@drawable/deleteicon"
+                />
+
+            <ImageView
+                android:id="@+id/finish_edit_btn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/vi" />
+        </RelativeLayout>
+
     </LinearLayout>
 
 </RelativeLayout>

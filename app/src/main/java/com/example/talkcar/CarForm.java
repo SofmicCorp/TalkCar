@@ -37,8 +37,6 @@ public class CarForm extends RelativeLayout implements Serializable {
     private LinearLayout seeMoreContainer;
     private LinearLayout currentContainer;
     private TextView seeMore;
-    private int fromWhere;
-    private int emojiPosition = 0;
     public static ArrayList<CarForm> allForms = new ArrayList<>();
 
     public CarForm(Context context, LinearLayout formContainer) {
@@ -248,4 +246,7 @@ public class CarForm extends RelativeLayout implements Serializable {
         this.emojiID = emojiID;
     }
 
+    public int getFormNumber() {
+        return formNumber;
+    }
 }

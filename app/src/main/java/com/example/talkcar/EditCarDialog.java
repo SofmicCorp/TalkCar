@@ -19,6 +19,7 @@ public class EditCarDialog extends DialogFragment {
     private OnInputListener onInputListener;
     private Database databaseRef;
     private ImageView finishEditBtn;
+    private ImageView deleteBtn;
     private CarForm carForm;
     private LinearLayout formContainer;
     private FieldsChecker checker;
@@ -52,19 +53,26 @@ public class EditCarDialog extends DialogFragment {
         setClickListeners();
         databaseRef = new Database(new MD5());
         checker = new FieldsChecker();
+        //Dear future Sarel, you need to finish the delete button (Lines 56, 95-103.. have fun :))
+        locateButtons();
+
+        return view;
+    }
+
+    private void locateButtons() {
 
         if(getContext() instanceof MainActivity){
             //If we are in edit mode in main activity
             carForm.getCarNumberPlaceHolder().setEnabled(false);
+//            deleteBtn.setVisibility(View.VISIBLE);
         }
-
-        return view;
     }
 
 
     private void setIds(View view) {
 
         finishEditBtn = view.findViewById(R.id.finish_edit_btn);
+        deleteBtn = view.findViewById(R.id.delete_btn);
         formContainer= view.findViewById(R.id.form_container);
     }
 
@@ -81,8 +89,19 @@ public class EditCarDialog extends DialogFragment {
                 }
                 onInputListener.sendInputToEdit(car,carView, carForm);
                 getDialog().dismiss();
+
             }
         });
+
+//        deleteBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                CarView.allCarViews.remove(carView);
+//                databaseRef.deleteCar(carForm.getFormNumber() + "");
+//                CarForm.allForms.remove(carForm);
+//                getDialog().dismiss();
+//            }
+//        });
     }
 
     private Car createNewCar(){
