@@ -64,13 +64,15 @@
 
 
     <!--    Maybe we need to delete it-->
-    <view class="androidx.appcompat.app.AlertController$RecycleListView"
+
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/recycler_view"
         android:layout_below="@id/top"
         android:layout_above="@id/bottom">
-    </view>
+    </androidx.recyclerview.widget.RecyclerView>
+
 
     <RelativeLayout
         android:id="@+id/bottom"

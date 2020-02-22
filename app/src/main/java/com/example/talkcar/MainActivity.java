@@ -155,7 +155,6 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
 
     private void updateCarPickerIcon(int index) {
 
-
         driver = ApplicationModel.getCurrentDriver();
         ApplicationModel.setCurrentCar(driver.getCars().get(index));
 
@@ -357,6 +356,32 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
 
         Intent intent = new Intent(this,ChatActivity.class);
         intent.putExtra("chattedCar", chattedCar);
+        String messageKey = ApplicationModel.getCurrentCar().getCarNumber() + chattedCar.getCarNumber();
+
+        Log.d("TUTA", "HASH MAP IS : " + ApplicationModel.getCurrentCar().getHashMap() );
+
+        if(ApplicationModel.getCurrentCar().getHashMap() != null ){
+            ApplicationModel.getCurrentCar().getHashMap().put(chattedCar.getCarNumber(),messageKey);
+        } else {
+
+            HashMap<String, String> hashMap = new HashMap<>();
+            hashMap.put(chattedCar.getCarNumber(),messageKey);
+            ApplicationModel.getCurrentCar().setHashMap(hashMap);
+        }
+
+        if(chattedCar.getHashMap() != null){
+        chattedCar.getHashMap().put(ApplicationModel.getCurrentCar().getCarNumber(),messageKey);
+        } else {
+            //if we are here it means the other car didnt have a hashmap
+            HashMap<String, String> hashMap = new HashMap<>();
+            hashMap.put(ApplicationModel.getCurrentCar().getCarNumber(),messageKey);
+            chattedCar.setHashMap(hashMap);
+        }
+
+
+        //update the driver to database with the new chat hash
+        databaseRef.saveDriver(ApplicationModel.getCurrentDriver());
+        databaseRef.saveDriver(ApplicationModel.getLastDriverSearch());
         startActivity(intent);
 
     }
