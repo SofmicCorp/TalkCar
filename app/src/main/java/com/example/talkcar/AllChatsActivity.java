@@ -7,6 +7,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.talkcar.Notifications.Token;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +31,8 @@ public class AllChatsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_all_chats);
         setIds();
         addAllMyChattedCarList();
+
+        updateToken(FirebaseInstanceId.getInstance().getToken());
 
     }
 
@@ -70,4 +79,15 @@ public class AllChatsActivity extends AppCompatActivity {
         carList = new ArrayList<>();
         database= new Database(new MD5());
     }
+
+    public void updateToken(String token){
+
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tokens");
+        Token token1 = new Token(token);
+        reference.child(firebaseUser.getUid()).setValue(token);
+    }
+
+
 }
