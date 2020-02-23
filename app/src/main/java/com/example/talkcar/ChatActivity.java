@@ -97,7 +97,6 @@ public class ChatActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String msg = textSend.getText().toString();
                 if(!msg.equals("")){
-                    Log.d("BUBA", "msg is  " + msg);
                     Message newMessage = new Message(ApplicationModel.currentCar.getCarNumber(),chattedCar.getCarNumber(),msg);
                     sendMessage(newMessage);
                     makeSendSound();
