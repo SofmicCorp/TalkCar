@@ -46,8 +46,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
 
         holder.showMessage.setText(message.getMessage());
 
-        //Here check out please
-        holder.profileImage.setImageResource(MainActivity.emojiMap.get(ApplicationModel.getCurrentCar().getEmojiId()));
+        holder.profileImage.setImageResource(MainActivity.emojiMap.get(mChat.getEmojiId()));
     }
 
     @Override
@@ -67,13 +66,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
             profileImage = itemView.findViewById(R.id.profile_image);
 
         }
-
     }
 
     @Override
     public int getItemViewType(int position) {
 
-        if(mChat.getMessages().get(position).getSender().equals(ApplicationModel.getCurrentCar())){
+        if(mChat.getMessages().get(position).getSender().equals(ApplicationModel.getCurrentCar().getCarNumber())){
             return MESSAGE_TYPE_RIGHT;
         } else {
             return MESSAGE_TYPE_LEFT;

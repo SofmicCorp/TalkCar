@@ -50,8 +50,6 @@ public class ChatActivity extends AppCompatActivity {
         setClickListeners();
         loadOldChat(chattedCar);
 
-
-
     }
 
     private void loadOldChat(Car chattedCar) {
@@ -148,7 +146,7 @@ public class ChatActivity extends AppCompatActivity {
                 } else {
                     //if there is no chat between those cars.
                     Log.d("BUBA", "chat was not found in database: ");
-                    chat = new Chat(chatKey);
+                    chat = new Chat(chatKey,ApplicationModel.getLastCarNumberSearch().getEmojiId());
                     chat.addMessage(newMessage);
                     Log.d("BUBA", "chat: " + chat.getMessages().get(0).getMessage());
                     database.saveChat(chat);
