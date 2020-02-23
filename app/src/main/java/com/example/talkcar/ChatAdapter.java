@@ -20,11 +20,13 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     public static final int MESSAGE_TYPE_RIGHT = 1;
     private Context mContext;
     private Chat mChat;
+    private String emojiId;
 
-    public ChatAdapter(Context mContext,Chat mChat){
+    public ChatAdapter(Context mContext,Chat mChat,String emojiId){
 
         this.mContext = mContext;
         this.mChat = mChat;
+        this.emojiId = emojiId;
     }
 
     @NonNull
@@ -45,8 +47,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         Message message = mChat.getMessages().get(position);
 
         holder.showMessage.setText(message.getMessage());
-
-        holder.profileImage.setImageResource(MainActivity.emojiMap.get(mChat.getEmojiId()));
+        holder.profileImage.setImageResource(MainActivity.emojiMap.get(emojiId));
     }
 
     @Override
