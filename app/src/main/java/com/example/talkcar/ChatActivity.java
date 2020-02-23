@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -28,6 +30,7 @@ public class ChatActivity extends AppCompatActivity {
     private TextView chattedCarNumberTV;
     private Car chattedCar;
     private Database database;
+    private MediaPlayer sendSound;
 
     private DatabaseReference reference;
 
@@ -49,14 +52,17 @@ public class ChatActivity extends AppCompatActivity {
         getIntentDetails();
         setClickListeners();
         loadOldChat(chattedCar);
+        setSounds(ChatActivity.this);
 
+    }
+
+    public void setSounds(Context context){
+        sendSound = MediaPlayer.create(context, R.raw.send_message_sound);
     }
 
     private void loadOldChat(Car chattedCar) {
 
         final String chatKey = ApplicationModel.getCurrentCar().getHashMap().get(chattedCar.getCarNumber());
-
-        Log.d("SUSA", "loadOldChat:  key is " + chatKey);
 
         database.searchChatByKey(chatKey, new OnGetDataListener() {
             @Override
@@ -80,6 +86,10 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
+    public void makeSendSound(){
+        sendSound.start();
+    }
+
     private void setClickListeners() {
 
         btnSend.setOnClickListener(new View.OnClickListener() {
@@ -90,6 +100,7 @@ public class ChatActivity extends AppCompatActivity {
                     Log.d("BUBA", "msg is  " + msg);
                     Message newMessage = new Message(ApplicationModel.currentCar.getCarNumber(),chattedCar.getCarNumber(),msg);
                     sendMessage(newMessage);
+                    makeSendSound();
                 }
                 textSend.setText("");
             }
@@ -146,7 +157,7 @@ public class ChatActivity extends AppCompatActivity {
                 } else {
                     //if there is no chat between those cars.
                     Log.d("BUBA", "chat was not found in database: ");
-                    chat = new Chat(chatKey,ApplicationModel.getLastCarNumberSearch().getEmojiId());
+                    chat = new Chat(chatKey);
                     chat.addMessage(newMessage);
                     Log.d("BUBA", "chat: " + chat.getMessages().get(0).getMessage());
                     database.saveChat(chat);
@@ -178,7 +189,7 @@ public class ChatActivity extends AppCompatActivity {
 
                 Log.d("BUBA", "chat is : " + chat);
 
-                chatAdapter = new ChatAdapter(ChatActivity.this,chat);
+                chatAdapter = new ChatAdapter(ChatActivity.this,chat,chattedCar.getEmojiId());
                 recyclerView.setAdapter(chatAdapter);
 
             }

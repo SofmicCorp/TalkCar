@@ -63,7 +63,6 @@
     </RelativeLayout>
 
 
-    <!--    Maybe we need to delete it-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"

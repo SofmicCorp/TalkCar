@@ -10,6 +10,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
 
 
 public class Database {
@@ -126,6 +129,39 @@ public class Database {
             }
         });
 
+
+    }
+
+    public void findAllMyChattedCar(final OnGetDataListener listener){
+
+        listener.onStart();
+
+        databaseReferenceDrivers.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                ArrayList<Car> allMyChattedCar = new ArrayList<>();
+
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    Driver driver = postSnapshot.getValue(Driver.class);
+                    for(int j = 0; j < driver.getCars().size(); j++){
+                        for(int k = 0; k < ApplicationModel.getCurrentDriver().getCars().size(); k++){
+                            if(ApplicationModel.getCurrentDriver().getCars().get(k).getHashMap().get(driver.getCars().get(j).getCarNumber()) != null){
+                                allMyChattedCar.add(driver.getCars().get(j));
+                            }
+                        }
+                    }
+                }
+                Log.d("BUBA", "time that search take : " + difference);
+
+                listener.onSuccess(allMyChattedCar);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                listener.onFailure();
+            }
+        });
 
     }
 

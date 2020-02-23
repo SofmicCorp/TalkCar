@@ -376,8 +376,6 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
             }
         }
 
-        Log.d("SUSA", "loadOldChat:  keyy is " + messageKey);
-
 
         ApplicationModel.getCurrentCar().getHashMap().put(chattedCar.getCarNumber(),messageKey);
 

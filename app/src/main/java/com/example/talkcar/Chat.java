@@ -1,21 +1,20 @@
 package com.example.talkcar;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Chat {
 
     private String key;
-    private String emojiId;
     private ArrayList<Message> messages;
 
     public Chat(){
 
     }
 
-    public Chat(String id,String emojiId){
+    public Chat(String id){
 
         this.key = id;
-        this.emojiId = emojiId;
         messages = new ArrayList<>();
 
     }
@@ -40,7 +39,4 @@ public class Chat {
         messages.add(message);
     }
 
-    public String getEmojiId() {
-        return emojiId;
-    }
 }
