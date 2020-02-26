@@ -4,12 +4,10 @@ import androidx.annotation.NonNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Driver implements Serializable {
 
-    private String name;;
-    private String email;
+    private String name;
     private ArrayList<Car> cars;
 
     public Driver(){
@@ -18,7 +16,6 @@ public class Driver implements Serializable {
 
     public Driver(String name,String email){
         this.name = name;
-        this.email = email;
         cars = new ArrayList<>();
     }
 
@@ -26,13 +23,6 @@ public class Driver implements Serializable {
         return name;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     public ArrayList<Car> getCars() {
         return cars;

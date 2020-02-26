@@ -46,6 +46,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
             public void onClick(View v) {
                 Intent intent = new Intent(mContext,ChatActivity.class);
                 intent.putExtra("chattedCar",car);
+                ApplicationModel.setLastCarNumberSearch(car);
                 mContext.startActivity(intent);
             }
         });

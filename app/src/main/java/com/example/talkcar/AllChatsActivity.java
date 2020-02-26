@@ -31,8 +31,7 @@ public class AllChatsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_all_chats);
         setIds();
         addAllMyChattedCarList();
-
-        updateToken(FirebaseInstanceId.getInstance().getToken());
+        //updateToken(FirebaseInstanceId.getInstance().getToken());
 
     }
 
@@ -44,7 +43,7 @@ public class AllChatsActivity extends AppCompatActivity {
             public void onSuccess(Object chattedCarList) {
 
                 if(chattedCarList != null){
-                    //list is not empty
+                    //There is at least one conversation
                     readCars((ArrayList<Car>)chattedCarList);
                 }
             }
@@ -80,14 +79,10 @@ public class AllChatsActivity extends AppCompatActivity {
         database= new Database(new MD5());
     }
 
-    public void updateToken(String token){
-
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+    public static void updateToken(String token){
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tokens");
         Token token1 = new Token(token);
-        reference.child(firebaseUser.getUid()).setValue(token);
+        reference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(token);
     }
-
-
 }

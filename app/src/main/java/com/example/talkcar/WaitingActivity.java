@@ -67,7 +67,7 @@ public class WaitingActivity extends AppCompatActivity {
                     goToLoginActivity(1);
                 }else {
                     //finding the current driver in database
-                    databaseRef.searchDriverByEmail(email, new OnGetDataListener(){
+                    databaseRef.searchDriverByUid(FirebaseAuth.getInstance().getCurrentUser().getUid(), new OnGetDataListener(){
                         @Override
                         public void onSuccess(Object driver) {
                             Log.d("BUBA", "driver is from ONsucceses: " + driver);
@@ -99,7 +99,7 @@ public class WaitingActivity extends AppCompatActivity {
 
 
         //finding the current driver in database
-        databaseRef.searchDriverByEmail(email, new OnGetDataListener(){
+        databaseRef.searchDriverByUid(FirebaseAuth.getInstance().getCurrentUser().getUid(), new OnGetDataListener(){
 
             @Override
             public void onSuccess(Object driver) {
@@ -204,7 +204,7 @@ public class WaitingActivity extends AppCompatActivity {
             Log.d("buba", "car number: " + carNumber);
             driver.addCar(new Car(carNumber, nickName,emojiId));
         }
-        databaseRef.saveDriver(driver);
+        databaseRef.saveDriver(driver,FirebaseAuth.getInstance().getCurrentUser().getUid());
 
         //return the driver that has been saved in database
         return driver;

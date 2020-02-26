@@ -23,6 +23,7 @@ import com.example.talkcar.Notifications.Data;
 import com.example.talkcar.Notifications.MyResponse;
 import com.example.talkcar.Notifications.Sender;
 import com.example.talkcar.Notifications.Token;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -118,7 +119,7 @@ public class ChatActivity extends AppCompatActivity {
                 notify = true;
                 String msg = textSend.getText().toString();
                 if(!msg.equals("")){
-                    Message newMessage = new Message(ApplicationModel.currentCar.getCarNumber(),chattedCar.getCarNumber(),msg);
+                    Message newMessage = new Message(ApplicationModel.getCurrentUser().getUid(),ApplicationModel.getChattedDriverUid(),msg);
                     sendMessage(newMessage);
                     makeSendSound();
                 }
@@ -160,8 +161,9 @@ public class ChatActivity extends AppCompatActivity {
 
     private void sendMessage(final Message newMessage){
 
-        Log.d("BUBA", "message = : " + newMessage);
-        final String chatKey = ApplicationModel.getCurrentCar().getHashMap().get(newMessage.getReceiver());
+        Log.d("SIMBA", "Im on Send Message: ");
+
+        final String chatKey = ApplicationModel.getCurrentCar().getHashMap().get(ApplicationModel.getLastCarNumberSearch().getCarNumber());
 
         database.searchChatByKey(chatKey, new OnGetDataListener() {
             @Override
@@ -170,20 +172,42 @@ public class ChatActivity extends AppCompatActivity {
                 Chat chat;
 
                 if(object != null){
-                    Log.d("BUBA", "chat was  found in database: ");
 
                     chat = (Chat)object;
-                   chat.addMessage(newMessage);
+                    chat.addMessage(newMessage);
                     database.saveChat(chat);
                 } else {
                     //if there is no chat between those cars.
-                    Log.d("BUBA", "chat was not found in database: ");
                     chat = new Chat(chatKey);
                     chat.addMessage(newMessage);
-                    Log.d("BUBA", "chat: " + chat.getMessages().get(0).getMessage());
                     database.saveChat(chat);
                 }
                 readChat(chatKey);
+
+                //----------------------------------------------------------------------------------
+
+//                final String msg = newMessage.getMessage();
+//
+//                reference = FirebaseDatabase.getInstance().getReference("Drivers").child(ApplicationModel.getCurrentUser().getUid());
+//                reference.addValueEventListener(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//
+//                        Driver driver = dataSnapshot.getValue(Driver.class);
+//                        Log.d("SUSA", "onDataChange: " + driver.getName());
+//
+//                        if(notify){
+//                            //Maybe we should change the sender/reciver to somthing else
+//                            sendNotification(newMessage.getReceiver(),ApplicationModel.getCurrentCar().getCarNumber(),msg);
+//                        }
+//                        notify = false;
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                    }
+//                });
             }
 
             @Override
@@ -198,42 +222,24 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-        //Here myabe we need to make some change
-        //go to youtube video miniute 17:42
-        final String msg = newMessage.getMessage();
-        Hashable hashable = new MD5();
 
-        reference = FirebaseDatabase.getInstance().getReference("Drivers").child(hashable.hash(ApplicationModel.getCurrentDriver().getEmail()));
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                Driver driver = dataSnapshot.getValue(Driver.class);
-                Log.d("SUSA", "onDataChange: " + driver.getName());
-
-                if(notify){
-                    sendNotification(newMessage.getReceiver(),ApplicationModel.getCurrentCar().getCarNumber(),msg);
-                }
-                notify = false;
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
     }
 
-    private void sendNotification(String receiver, final String sender, final String msg) {
+
+
+    private void sendNotification(final String receiver, final String sender, final String msg) {
+
+        Log.d("SIMBA", "Im on Send Notifcitation!!: ");
 
         DatabaseReference tokens = FirebaseDatabase.getInstance().getReference("Tokens");
         Query query = tokens.orderByKey().equalTo(receiver);
+
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot snapshot: dataSnapshot.getChildren()){
                     Token token = snapshot.getValue(Token.class);
-                    Data data = new Data(sender,R.mipmap.talkcar_launcher_round,sender + " :" + msg,"New Message",sender);
+                    Data data = new Data(ApplicationModel.getCurrentUser().getUid(),R.mipmap.talkcar_launcher_round,sender + " :" + msg,"New Message",receiver);
 
                     Sender sender = new Sender(data,token.getToken());
 

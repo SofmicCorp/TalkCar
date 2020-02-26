@@ -4,6 +4,8 @@ package com.example.talkcar;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,11 +44,18 @@ public class Database {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                String uId;
+                Driver driver;
+
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    Driver driver = postSnapshot.getValue(Driver.class);
+                     driver = postSnapshot.getValue(Driver.class);
+                     uId = postSnapshot.getKey();
+
                     for(int j = 0; j < driver.getCars().size(); j++){
                         if(driver.getCars().get(j).getCarNumber().equals(carNumber)) {
+
                             ApplicationModel.setLastCarNumberSearch(driver.getCars().get(j));
+                            ApplicationModel.setChattedDriverUid(uId);
                             listener.onSuccess(driver);
                             difference = System.currentTimeMillis() - startTime;
                             Log.d("BUBA", "time that search take : " + difference);
@@ -65,35 +74,59 @@ public class Database {
         });
     }
 
-    public void searchDriverByEmail(final String email,final OnGetDataListener listener){
+    public void searchDriverByUid(final String uId,final OnGetDataListener listener){
 
         startTime = System.currentTimeMillis();
         Log.d("BUBA", "start search in database...");
         listener.onStart();
 
-        databaseReferenceDrivers.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference DriverRef = databaseReferenceDrivers.child(uId);
+
+        // Attach a listener to read the data at our posts reference
+        DriverRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    Driver driver = postSnapshot.getValue(Driver.class);
-                    if(driver.getEmail().equals(email)) {
-                        Log.d("BUBA", "driver is from onDataChange : " + driver);
-                        listener.onSuccess(driver);
-                        difference = System.currentTimeMillis() - startTime;
-                        Log.d("BUBA", "time that search take : " + difference);
-                        return;
-                    }
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Driver driver = dataSnapshot.getValue(Driver.class);
+                if(driver != null){
+                    listener.onSuccess(driver);
+                    return;
                 }
-
                 listener.onSuccess(null);
-                //If no driver with that email found
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+
                 listener.onFailure();
             }
+
+
+
+
+
+//        databaseReferenceDrivers.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//
+//                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+//                    Driver driver = postSnapshot.getValue(Driver.class);
+//                    if(driver.equals(uId)) {
+//                        Log.d("BUBA", "driver is from onDataChange : " + driver);
+//                        listener.onSuccess(driver);
+//                        difference = System.currentTimeMillis() - startTime;
+//                        Log.d("BUBA", "time that search take : " + difference);
+//                        return;
+//                    }
+//                }
+//
+//                listener.onSuccess(null);
+//                //If no driver with that email found
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//                listener.onFailure();
+//            }
         });
     }
 
@@ -147,8 +180,10 @@ public class Database {
                     Driver driver = postSnapshot.getValue(Driver.class);
                     for(int j = 0; j < driver.getCars().size(); j++){
                         for(int k = 0; k < ApplicationModel.getCurrentDriver().getCars().size(); k++){
-                            if(ApplicationModel.getCurrentDriver().getCars().get(k).getHashMap().get(driver.getCars().get(j).getCarNumber()) != null){
-                                allMyChattedCar.add(driver.getCars().get(j));
+                            if(ApplicationModel.getCurrentDriver().getCars().get(k).getHashMap() != null) {
+                                if (ApplicationModel.getCurrentDriver().getCars().get(k).getHashMap().get(driver.getCars().get(j).getCarNumber()) != null) {
+                                    allMyChattedCar.add(driver.getCars().get(j));
+                                }
                             }
                         }
                     }
@@ -166,18 +201,21 @@ public class Database {
 
     }
 
-    public void saveDriver(Driver driver) {
+    public void saveDriver(Driver driver,String uId) {
 
-        databaseReferenceDrivers.child(hashRef.hash(driver.getEmail().toString())).setValue(driver);
+        databaseReferenceDrivers.child(uId).setValue(driver);
     }
 
     public void saveChat(Chat chat){
+
+        Log.d("SIMBA", "chat : " + chat);
+        Log.d("SIMBA", "chat.GetKey : " + chat.getKey());
 
         databaseReferenceChats.child(chat.getKey()).setValue(chat);
     }
 
     public void deleteCar(String index){
-        databaseReferenceDrivers.child(hashRef.hash(ApplicationModel.getCurrentDriver().getEmail().toString())).child(index).removeValue();
+        databaseReferenceDrivers.child(hashRef.hash(ApplicationModel.getCurrentUser().getUid())).child(index).removeValue();
     }
-
 }
+

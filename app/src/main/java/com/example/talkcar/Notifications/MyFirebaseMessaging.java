@@ -9,14 +9,13 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
-import com.example.talkcar.Chat;
+import com.example.talkcar.ApplicationModel;
 import com.example.talkcar.ChatActivity;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -25,13 +24,11 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        
+
         String sented = remoteMessage.getData().get("sented");
 
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        
         //Srul maybe we need to change here the firebaseUser.getUid to the key of conversation?
-        if(firebaseUser != null && sented.equals(firebaseUser.getUid())){
+        if(ApplicationModel.getCurrentUser()!= null && sented.equals((ApplicationModel.getCurrentUser().getUid()))){
             sendNotification(remoteMessage);
         }
     }
