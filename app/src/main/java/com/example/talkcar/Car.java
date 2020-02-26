@@ -8,16 +8,19 @@ public class Car implements Serializable {
     private String carNumber;
     private String nickname;
     private String emojiId;
+    private String driverUid;
     private HashMap<String,String> hashMap;
+
 
     public Car(){
 
     }
 
-    public Car(String carNumber, String nickname, String emojiId){
+    public Car(String carNumber, String nickname, String emojiId,String driverUid){
         this.carNumber = carNumber;
         this.nickname = nickname;
         this.emojiId = emojiId;
+        this.driverUid = driverUid;
         hashMap = new HashMap<>();
     }
 
@@ -57,5 +60,13 @@ public class Car implements Serializable {
 
     public void setHashMap(HashMap<String, String> hashMap) {
         this.hashMap = hashMap;
+    }
+
+    public String getDriverUid() {
+        return driverUid;
+    }
+
+    public void setDriverUid(String driverUid) {
+        this.driverUid = driverUid;
     }
 }

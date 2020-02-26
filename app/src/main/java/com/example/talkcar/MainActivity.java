@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         initEmojiMap();
         fieldsChecker = new FieldsChecker();
         updateCarPickerIcon(0);
-//        AllChatsActivity.updateToken(FirebaseInstanceId.getInstance().getToken());
+        AllChatsActivity.updateToken(FirebaseInstanceId.getInstance().getToken());
 
         //Clean Forms and Car Views
         CarForm.removeAllForms();

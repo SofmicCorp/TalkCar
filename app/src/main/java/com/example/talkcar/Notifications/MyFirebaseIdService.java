@@ -30,11 +30,11 @@ public class MyFirebaseIdService extends FirebaseMessagingService {
 
     private void updateToken(String refreshToken) {
 
+        Log.d("SIMBA", "updateToken: im here! ");
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tokens");
         Token token = new Token(refreshToken);
-
         reference.child((ApplicationModel.getCurrentUser().getUid())).setValue(token);
 
     }

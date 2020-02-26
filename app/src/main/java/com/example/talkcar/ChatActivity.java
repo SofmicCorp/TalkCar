@@ -161,7 +161,12 @@ public class ChatActivity extends AppCompatActivity {
 
     private void sendMessage(final Message newMessage){
 
-        Log.d("SIMBA", "Im on Send Message: ");
+        Log.d("LIBI", "newMessage " + newMessage);
+        Log.d("LIBI", "newMessage.getSender " + newMessage.getSender());
+        Log.d("LIBI", "newMessage.getRec " + newMessage.getReceiver());
+        Log.d("LIBI", "newMessage.getmsg " + newMessage.getMessage());
+
+
 
         final String chatKey = ApplicationModel.getCurrentCar().getHashMap().get(ApplicationModel.getLastCarNumberSearch().getCarNumber());
 
@@ -186,28 +191,28 @@ public class ChatActivity extends AppCompatActivity {
 
                 //----------------------------------------------------------------------------------
 
-//                final String msg = newMessage.getMessage();
-//
-//                reference = FirebaseDatabase.getInstance().getReference("Drivers").child(ApplicationModel.getCurrentUser().getUid());
-//                reference.addValueEventListener(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//                        Driver driver = dataSnapshot.getValue(Driver.class);
-//                        Log.d("SUSA", "onDataChange: " + driver.getName());
-//
-//                        if(notify){
-//                            //Maybe we should change the sender/reciver to somthing else
-//                            sendNotification(newMessage.getReceiver(),ApplicationModel.getCurrentCar().getCarNumber(),msg);
-//                        }
-//                        notify = false;
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                    }
-//                });
+                final String msg = newMessage.getMessage();
+
+                reference = FirebaseDatabase.getInstance().getReference("Drivers").child(ApplicationModel.getCurrentUser().getUid());
+                reference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        Driver driver = dataSnapshot.getValue(Driver.class);
+                        Log.d("LIBI", "onDataChange: " + driver.getName());
+
+                        if(notify){
+                            //Maybe we should change the sender/reciver to somthing else
+                            sendNotification(newMessage.getReceiver(),ApplicationModel.getCurrentCar().getCarNumber(),msg);
+                        }
+                        notify = false;
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
             }
 
             @Override
@@ -229,19 +234,58 @@ public class ChatActivity extends AppCompatActivity {
 
     private void sendNotification(final String receiver, final String sender, final String msg) {
 
-        Log.d("SIMBA", "Im on Send Notifcitation!!: ");
+        Log.d("LIBI", "Receiver: " + receiver);
 
         DatabaseReference tokens = FirebaseDatabase.getInstance().getReference("Tokens");
+        DatabaseReference ref = tokens.child(receiver);
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+                    Token token = snapshot.getValue(Token.class);
+                    Data data = new Data(ApplicationModel.getCurrentUser().getUid(),ApplicationModel.getCurrentCar().getCarNumber(),R.mipmap.talkcar_launcher_round,sender + " :" + msg,"New Message",receiver);
+
+                    Sender sender = new Sender(data,token.getToken());
+
+                    apiService.sendNotification(sender)
+                            .enqueue(new Callback<MyResponse>() {
+                                @Override
+                                public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+                                    if(response.code() == 200){
+                                        Log.d("SUSA", "here on code 200: ");
+                                        if(response.body().success != 1){
+                                            Log.d("SUSA", "ERRORRRRR: ");
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<MyResponse> call, Throwable t) {
+
+                                }
+                            });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
         Query query = tokens.orderByKey().equalTo(receiver);
+
+        Log.d("LIBI", "sendNotification: query: " + query);
 
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot snapshot: dataSnapshot.getChildren()){
-                    Token token = snapshot.getValue(Token.class);
-                    Data data = new Data(ApplicationModel.getCurrentUser().getUid(),R.mipmap.talkcar_launcher_round,sender + " :" + msg,"New Message",receiver);
+                    String token = snapshot.getValue(String.class);
+                    Data data = new Data(ApplicationModel.getCurrentUser().getUid(),ApplicationModel.getCurrentCar().getCarNumber(),R.mipmap.talkcar_launcher_round,sender + " :" + msg,"New Message",receiver);
 
-                    Sender sender = new Sender(data,token.getToken());
+                    Sender sender = new Sender(data,token);
 
                     apiService.sendNotification(sender)
                             .enqueue(new Callback<MyResponse>() {

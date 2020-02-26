@@ -47,6 +47,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
                 Intent intent = new Intent(mContext,ChatActivity.class);
                 intent.putExtra("chattedCar",car);
                 ApplicationModel.setLastCarNumberSearch(car);
+                ApplicationModel.setChattedDriverUid(car.getDriverUid());
                 mContext.startActivity(intent);
             }
         });
