@@ -20,6 +20,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.text.FirebaseVisionText;
@@ -57,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
     public static HashMap<String,Integer> emojiMap;
     private Bitmap imageBitmap;
     private FieldsChecker fieldsChecker;
-    private String carNumber;
+    private String chattedCarNumber;
     private Driver driver;
     private Database databaseRef;
     private DynamicallyXML dynamicallyXML;
@@ -83,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         initEmojiMap();
         fieldsChecker = new FieldsChecker();
         updateCarPickerIcon(0);
+        AllChatsActivity.updateToken(FirebaseInstanceId.getInstance().getToken());
 
         //Clean Forms and Car Views
         CarForm.removeAllForms();
@@ -91,6 +94,9 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         //Create Forms And Card Views
         CarForm.createFormsFromCars(ApplicationModel.getCurrentDriver().getCars(),this);
         createCarViewsFromCars();
+
+        //Save the current user on Application Model
+        ApplicationModel.setCurrentUser(FirebaseAuth.getInstance().getCurrentUser());
 
         //Script check
 //
@@ -180,6 +186,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         shine = (ImageView)findViewById(R.id.shine);
         chats = (ImageView)findViewById(R.id.chats);
 
+
     }
 
     private void setClickListeners(){
@@ -262,10 +269,10 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
 
     private void startChatWithAnotherCar() {
 
-        if(carNumber != null) {
-            carNumber = fieldsChecker.removeAllTokensFromCarNumber(carNumber);
+        if(chattedCarNumber != null) {
+            chattedCarNumber = fieldsChecker.removeAllTokensFromCarNumber(chattedCarNumber);
             //Check if car number is in database, and if it does, open a conversation!
-            databaseRef.searchCarByCarNumber(carNumber, new OnGetDataListener() {
+            databaseRef.searchCarByCarNumber(chattedCarNumber, new OnGetDataListener() {
                 @Override
                 public void onSuccess(Object driver) {
                     if(driver != null) {
@@ -344,7 +351,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
                 String text =  block.getText();
                 //Check if car number is valid
                 if(fieldsChecker.isValidCarNumber(text)) {
-                    carNumber = text;
+                    chattedCarNumber = text;
                     return;
                 }
             }
@@ -362,6 +369,9 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         Intent intent = new Intent(this,ChatActivity.class);
         intent.putExtra("chattedCar", chattedCar);
 
+
+
+        Log.d("LIBI", "openChat:  before start activity1");
         if(ApplicationModel.getCurrentCar().getHashMap() == null ){
             //Current driver dont have a conversation at all
             ApplicationModel.getCurrentCar().setHashMap(new HashMap<String, String>());
@@ -377,6 +387,8 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         }
 
 
+        Log.d("LIBI", "openChat:  before start activity2");
+
         ApplicationModel.getCurrentCar().getHashMap().put(chattedCar.getCarNumber(),messageKey);
 
         int index = ApplicationModel.getLastDriverSearch().getCars().indexOf(chattedCar);
@@ -386,9 +398,12 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         ApplicationModel.getLastDriverSearch().getCars().get(index).getHashMap().put(ApplicationModel.getCurrentCar().getCarNumber(),messageKey);
 
 
+        Log.d("LIBI", "openChat:  before start activity3");
         //update the driver to database with the new chat hash
-        databaseRef.saveDriver(ApplicationModel.getCurrentDriver());
-        databaseRef.saveDriver(ApplicationModel.getLastDriverSearch());
+        databaseRef.saveDriver(ApplicationModel.getCurrentDriver(),ApplicationModel.getCurrentUser().getUid());
+        databaseRef.saveDriver(ApplicationModel.getLastDriverSearch(),ApplicationModel.getChattedDriverUid());
+
+        Log.d("LIBI", "openChat:  before start activity4");
         startActivity(intent);
 
     }
@@ -406,7 +421,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         CarView card = new CarView(nickname, CarForm.allForms.size() - 1 ,container,this,this,car.getCarNumber());
         CarView.allCarViews.add(card);
         //Save car to database
-        databaseRef.saveDriver(ApplicationModel.getCurrentDriver());
+        databaseRef.saveDriver(ApplicationModel.getCurrentDriver(),ApplicationModel.getCurrentUser().getUid());
     }
 
     @Override
@@ -416,7 +431,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         ApplicationModel.getCurrentDriver().getCars().get(carView.getCardId()).setCarNumber(newCar.getCarNumber());
         ApplicationModel.getCurrentDriver().getCars().get(carView.getCardId()).setNickname(newCar.getNickname());
         ApplicationModel.getCurrentDriver().getCars().get(carView.getCardId()).setEmojiId(newCar.getEmojiId());
-        databaseRef.saveDriver(driver);
+        databaseRef.saveDriver(driver,ApplicationModel.getCurrentUser().getUid());
 
         updateCarView(driver.getCars().get(carView.getCardId()),carView.getCardId());
         if(ApplicationModel.getCurrentCar().getCarNumber().equals(driver.getCars().get(carView.getCardId()).getCarNumber())){

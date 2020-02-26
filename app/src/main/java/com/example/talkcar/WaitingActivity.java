@@ -67,7 +67,7 @@ public class WaitingActivity extends AppCompatActivity {
                     goToLoginActivity(1);
                 }else {
                     //finding the current driver in database
-                    databaseRef.searchDriverByEmail(email, new OnGetDataListener(){
+                    databaseRef.searchDriverByUid(FirebaseAuth.getInstance().getCurrentUser().getUid(), new OnGetDataListener(){
                         @Override
                         public void onSuccess(Object driver) {
                             Log.d("BUBA", "driver is from ONsucceses: " + driver);
@@ -99,7 +99,7 @@ public class WaitingActivity extends AppCompatActivity {
 
 
         //finding the current driver in database
-        databaseRef.searchDriverByEmail(email, new OnGetDataListener(){
+        databaseRef.searchDriverByUid(FirebaseAuth.getInstance().getCurrentUser().getUid(), new OnGetDataListener(){
 
             @Override
             public void onSuccess(Object driver) {
@@ -180,7 +180,7 @@ public class WaitingActivity extends AppCompatActivity {
                     }
             }else{
                     saveCurrentApplicationUserDetailsToSharedPreferences(email);
-                    Driver driver = saveDriverToDatabase(name, email);
+                    Driver driver = saveDriverToDatabase(name, FirebaseAuth.getInstance().getCurrentUser().getUid());
                     //Set current driver on app
                     ApplicationModel.setCurrentDriver(driver);
                     goToMainActivity();
@@ -194,17 +194,17 @@ public class WaitingActivity extends AppCompatActivity {
 
 
 
-    private Driver saveDriverToDatabase(String name, String email){
+    private Driver saveDriverToDatabase(String name, String uId ){
 
-        Driver driver = new Driver(name,email);
+        Driver driver = new Driver(name,uId);
         for(int i = 0; i < CarForm.allForms.size(); i++){
             String carNumber = CarForm.allForms.get(i).getCarNumberPlaceHolder().getText().toString();
             String nickName = CarForm.allForms.get(i).getNicknamePlaceHolder().getText().toString();
             String emojiId = CarForm.allForms.get(i).getEmojiID();
             Log.d("buba", "car number: " + carNumber);
-            driver.addCar(new Car(carNumber, nickName,emojiId));
+            driver.addCar(new Car(carNumber, nickName,emojiId,uId));
         }
-        databaseRef.saveDriver(driver);
+        databaseRef.saveDriver(driver,FirebaseAuth.getInstance().getCurrentUser().getUid());
 
         //return the driver that has been saved in database
         return driver;

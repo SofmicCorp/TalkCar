@@ -1,6 +1,7 @@
 package com.example.talkcar;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,9 +34,11 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     @Override
     public ChatAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if(viewType == MESSAGE_TYPE_RIGHT){
+            Log.d("LIBI", "im on right bitch: ");
             View view = LayoutInflater.from(mContext).inflate(R.layout.chat_item_right, parent,false);
             return new ChatAdapter.ViewHolder(view);
         } else {
+            Log.d("LIBI", "im on left bitch: ");
             View view = LayoutInflater.from(mContext).inflate(R.layout.chat_item_left, parent,false);
             return new ChatAdapter.ViewHolder(view);
         }
@@ -72,7 +75,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     @Override
     public int getItemViewType(int position) {
 
-        if(mChat.getMessages().get(position).getSender().equals(ApplicationModel.getCurrentCar().getCarNumber())){
+        if(mChat.getMessages().get(position).getSender().equals(ApplicationModel.getCurrentUser().getUid())){
             return MESSAGE_TYPE_RIGHT;
         } else {
             return MESSAGE_TYPE_LEFT;

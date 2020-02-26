@@ -1,10 +1,15 @@
 package com.example.talkcar;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class ApplicationModel {
     public static Driver currentDriver;
     public static Driver lastDriverSearch;
     public static Car currentCar;
     public static Car lastCarNumberSearch;
+    public static FirebaseUser currentUser;
+    public static String chattedDriverUid;
 
 
     public static Driver getCurrentDriver() {
@@ -13,6 +18,7 @@ public class ApplicationModel {
 
     public static void setCurrentDriver(Driver currentDriver) {
         ApplicationModel.currentDriver = currentDriver;
+
     }
 
     public static Car getCurrentCar() {
@@ -37,6 +43,23 @@ public class ApplicationModel {
 
     public static void setLastDriverSearch(Driver lastDriverSearch) {
         ApplicationModel.lastDriverSearch = lastDriverSearch;
+    }
+
+    public static FirebaseUser getCurrentUser() {
+
+        return currentUser;
+    }
+
+    public static void setCurrentUser(FirebaseUser currentUser) {
+        ApplicationModel.currentUser = currentUser;
+    }
+
+    public static String getChattedDriverUid() {
+        return chattedDriverUid;
+    }
+
+    public static void setChattedDriverUid(String chattedDriverUid) {
+        ApplicationModel.chattedDriverUid = chattedDriverUid;
     }
 }
 
