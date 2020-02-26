@@ -369,6 +369,9 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         Intent intent = new Intent(this,ChatActivity.class);
         intent.putExtra("chattedCar", chattedCar);
 
+
+
+        Log.d("LIBI", "openChat:  before start activity1");
         if(ApplicationModel.getCurrentCar().getHashMap() == null ){
             //Current driver dont have a conversation at all
             ApplicationModel.getCurrentCar().setHashMap(new HashMap<String, String>());
@@ -384,6 +387,8 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         }
 
 
+        Log.d("LIBI", "openChat:  before start activity2");
+
         ApplicationModel.getCurrentCar().getHashMap().put(chattedCar.getCarNumber(),messageKey);
 
         int index = ApplicationModel.getLastDriverSearch().getCars().indexOf(chattedCar);
@@ -393,9 +398,12 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         ApplicationModel.getLastDriverSearch().getCars().get(index).getHashMap().put(ApplicationModel.getCurrentCar().getCarNumber(),messageKey);
 
 
+        Log.d("LIBI", "openChat:  before start activity3");
         //update the driver to database with the new chat hash
         databaseRef.saveDriver(ApplicationModel.getCurrentDriver(),ApplicationModel.getCurrentUser().getUid());
         databaseRef.saveDriver(ApplicationModel.getLastDriverSearch(),ApplicationModel.getChattedDriverUid());
+
+        Log.d("LIBI", "openChat:  before start activity4");
         startActivity(intent);
 
     }
