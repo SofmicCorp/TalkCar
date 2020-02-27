@@ -26,8 +26,10 @@ import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.text.FirebaseVisionText;
 import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
+import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -66,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
     private Effects effects;
     private Handler handler;
     private Runnable runnable;
+    private boolean allMessagedWereRead;
     public static Activity activity;
     private final int DELAY = 3*1000; //Delay for 3 seconds.
 
@@ -185,8 +188,55 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         settings = (ImageView)findViewById(R.id.settings);
         shine = (ImageView)findViewById(R.id.shine);
         chats = (ImageView)findViewById(R.id.chats);
+        checkIfAllMessagesWereRead();
 
 
+    }
+
+    private void checkIfAllMessagesWereRead() {
+
+        databaseRef.findAllMyChats(new OnGetDataListener() {
+            @Override
+            public void onSuccess(Object object) {
+
+             checkChatStatus((ArrayList<Chat>) object);
+
+                if(allMessagedWereRead){
+                    chats.setImageResource(R.drawable.inbox_icon);
+                } else {
+                    chats.setImageResource(R.drawable.inbox_icon_unread);
+                }
+            }
+
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+        });
+
+
+    }
+
+    private void checkChatStatus(ArrayList<Chat> allChats){
+
+        if(allChats.size() == 0) {
+            //There is no chat at all
+            allMessagedWereRead = true;
+            return;
+        }
+
+        for (int i = 0; i < allChats.size(); i++) {
+            if(!allChats.get(i).isAllMessagesWereReaded()){
+                allMessagedWereRead = false;
+                return;
+            }
+        }
+        allMessagedWereRead = true;
     }
 
     private void setClickListeners(){

@@ -69,8 +69,16 @@ public class AddNewCarDialog extends DialogFragment {
             return null;
         }
 
-        Car car = new Car(carForm.getCarNumberPlaceHolder().getText().toString(), carForm.getNicknamePlaceHolder().getText().toString(), carForm.getEmojiID(), FirebaseAuth.getInstance().getCurrentUser().getUid());
 
+       //create a new car - two options - if you add car AFTER registration or before
+       Car car;
+       if(FirebaseAuth.getInstance().getCurrentUser() != null) {
+           //AFTER (and that why FirebaseAuth.getInstance().getCurrentUser() IS NOT null
+            car = new Car(carForm.getCarNumberPlaceHolder().getText().toString(), carForm.getNicknamePlaceHolder().getText().toString(), carForm.getEmojiID(), FirebaseAuth.getInstance().getCurrentUser().getUid());
+       } else {
+           //BEFORE (and that why FirebaseAuth.getInstance().getCurrentUser() is null
+            car = new Car(carForm.getCarNumberPlaceHolder().getText().toString(), carForm.getNicknamePlaceHolder().getText().toString(), carForm.getEmojiID(), null);
+       }
         return car;
     }
 

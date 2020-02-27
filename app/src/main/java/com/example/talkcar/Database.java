@@ -201,6 +201,45 @@ public class Database {
 
     }
 
+
+    public void findAllMyChats(final OnGetDataListener listener){
+
+        listener.onStart();
+
+        databaseReferenceChats.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                ArrayList<Chat> allChats = new ArrayList<>();
+
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    for (int i = 0; i < ApplicationModel.getCurrentDriver().getCars().size() ; i++) {
+                        if(ApplicationModel.getCurrentDriver().getCars().get(i).getHashMap() != null){
+                        for (int j = 0; j < ApplicationModel.getCurrentDriver().getCars().get(i).getHashMap().size(); j++) {
+                            if (postSnapshot.getKey().equals(ApplicationModel.getCurrentDriver().getCars().get(i).getHashMap().get(j))) {
+                                allChats.add((Chat) postSnapshot.getValue());
+                            }
+                        }
+                        }
+
+                    }
+
+                }
+
+
+                Log.d("BUBA", "time that search take : " + difference);
+
+                listener.onSuccess(allChats);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                listener.onFailure();
+            }
+        });
+
+    }
+
     public void saveDriver(Driver driver,String uId) {
 
         databaseReferenceDrivers.child(uId).setValue(driver);

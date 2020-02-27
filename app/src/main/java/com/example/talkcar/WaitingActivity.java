@@ -181,6 +181,7 @@ public class WaitingActivity extends AppCompatActivity {
             }else{
                     saveCurrentApplicationUserDetailsToSharedPreferences(email);
                     Driver driver = saveDriverToDatabase(name, FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    addUidToAllDriversCars(driver);
                     //Set current driver on app
                     ApplicationModel.setCurrentDriver(driver);
                     goToMainActivity();
@@ -192,6 +193,12 @@ public class WaitingActivity extends AppCompatActivity {
         });
     }
 
+    private void addUidToAllDriversCars(Driver driver) {
+
+        for(int i = 0; i < driver.getCars().size(); i++){
+            driver.getCars().get(i).setDriverUid(driver.getuId());
+        }
+    }
 
 
     private Driver saveDriverToDatabase(String name, String uId){
