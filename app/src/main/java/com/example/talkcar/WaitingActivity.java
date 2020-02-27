@@ -194,7 +194,7 @@ public class WaitingActivity extends AppCompatActivity {
 
 
 
-    private Driver saveDriverToDatabase(String name, String uId ){
+    private Driver saveDriverToDatabase(String name, String uId){
 
         Driver driver = new Driver(name,uId);
         for(int i = 0; i < CarForm.allForms.size(); i++){
