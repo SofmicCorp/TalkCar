@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.example.talkcar.AllChatsActivity;
 import com.example.talkcar.ApplicationModel;
 import com.example.talkcar.ChatActivity;
 import com.example.talkcar.Database;
@@ -52,17 +53,21 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         Log.d("LIBI", "firebaseUser.getUid()): " + firebaseUser.getUid());
 
         String keyChat = remoteMessage.getData().get("keyChat");
-        if(firebaseUser!= null && keyChat.equals(ApplicationModel.currentChatKey)){
-            if(ChatActivity.isActive|| MainActivity.isActive || LoginActivity.isActive || SignupActivity.isActive ||
-                    WaitingActivity.isActive || SettingsActivity.isActive){
-                //User is already in the chat window
-                ChatActivity.readChat(keyChat);
-            } else {
-                Log.d("LIBI", "here libi here!: ");
+        Log.d("LIBI", "key chat : " + keyChat);
+        Log.d("LIBI", "ApplicationModel.currentChatKey : " + ApplicationModel.currentChatKey);
+
+
+        if(firebaseUser!= null) {
+
+            if (!(ChatActivity.isActive || MainActivity.isActive || LoginActivity.isActive || SignupActivity.isActive ||
+                    WaitingActivity.isActive || SettingsActivity.isActive || AllChatsActivity.isActive)) {
                 displayNotification(remoteMessage);
             }
-        } else {
-            Log.d("LIBI", "fire base user in null: ");
+
+
+            if (keyChat.equals(ApplicationModel.currentChatKey)) {
+                ChatActivity.readChat(keyChat);
+            }
         }
     }
 

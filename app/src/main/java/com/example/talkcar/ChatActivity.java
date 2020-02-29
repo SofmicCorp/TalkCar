@@ -174,7 +174,7 @@ public class ChatActivity extends AppCompatActivity {
 
                 }
                 chat.addMessage(newMessage);
-                chat.setAllMessagesWereReaded(false);
+                chat.setSomeMessageWereNotRead(true);
                 database.saveChat(chat);
                 readChat(chatKey);
 
@@ -286,7 +286,11 @@ public class ChatActivity extends AppCompatActivity {
                 if(object == null)
                     return;
                 Chat chat = (Chat)object;
-                chat.setAllMessagesWereReaded(true);
+                if(chat.getMessages().get(chat.getMessages().size() -1).getReceiver().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                    chat.setSomeMessageWereNotRead(false);
+                    MainActivity.someMessageWereNotRead = false;
+                    Database.saveChat(chat);
+                }
                 chatAdapter = new ChatAdapter(context,chat,chattedCar.getEmojiId());
                 recyclerView.setAdapter(chatAdapter);
             }
