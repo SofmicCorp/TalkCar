@@ -35,6 +35,7 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
     private int ERROR_MALFORMED_EMAIL = 2;
     private int ERROR_EXISTS_EMAIL = 3;
     private int ERROR_UNKNOWN = 4;
+    public static boolean isActive;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,18 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
         checker = new FieldsChecker();
         activity = this;
         setClickListeners();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        isActive = true;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        isActive = false;
     }
 
     @Override
@@ -94,6 +107,7 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
 
     private void createFireBaseUser(){
 
+        Log.d("BIBI", "SignupActivity: createFireBaseUser: ");
         if(!checker.checkUserDetailsFields(namePlaceHolder,emailPlaceHolder, passwordPlaceHolder)) {
             return;
         }
@@ -119,6 +133,7 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
     @Override
     public void sendInput(Car car) {
 
+        Log.d("BIBI", "SignupActivity : sendInput");
         //get the new car details and create a card view to that car
        TextView nickname = dynamicallyXML.createTextView(this,car.getNickname(),40, Color.BLACK, Gravity.CENTER,20,50,10,10);
        CarView carView= new CarView(nickname, CarForm.allForms.size() - 1 ,allFormContainer,this,this,car.getCarNumber());
@@ -128,6 +143,7 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
     @Override
     public void sendInputToEdit(Car car, CarView carView, CarForm carForm) {
 
+        Log.d("BIBI", "SignupActivity : sendInputToEdit");
         StringBuilder stringBuilder;
         updateFormValues(carForm,car);
         if(car.getNickname().equals(car.getCarNumber())) {
@@ -156,6 +172,7 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
 
     private void goToWaitingActivity(){
 
+        Log.d("BIBI", "SignupActivity : goToWaitingActivity");
         Intent intent = new Intent(this,WaitingActivity.class);
         intent.putExtra("operation",1);
         intent.putExtra("email",emailPlaceHolder.getText().toString());

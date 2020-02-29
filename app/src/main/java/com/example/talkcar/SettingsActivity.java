@@ -14,6 +14,7 @@ public class SettingsActivity extends AppCompatActivity {
     private TextView username;
     private SharedPreferences sharedPreferences;
     private final String LOGIN_FILE = "login";
+    public static boolean isActive;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +24,18 @@ public class SettingsActivity extends AppCompatActivity {
         setIds();
         username.setText(ApplicationModel.getCurrentDriver().getName());
         setClickListeners();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        isActive = true;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        isActive = false;
     }
 
     @Override

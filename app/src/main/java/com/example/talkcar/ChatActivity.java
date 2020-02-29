@@ -20,6 +20,7 @@ import com.example.talkcar.Notifications.Client;
 import com.example.talkcar.Notifications.Data;
 import com.example.talkcar.Notifications.MyResponse;
 import com.example.talkcar.Notifications.Sender;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,7 +38,7 @@ public class ChatActivity extends AppCompatActivity {
     private TextView chattedCarNicknameTV;
     private TextView chattedCarNumberTV;
     private static Car chattedCar;
-    private static Database database;
+    public static Database database;
     private MediaPlayer sendSound;
     public static boolean isActive = false;
     public static Context context;
@@ -61,7 +62,6 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-        database = new Database(new MD5());
         setIds();
         getIntentDetails();
         setClickListeners();
@@ -104,7 +104,7 @@ public class ChatActivity extends AppCompatActivity {
                 notify = true;
                 String msg = textSend.getText().toString();
                 if(!msg.equals("")){
-                    Message newMessage = new Message(ApplicationModel.getCurrentUser().getUid(),ApplicationModel.getChattedDriverUid(),msg);
+                    Message newMessage = new Message(FirebaseAuth.getInstance().getCurrentUser().getUid(),ApplicationModel.getChattedDriverUid(),msg);
                     sendMessage(newMessage);
                     makeSendSound();
                 }
@@ -175,7 +175,7 @@ public class ChatActivity extends AppCompatActivity {
 
                 final String msg = newMessage.getMessage();
 
-                reference = FirebaseDatabase.getInstance().getReference("Drivers").child(ApplicationModel.getCurrentUser().getUid());
+                reference = FirebaseDatabase.getInstance().getReference("Drivers").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
                 reference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -239,7 +239,7 @@ public class ChatActivity extends AppCompatActivity {
                 for(DataSnapshot snapshot: dataSnapshot.getChildren()){
                     String token = snapshot.getValue(String.class);
                     Log.d("LIBI", "chatted car : " + chattedCar);
-                    Data data = new Data(ApplicationModel.getCurrentUser().getUid(),findChatKey(),R.mipmap.talkcar_launcher_round,sender + " :" + msg,"BIP BIP! Someone just sent you a message",receiver);
+                    Data data = new Data(FirebaseAuth.getInstance().getCurrentUser().getUid(),findChatKey(),R.mipmap.talkcar_launcher_round,sender + " :" + msg,"BIP BIP! Someone just sent you a message",receiver);
 
                     Sender sender = new Sender(data,token);
 

@@ -11,6 +11,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -21,7 +22,10 @@ import com.example.talkcar.ApplicationModel;
 import com.example.talkcar.ChatActivity;
 import com.example.talkcar.Database;
 import com.example.talkcar.LoginActivity;
+import com.example.talkcar.MainActivity;
 import com.example.talkcar.R;
+import com.example.talkcar.SettingsActivity;
+import com.example.talkcar.SignupActivity;
 import com.example.talkcar.WaitingActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -50,10 +54,10 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         if(firebaseUser!= null /*&& sented.equals(firebaseUser.getUid())*/){
             if(ChatActivity.isActive){
                 //User is already in the chat window
-                Log.d("LIBI", "here!: ");
                 String keyChat = remoteMessage.getData().get("keyChat");
                 ChatActivity.readChat(keyChat);
             } else {
+                Log.d("LIBI", "here libi here!: ");
                 displayNotification(remoteMessage);
             }
         } else {

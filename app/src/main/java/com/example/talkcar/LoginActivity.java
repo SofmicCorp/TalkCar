@@ -36,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     private final String LOGIN_FILE = "login";
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private SharedPreferences sharedPreferences;
+    public static boolean isActive;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,8 +118,21 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        isActive = true;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        isActive = false;
+    }
+
     private void loginFireBaseUser(){
 
+        Log.d("BIBI", "LoginActivity: loginFireBaseUser");
         if(!checker.checkLoginFields(emailPlaceHolder, passwordPlaceHolder))
             return;
 
@@ -136,6 +150,8 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void goToWaitingActivity(){
+
+        Log.d("BIBI", "LoginActivity: goToWaitingActivity");
 
         Intent intent = new Intent(this,WaitingActivity.class);
         intent.putExtra("operation",0);

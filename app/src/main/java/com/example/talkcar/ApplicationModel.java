@@ -8,7 +8,6 @@ public class ApplicationModel {
     public static Driver lastDriverSearch;
     public static Car currentCar;
     public static Car lastCarNumberSearch;
-    public static FirebaseUser currentUser;
     public static String chattedDriverUid;
 
 
@@ -43,15 +42,6 @@ public class ApplicationModel {
 
     public static void setLastDriverSearch(Driver lastDriverSearch) {
         ApplicationModel.lastDriverSearch = lastDriverSearch;
-    }
-
-    public static FirebaseUser getCurrentUser() {
-
-        return currentUser;
-    }
-
-    public static void setCurrentUser(FirebaseUser currentUser) {
-        ApplicationModel.currentUser = currentUser;
     }
 
     public static String getChattedDriverUid() {
