@@ -51,10 +51,10 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         Log.d("LIBI", "sented: " + sented);
         Log.d("LIBI", "firebaseUser.getUid()): " + firebaseUser.getUid());
 
-        if(firebaseUser!= null /*&& sented.equals(firebaseUser.getUid())*/){
+        String keyChat = remoteMessage.getData().get("keyChat");
+        if(firebaseUser!= null && keyChat.equals(ApplicationModel.currentChatKey)){
             if(ChatActivity.isActive){
                 //User is already in the chat window
-                String keyChat = remoteMessage.getData().get("keyChat");
                 ChatActivity.readChat(keyChat);
             } else {
                 Log.d("LIBI", "here libi here!: ");
