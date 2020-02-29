@@ -2,13 +2,15 @@ package com.example.talkcar.Notifications;
 
 public class Data {
     private String user;
+    private String keyChat;;
     private int icon;
     private String body;
     private String title;
     private String sented;
 
-    public Data(String user,String carNumber, int icon, String body, String title, String sented) {
+    public Data(String user,String keyChat,int icon, String body, String title, String sented) {
         this.user = user;
+        this.keyChat = keyChat;
         this.icon = icon;
         this.body = body;
         this.title = title;

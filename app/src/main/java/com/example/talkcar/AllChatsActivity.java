@@ -23,6 +23,7 @@ public class AllChatsActivity extends AppCompatActivity {
     private CarAdapter carAdapter;
     private List<Car> carList;
     private Database database;
+    private boolean isActive;
 
 
     @Override
@@ -32,7 +33,18 @@ public class AllChatsActivity extends AppCompatActivity {
         setIds();
         addAllMyChattedCarList();
         //updateToken(FirebaseInstanceId.getInstance().getToken());
+    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        isActive = true;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        isActive = false;
     }
 
     private void addAllMyChattedCarList() {

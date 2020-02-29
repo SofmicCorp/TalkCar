@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -25,6 +26,7 @@ public class WaitingActivity extends AppCompatActivity {
     private final int SIGN = 1;
     private SharedPreferences sharedPreferences;
     private final String LOGIN_FILE = "login";
+    public static boolean isActive;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,11 @@ public class WaitingActivity extends AppCompatActivity {
         String email = getIntent().getStringExtra("email");
         String password = getIntent().getStringExtra("password");
 
+        if(email != null && name != null){
+            email = email.trim();
+            name = name.trim();
+        }
+
         switch (operation){
             case AUTH:
                 authenticate(email,password);
@@ -50,7 +57,21 @@ public class WaitingActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        isActive = true;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        isActive = false;
+    }
+
     public void authenticate(final String email,final String password){
+
+        Log.d("BIBI", "Im in Authentticate!!!!!!!!: ");
 
         if(sharedPreferences.getBoolean("logged",false)){
             //If the user is allready have been in the app once, it will autologin his user/
@@ -70,12 +91,12 @@ public class WaitingActivity extends AppCompatActivity {
                     databaseRef.searchDriverByUid(FirebaseAuth.getInstance().getCurrentUser().getUid(), new OnGetDataListener(){
                         @Override
                         public void onSuccess(Object driver) {
-                            Log.d("BUBA", "driver is from ONsucceses: " + driver);
                             if(getIntent().getBooleanExtra("autologin",false)){
                                 ApplicationModel.setCurrentDriver((Driver)driver);
                                 //Auto login is saved in file after authenticate the email and password
                                 saveCurrentApplicationUserDetailsToSharedPreferences(email);
                             }
+                            Log.d("BIBI", "Waiting Activity : authincate: ");
                             goToMainActivity();
                         }
 
@@ -97,6 +118,14 @@ public class WaitingActivity extends AppCompatActivity {
 
     private void automaticSignin(String email) {
 
+        Log.d("BIBI", "WaitingActivity automaticSignin: begin of function ");
+
+        if(FirebaseAuth.getInstance().getCurrentUser() == null){
+            //Check if user is exists in data base
+            sharedPreferences.edit().clear().apply(); //clear sp for some tests
+            goToLoginActivity(0);
+            return;
+        }
 
         //finding the current driver in database
         databaseRef.searchDriverByUid(FirebaseAuth.getInstance().getCurrentUser().getUid(), new OnGetDataListener(){
@@ -105,13 +134,16 @@ public class WaitingActivity extends AppCompatActivity {
             public void onSuccess(Object driver) {
                 if(driver != null){
                     ApplicationModel.setCurrentDriver((Driver)driver);
+                    Log.d("BIBI", "Waiting Activity : automaticSignin mor!!!: ");
                     goToMainActivity();
+
                 } else {
+                    Toast.makeText(WaitingActivity.this, "Car was not found in the system...", Toast.LENGTH_SHORT).show();
                     sharedPreferences.edit().clear().apply(); //clear sp for some tests
                     goToLoginActivity(0);
                 }
-            }
 
+            }
             @Override
             public void onStart() {
                 Log.d("CHECK", "Wait for data... ");
@@ -135,6 +167,7 @@ public class WaitingActivity extends AppCompatActivity {
 
     private void goToMainActivity(){
 
+        Log.d("BIBI", "Waiting Activity : goToMainActivity: ");
         Intent intent = new Intent(this,MainActivity.class);
         startActivity(intent);
         finish();
@@ -181,8 +214,10 @@ public class WaitingActivity extends AppCompatActivity {
             }else{
                     saveCurrentApplicationUserDetailsToSharedPreferences(email);
                     Driver driver = saveDriverToDatabase(name, FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    addUidToAllDriversCars(driver);
                     //Set current driver on app
                     ApplicationModel.setCurrentDriver(driver);
+                    Log.d("BIBI", "WaitingActiviy : signUp: ");
                     goToMainActivity();
                     SignupActivity.activity.finish();
                     LoginActivity.activity.finish();
@@ -192,9 +227,15 @@ public class WaitingActivity extends AppCompatActivity {
         });
     }
 
+    private void addUidToAllDriversCars(Driver driver) {
+
+        for(int i = 0; i < driver.getCars().size(); i++){
+            driver.getCars().get(i).setDriverUid(driver.getuId());
+        }
+    }
 
 
-    private Driver saveDriverToDatabase(String name, String uId ){
+    private Driver saveDriverToDatabase(String name, String uId){
 
         Driver driver = new Driver(name,uId);
         for(int i = 0; i < CarForm.allForms.size(); i++){

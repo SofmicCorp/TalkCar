@@ -34,6 +34,7 @@ public class AddNewCarDialog extends DialogFragment {
         databaseRef = new Database(new MD5());
         carForm = new CarForm((getContext()),formContainer);
         checker = new FieldsChecker();
+        Log.d("BIBI", "AddNewCarDialog : onCreateView  ");
 
         return view;
     }
@@ -52,6 +53,7 @@ public class AddNewCarDialog extends DialogFragment {
 
                 Car car = createNewCar();
                 if(car == null){
+                    Log.d("BIBI", "im null: ");
                     //if we are here details of car are empty or ilegal
                     return;
                 }
@@ -59,6 +61,7 @@ public class AddNewCarDialog extends DialogFragment {
                 CarForm.allForms.add(carForm);
                 onInputListener.sendInput(car);
                 getDialog().dismiss();
+                Log.d("BIBI", "AddNewCarDialog : setOnClickListstenrs  ");
             }
         });
     }
@@ -69,8 +72,15 @@ public class AddNewCarDialog extends DialogFragment {
             return null;
         }
 
-        Car car = new Car(carForm.getCarNumberPlaceHolder().getText().toString(), carForm.getNicknamePlaceHolder().getText().toString(), carForm.getEmojiID(), FirebaseAuth.getInstance().getCurrentUser().getUid());
-
+       //create a new car - two options - if you add car AFTER registration or BEFORE
+       Car car;
+       if(FirebaseAuth.getInstance().getCurrentUser() != null) {
+           //AFTER (and that why FirebaseAuth.getInstance().getCurrentUser() IS NOT null
+            car = new Car(carForm.getCarNumberPlaceHolder().getText().toString(), carForm.getNicknamePlaceHolder().getText().toString(), carForm.getEmojiID(), FirebaseAuth.getInstance().getCurrentUser().getUid());
+       } else {
+           //BEFORE (and that why FirebaseAuth.getInstance().getCurrentUser() is null
+            car = new Car(carForm.getCarNumberPlaceHolder().getText().toString(), carForm.getNicknamePlaceHolder().getText().toString(), carForm.getEmojiID(), null);
+       }
         return car;
     }
 

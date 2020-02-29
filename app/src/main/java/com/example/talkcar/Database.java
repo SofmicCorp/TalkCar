@@ -38,7 +38,8 @@ public class Database {
 
         startTime = System.currentTimeMillis();
 
-        Log.d("BUBA", "start search in database...");
+        Log.d("BIBI", "searchCarByCarNumber");
+
         listener.onStart();
         databaseReferenceDrivers.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -55,6 +56,8 @@ public class Database {
                         if(driver.getCars().get(j).getCarNumber().equals(carNumber)) {
 
                             ApplicationModel.setLastCarNumberSearch(driver.getCars().get(j));
+                            Log.d("BIBI", "Database:searchCarByCarNumber OndataChange" );
+
                             ApplicationModel.setChattedDriverUid(uId);
                             listener.onSuccess(driver);
                             difference = System.currentTimeMillis() - startTime;
@@ -77,20 +80,23 @@ public class Database {
     public void searchDriverByUid(final String uId,final OnGetDataListener listener){
 
         startTime = System.currentTimeMillis();
-        Log.d("BUBA", "start search in database...");
+        Log.d("BIBI", "start search in database uID...");
         listener.onStart();
 
         DatabaseReference DriverRef = databaseReferenceDrivers.child(uId);
 
         // Attach a listener to read the data at our posts reference
-        DriverRef.addValueEventListener(new ValueEventListener() {
+        DriverRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Driver driver = dataSnapshot.getValue(Driver.class);
                 if(driver != null){
+                    Log.d("BIBI", "Databse: OnDataChange1  ");
                     listener.onSuccess(driver);
                     return;
                 }
+                Log.d("BIBI", "Databse: OnDataChange2 ");
+
                 listener.onSuccess(null);
             }
 
@@ -201,8 +207,48 @@ public class Database {
 
     }
 
-    public void saveDriver(Driver driver,String uId) {
 
+    public void findAllMyChats(final OnGetDataListener listener){
+
+        listener.onStart();
+
+        databaseReferenceChats.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                ArrayList<Chat> allChats = new ArrayList<>();
+
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    for (int i = 0; i < ApplicationModel.getCurrentDriver().getCars().size() ; i++) {
+                        if(ApplicationModel.getCurrentDriver().getCars().get(i).getHashMap() != null){
+                        for (int j = 0; j < ApplicationModel.getCurrentDriver().getCars().get(i).getHashMap().size(); j++) {
+                            if (postSnapshot.getKey().equals(ApplicationModel.getCurrentDriver().getCars().get(i).getHashMap().get(j))) {
+                                allChats.add((Chat) postSnapshot.getValue());
+                            }
+                        }
+                        }
+
+                    }
+
+                }
+
+
+                Log.d("BUBA", "time that search take : " + difference);
+
+                listener.onSuccess(allChats);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                listener.onFailure();
+            }
+        });
+
+    }
+
+    public void saveDriver(final Driver driver, final String uId) {
+
+        Log.d("BIBI", "Database: saveDriver: ");
         databaseReferenceDrivers.child(uId).setValue(driver);
     }
 
@@ -215,7 +261,7 @@ public class Database {
     }
 
     public void deleteCar(String index){
-        databaseReferenceDrivers.child(hashRef.hash(ApplicationModel.getCurrentUser().getUid())).child(index).removeValue();
+        databaseReferenceDrivers.child(hashRef.hash(FirebaseAuth.getInstance().getCurrentUser().getUid())).child(index).removeValue();
     }
 }
 

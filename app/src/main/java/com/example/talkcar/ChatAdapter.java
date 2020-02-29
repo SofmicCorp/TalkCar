@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.core.view.LayoutInflaterFactory;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
@@ -75,7 +77,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     @Override
     public int getItemViewType(int position) {
 
-        if(mChat.getMessages().get(position).getSender().equals(ApplicationModel.getCurrentUser().getUid())){
+        if(mChat.getMessages().get(position).getSender().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
             return MESSAGE_TYPE_RIGHT;
         } else {
             return MESSAGE_TYPE_LEFT;

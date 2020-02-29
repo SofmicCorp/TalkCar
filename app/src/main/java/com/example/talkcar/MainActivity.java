@@ -21,13 +21,14 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.text.FirebaseVisionText;
 import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -66,7 +67,9 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
     private Effects effects;
     private Handler handler;
     private Runnable runnable;
+    private boolean allMessagedWereRead;
     public static Activity activity;
+    public static boolean isActive;
     private final int DELAY = 3*1000; //Delay for 3 seconds.
 
 
@@ -76,12 +79,15 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         databaseRef = new Database(new MD5());
+        ChatActivity.database = new Database(new MD5());
         dynamicallyXML = new DynamicallyXML();
         effects = new Effects();
         handler = new Handler();
         MainActivity.activity = this;
         setIds();
         setClickListeners();
+        Log.d("BIBI", "MainActivity : onCreate  ");
+
         initEmojiMap();
         fieldsChecker = new FieldsChecker();
         updateCarPickerIcon(0);
@@ -94,9 +100,6 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         //Create Forms And Card Views
         CarForm.createFormsFromCars(ApplicationModel.getCurrentDriver().getCars(),this);
         createCarViewsFromCars();
-
-        //Save the current user on Application Model
-        ApplicationModel.setCurrentUser(FirebaseAuth.getInstance().getCurrentUser());
 
         //Script check
 //
@@ -115,7 +118,6 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
 //
 //            }
 //        });
-
     }
 
     private void initEmojiMap() {
@@ -160,6 +162,18 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         super.onPause();
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        isActive = true;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        isActive = false;
+    }
+
     private void updateCarPickerIcon(int index) {
 
         driver = ApplicationModel.getCurrentDriver();
@@ -185,8 +199,52 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         settings = (ImageView)findViewById(R.id.settings);
         shine = (ImageView)findViewById(R.id.shine);
         chats = (ImageView)findViewById(R.id.chats);
+        checkIfAllMessagesWereRead();
 
+    }
 
+    private void checkIfAllMessagesWereRead() {
+
+        databaseRef.findAllMyChats(new OnGetDataListener() {
+            @Override
+            public void onSuccess(Object object) {
+
+             checkChatStatus((ArrayList<Chat>) object);
+
+                if(allMessagedWereRead){
+                    chats.setImageResource(R.drawable.inbox_icon);
+                } else {
+                    chats.setImageResource(R.drawable.inbox_icon_unread);
+                }
+            }
+
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+        });
+    }
+
+    private void checkChatStatus(ArrayList<Chat> allChats){
+
+        if(allChats.size() == 0) {
+            //There is no chat at all
+            allMessagedWereRead = true;
+            return;
+        }
+
+        for (int i = 0; i < allChats.size(); i++) {
+            if(!allChats.get(i).isAllMessagesWereReaded()){
+                allMessagedWereRead = false;
+                return;
+            }
+        }
+        allMessagedWereRead = true;
     }
 
     private void setClickListeners(){
@@ -212,6 +270,8 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
             public void onClick(View v) {
 
                 openNewCarDialog();
+                Log.d("BIBI", "MainActivity : setClickListeners  ");
+
             }
         });
 
@@ -235,11 +295,13 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
 
     private void openAllChats() {
 
+
         Intent intent = new Intent(this,AllChatsActivity.class);
         startActivity(intent);
     }
 
     private void openSettings() {
+
 
         Intent intent = new Intent(this,SettingsActivity.class);
         startActivity(intent);
@@ -257,7 +319,11 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
     private void openNewCarDialog() {
 
         AddNewCarDialog dialog = new AddNewCarDialog();
+        Log.d("BIBI", "MainActivity : openNewCarDialog1  ");
+
         dialog.show(getSupportFragmentManager(),"AddNewCarDialog");
+        Log.d("BIBI", "MainActivity : openNewCarDialog2  ");
+
     }
 
 
@@ -400,7 +466,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
 
         Log.d("LIBI", "openChat:  before start activity3");
         //update the driver to database with the new chat hash
-        databaseRef.saveDriver(ApplicationModel.getCurrentDriver(),ApplicationModel.getCurrentUser().getUid());
+        databaseRef.saveDriver(ApplicationModel.getCurrentDriver(),FirebaseAuth.getInstance().getCurrentUser().getUid());
         databaseRef.saveDriver(ApplicationModel.getLastDriverSearch(),ApplicationModel.getChattedDriverUid());
 
         Log.d("LIBI", "openChat:  before start activity4");
@@ -421,7 +487,11 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         CarView card = new CarView(nickname, CarForm.allForms.size() - 1 ,container,this,this,car.getCarNumber());
         CarView.allCarViews.add(card);
         //Save car to database
-        databaseRef.saveDriver(ApplicationModel.getCurrentDriver(),ApplicationModel.getCurrentUser().getUid());
+
+        databaseRef.saveDriver(driver,FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+        Log.d("BIBI", "Main Activity: sendInput");
+
     }
 
     @Override
@@ -431,7 +501,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         ApplicationModel.getCurrentDriver().getCars().get(carView.getCardId()).setCarNumber(newCar.getCarNumber());
         ApplicationModel.getCurrentDriver().getCars().get(carView.getCardId()).setNickname(newCar.getNickname());
         ApplicationModel.getCurrentDriver().getCars().get(carView.getCardId()).setEmojiId(newCar.getEmojiId());
-        databaseRef.saveDriver(driver,ApplicationModel.getCurrentUser().getUid());
+        databaseRef.saveDriver(driver,FirebaseAuth.getInstance().getCurrentUser().getUid());
 
         updateCarView(driver.getCars().get(carView.getCardId()),carView.getCardId());
         if(ApplicationModel.getCurrentCar().getCarNumber().equals(driver.getCars().get(carView.getCardId()).getCarNumber())){
@@ -482,8 +552,5 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
     public void sendInput(int index) {
         changeCurrentCar(index);
     }
-
-
-
 
 }
