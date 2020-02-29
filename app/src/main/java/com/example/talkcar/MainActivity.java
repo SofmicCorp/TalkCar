@@ -31,6 +31,7 @@ import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 //For Future Sarel And Mor!
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
     private ImageView shine;
     private ImageView chats;
     public static HashMap<String,Integer> emojiMap;
+    public static HashMap<String,Message> chatKeyLastMessageMap;
     private Bitmap imageBitmap;
     private FieldsChecker fieldsChecker;
     private String chattedCarNumber;
@@ -66,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
     private Effects effects;
     private Handler handler;
     private Runnable runnable;
-    private boolean allMessagedWereRead;
+    public static boolean someMessageWereNotRead;
     public static Activity activity;
     public static boolean isActive;
     private final int DELAY = 3*1000; //Delay for 3 seconds.
@@ -81,10 +83,11 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         effects = new Effects();
         handler = new Handler();
         MainActivity.activity = this;
+        MainActivity.someMessageWereNotRead = false;
         setIds();
         setClickListeners();
         Log.d("BIBI", "MainActivity : onCreate  ");
-
+        checkIfAllMessagesWereRead();
         initEmojiMap();
         fieldsChecker = new FieldsChecker();
         updateCarPickerIcon(0);
@@ -145,8 +148,9 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         handler.postDelayed( runnable = new Runnable() {
             public void run() {
                 effects.shine(takePhoto,shine);
-
+                checkIfAllMessagesWereRead();
                 handler.postDelayed(runnable, DELAY);
+
             }
         }, DELAY);
 
@@ -196,22 +200,26 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         settings = (ImageView)findViewById(R.id.settings);
         shine = (ImageView)findViewById(R.id.shine);
         chats = (ImageView)findViewById(R.id.chats);
-        checkIfAllMessagesWereRead();
 
     }
 
     private void checkIfAllMessagesWereRead() {
 
-        Database.findAllMyChats(new OnGetDataListener() {
+        Database.findUnreadChatsKeys(new OnGetDataListener() {
             @Override
             public void onSuccess(Object object) {
 
-             checkChatStatus((ArrayList<Chat>) object);
+                Log.d("PUPA", "here baby: ");
 
-                if(allMessagedWereRead){
-                    chats.setImageResource(R.drawable.inbox_icon);
-                } else {
+                chatKeyLastMessageMap = (HashMap<String, Message>) object;
+
+                Log.d("PUPA", "someMessageWereNotRead  " + someMessageWereNotRead);
+                Log.d("PUPA", "valuues: " + chatKeyLastMessageMap.values());
+                Log.d("PUPA", "kets: " + chatKeyLastMessageMap.keySet());
+                if(someMessageWereNotRead){
                     chats.setImageResource(R.drawable.inbox_icon_unread);
+                } else {
+                    chats.setImageResource(R.drawable.inbox_icon);
                 }
             }
 
@@ -227,22 +235,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         });
     }
 
-    private void checkChatStatus(ArrayList<Chat> allChats){
 
-        if(allChats.size() == 0) {
-            //There is no chat at all
-            allMessagedWereRead = true;
-            return;
-        }
-
-        for (int i = 0; i < allChats.size(); i++) {
-            if(!allChats.get(i).isAllMessagesWereReaded()){
-                allMessagedWereRead = false;
-                return;
-            }
-        }
-        allMessagedWereRead = true;
-    }
 
     private void setClickListeners(){
 

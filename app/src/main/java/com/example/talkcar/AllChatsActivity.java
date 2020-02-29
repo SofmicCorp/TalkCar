@@ -19,10 +19,10 @@ import java.util.List;
 
 public class AllChatsActivity extends AppCompatActivity {
 
+    public static boolean isActive;
     private RecyclerView recyclerView;
     private CarAdapter carAdapter;
     private List<Car> carList;
-    private boolean isActive;
 
 
     @Override

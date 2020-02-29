@@ -172,7 +172,7 @@ public class Database {
     }
 
 
-    public static void findAllMyChats(final OnGetDataListener listener){
+    public static void findUnreadChatsKeys(final OnGetDataListener listener){
 
         listener.onStart();
 
@@ -180,26 +180,35 @@ public class Database {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                ArrayList<Chat> allChats = new ArrayList<>();
+                HashMap<String,Message> chatKeyLastMessageMap = new HashMap<>(); //<Chat Key,Last Message>
 
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     for (int i = 0; i < ApplicationModel.getCurrentDriver().getCars().size() ; i++) {
                         if(ApplicationModel.getCurrentDriver().getCars().get(i).getHashMap() != null){
+                            Log.d("PUPA", "1: ");
                         for (int j = 0; j < ApplicationModel.getCurrentDriver().getCars().get(i).getHashMap().size(); j++) {
-                            if (postSnapshot.getKey().equals(ApplicationModel.getCurrentDriver().getCars().get(i).getHashMap().get(j))) {
-                                allChats.add((Chat) postSnapshot.getValue());
+                            if (postSnapshot.getKey().equals(ApplicationModel.getCurrentDriver().getCars().get(i).getHashMap().values().toArray()[j])) {
+                                Log.d("PUPA", "2: ");
+                                Log.d("PUPA", "2.2: " + (postSnapshot.getValue(Chat.class)).isSomeMessageWereNotRead());
+                                if(postSnapshot.getValue(Chat.class).isSomeMessageWereNotRead()){
+                                    Log.d("PUPA", "3: ");
+                                    int lastMessageIndex = postSnapshot.getValue(Chat.class).getMessages().size() - 1;
+                                    Message lastMessage = postSnapshot.getValue(Chat.class).getMessages().get(lastMessageIndex);
+                                    if(lastMessage.getReceiver().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                        Log.d("PUPA", "4: ");
+                                        MainActivity.someMessageWereNotRead = true;
+                                        chatKeyLastMessageMap.put(postSnapshot.getValue(Chat.class).getKey(),lastMessage);
+                                    }
+                                }
                             }
                         }
                         }
-
                     }
-
                 }
-
 
                 Log.d("BUBA", "time that search take : " + difference);
 
-                listener.onSuccess(allChats);
+                listener.onSuccess(chatKeyLastMessageMap);
             }
 
             @Override

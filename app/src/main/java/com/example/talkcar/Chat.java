@@ -7,7 +7,7 @@ public class Chat {
 
     private String key;
     private ArrayList<Message> messages;
-    private boolean allMessagesWereReaded;
+    private boolean someMessageWereNotRead;
 
 
     public Chat(){
@@ -18,7 +18,7 @@ public class Chat {
 
         this.key = id;
         messages = new ArrayList<>();
-        allMessagesWereReaded = true;
+        someMessageWereNotRead = false;
 
     }
 
@@ -42,11 +42,11 @@ public class Chat {
         messages.add(message);
     }
 
-    public boolean isAllMessagesWereReaded() {
-        return allMessagesWereReaded;
+    public boolean isSomeMessageWereNotRead() {
+        return someMessageWereNotRead;
     }
 
-    public void setAllMessagesWereReaded(boolean allMessagesWereReaded) {
-        this.allMessagesWereReaded = allMessagesWereReaded;
+    public void setSomeMessageWereNotRead(boolean someMessageWereNotRead) {
+        this.someMessageWereNotRead = someMessageWereNotRead;
     }
 }
