@@ -22,7 +22,6 @@ public class AllChatsActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private CarAdapter carAdapter;
     private List<Car> carList;
-    private Database database;
     private boolean isActive;
 
 
@@ -50,7 +49,7 @@ public class AllChatsActivity extends AppCompatActivity {
     private void addAllMyChattedCarList() {
 
 
-        database.findAllMyChattedCar(new OnGetDataListener() {
+        Database.findAllMyChattedCar(new OnGetDataListener() {
             @Override
             public void onSuccess(Object chattedCarList) {
 
@@ -88,7 +87,6 @@ public class AllChatsActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(AllChatsActivity.this));
         carList = new ArrayList<>();
-        database= new Database(new MD5());
     }
 
     public static void updateToken(String token){

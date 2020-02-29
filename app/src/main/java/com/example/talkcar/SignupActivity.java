@@ -24,7 +24,6 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
     private EditText passwordPlaceHolder;
     private Button signInBtn;
     private ImageView addCar;
-    private Database databaseRef;
     private FirebaseAuth mFirebaseAuth;
     private Driver driver;
     private LinearLayout allFormContainer;
@@ -45,7 +44,6 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
         CarForm.removeAllForms();
         CarView.removeAllCarViews();
         mFirebaseAuth = FirebaseAuth.getInstance();
-        databaseRef = new Database(new MD5());
         dynamicallyXML = new DynamicallyXML();
         checker = new FieldsChecker();
         activity = this;

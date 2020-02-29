@@ -16,11 +16,6 @@ public class FieldsChecker {
     private Database database;
     private static Boolean isExits;
 
-    public FieldsChecker(){
-        database = new Database(new MD5());
-    }
-
-
     public boolean isValidCarNumber(String text) {
 
         if(text.length() < MIN_CAR_NUMBER_LENGTH)

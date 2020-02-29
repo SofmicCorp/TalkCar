@@ -30,7 +30,6 @@ public class LoginActivity extends AppCompatActivity {
     private TextView signupText;
     private FirebaseAuth mFirebaseAuth;
     private FieldsChecker checker;
-    public  Database databaseRef;
     private int error;
     public static Activity activity;
     private final String LOGIN_FILE = "login";
@@ -50,7 +49,6 @@ public class LoginActivity extends AppCompatActivity {
             goToWaitingActivity();
         }
 
-        databaseRef = new Database(new MD5());
         mFirebaseAuth = FirebaseAuth.getInstance();
         checker = new FieldsChecker();
 

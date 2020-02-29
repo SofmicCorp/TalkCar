@@ -33,7 +33,6 @@ public class WaitingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_waiting);
         mFirebaseAuth = FirebaseAuth.getInstance();
-        databaseRef = new Database(new MD5());
         sharedPreferences = getSharedPreferences(LOGIN_FILE,MODE_PRIVATE);
 
         int operation = getIntent().getIntExtra("operation",0);

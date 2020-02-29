@@ -53,7 +53,8 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
 
         String keyChat = remoteMessage.getData().get("keyChat");
         if(firebaseUser!= null && keyChat.equals(ApplicationModel.currentChatKey)){
-            if(ChatActivity.isActive){
+            if(ChatActivity.isActive|| MainActivity.isActive || LoginActivity.isActive || SignupActivity.isActive ||
+                    WaitingActivity.isActive || SettingsActivity.isActive){
                 //User is already in the chat window
                 ChatActivity.readChat(keyChat);
             } else {

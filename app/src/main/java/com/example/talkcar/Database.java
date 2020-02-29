@@ -20,21 +20,13 @@ import java.util.Set;
 
 public class Database {
 
-    public DatabaseReference databaseReferenceDrivers;
-    public DatabaseReference databaseReferenceChats;
-    private Hashable hashRef;
+    public static DatabaseReference databaseReferenceDrivers =  FirebaseDatabase.getInstance().getReference().child("Drivers");
+    public static DatabaseReference databaseReferenceChats = FirebaseDatabase.getInstance().getReference().child("Chats");
     private static long startTime;
     private static long difference;
 
 
-    public Database(Hashable hashRef){
-
-        databaseReferenceDrivers = FirebaseDatabase.getInstance().getReference().child("Drivers");
-        databaseReferenceChats = FirebaseDatabase.getInstance().getReference().child("Chats");
-        this.hashRef = hashRef;
-    }
-
-    public void searchCarByCarNumber(final String carNumber,final OnGetDataListener listener) {
+    public static void searchCarByCarNumber(final String carNumber,final OnGetDataListener listener) {
 
         startTime = System.currentTimeMillis();
 
@@ -77,7 +69,7 @@ public class Database {
         });
     }
 
-    public void searchDriverByUid(final String uId,final OnGetDataListener listener){
+    public static void searchDriverByUid(final String uId,final OnGetDataListener listener){
 
         startTime = System.currentTimeMillis();
         Log.d("BIBI", "start search in database uID...");
@@ -105,38 +97,10 @@ public class Database {
 
                 listener.onFailure();
             }
-
-
-
-
-
-//        databaseReferenceDrivers.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-//                    Driver driver = postSnapshot.getValue(Driver.class);
-//                    if(driver.equals(uId)) {
-//                        Log.d("BUBA", "driver is from onDataChange : " + driver);
-//                        listener.onSuccess(driver);
-//                        difference = System.currentTimeMillis() - startTime;
-//                        Log.d("BUBA", "time that search take : " + difference);
-//                        return;
-//                    }
-//                }
-//
-//                listener.onSuccess(null);
-//                //If no driver with that email found
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//                listener.onFailure();
-//            }
         });
     }
 
-    public void searchChatByKey(final String key,final OnGetDataListener listener){
+    public static void searchChatByKey(final String key,final OnGetDataListener listener){
 
         Log.d("BUBA", "key to search is : " + key);
         startTime = System.currentTimeMillis();
@@ -172,7 +136,7 @@ public class Database {
 
     }
 
-    public void findAllMyChattedCar(final OnGetDataListener listener){
+    public static void findAllMyChattedCar(final OnGetDataListener listener){
 
         listener.onStart();
 
@@ -208,7 +172,7 @@ public class Database {
     }
 
 
-    public void findAllMyChats(final OnGetDataListener listener){
+    public static void findAllMyChats(final OnGetDataListener listener){
 
         listener.onStart();
 
@@ -246,13 +210,13 @@ public class Database {
 
     }
 
-    public void saveDriver(final Driver driver, final String uId) {
+    public static void saveDriver(final Driver driver, final String uId) {
 
         Log.d("BIBI", "Database: saveDriver: ");
         databaseReferenceDrivers.child(uId).setValue(driver);
     }
 
-    public void saveChat(Chat chat){
+    public static void saveChat(Chat chat){
 
         Log.d("SIMBA", "chat : " + chat);
         Log.d("SIMBA", "chat.GetKey : " + chat.getKey());
@@ -260,8 +224,8 @@ public class Database {
         databaseReferenceChats.child(chat.getKey()).setValue(chat);
     }
 
-    public void deleteCar(String index){
-        databaseReferenceDrivers.child(hashRef.hash(FirebaseAuth.getInstance().getCurrentUser().getUid())).child(index).removeValue();
+    public static void deleteCar(String index){
+        databaseReferenceDrivers.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(index).removeValue();
     }
 }
 

@@ -31,7 +31,6 @@ public class AddNewCarDialog extends DialogFragment {
         View view = inflater.inflate(R.layout.dialog_new_car,container, false);
         setIds(view);
         setClickListeners();
-        databaseRef = new Database(new MD5());
         carForm = new CarForm((getContext()),formContainer);
         checker = new FieldsChecker();
         Log.d("BIBI", "AddNewCarDialog : onCreateView  ");

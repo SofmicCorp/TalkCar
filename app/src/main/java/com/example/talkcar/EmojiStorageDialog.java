@@ -18,7 +18,6 @@ import androidx.fragment.app.DialogFragment;
 public class EmojiStorageDialog extends DialogFragment {
 
     private OnInputListener onInputListener;
-    private Database databaseRef;
     private LinearLayout emojiContainer;
     private DynamicallyXML dynamicallyXML;
     private CarForm carForm;
@@ -44,8 +43,6 @@ public class EmojiStorageDialog extends DialogFragment {
         setRowsInStorage();
         setEmojiTags();
         setClickListeners();
-        databaseRef = new Database(new MD5());
-
 
         return view;
     }
