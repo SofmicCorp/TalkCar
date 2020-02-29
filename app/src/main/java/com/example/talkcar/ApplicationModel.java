@@ -9,6 +9,7 @@ public class ApplicationModel {
     public static Car currentCar;
     public static Car lastCarNumberSearch;
     public static String chattedDriverUid;
+    public static String currentChatKey;
 
 
     public static Driver getCurrentDriver() {

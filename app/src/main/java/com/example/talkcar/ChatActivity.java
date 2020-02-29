@@ -81,6 +81,12 @@ public class ChatActivity extends AppCompatActivity {
         isActive = false;
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        ApplicationModel.currentChatKey = null;
+    }
+
     public void setSounds(Context context){
         sendSound = MediaPlayer.create(context, R.raw.send_message_sound);
     }
@@ -88,6 +94,7 @@ public class ChatActivity extends AppCompatActivity {
     private void loadOldChat(Car chattedCar) {
 
             final String chatKey = findChatKey();
+            ApplicationModel.currentChatKey = chatKey;
             readChat(chatKey);
 
     }
