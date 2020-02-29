@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
     private FieldsChecker fieldsChecker;
     private String chattedCarNumber;
     private Driver driver;
-    private Database databaseRef;
     private DynamicallyXML dynamicallyXML;
     private Effects effects;
     private Handler handler;
@@ -78,8 +77,6 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        databaseRef = new Database(new MD5());
-        ChatActivity.database = new Database(new MD5());
         dynamicallyXML = new DynamicallyXML();
         effects = new Effects();
         handler = new Handler();
@@ -205,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
 
     private void checkIfAllMessagesWereRead() {
 
-        databaseRef.findAllMyChats(new OnGetDataListener() {
+        Database.findAllMyChats(new OnGetDataListener() {
             @Override
             public void onSuccess(Object object) {
 
@@ -338,7 +335,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         if(chattedCarNumber != null) {
             chattedCarNumber = fieldsChecker.removeAllTokensFromCarNumber(chattedCarNumber);
             //Check if car number is in database, and if it does, open a conversation!
-            databaseRef.searchCarByCarNumber(chattedCarNumber, new OnGetDataListener() {
+            Database.searchCarByCarNumber(chattedCarNumber, new OnGetDataListener() {
                 @Override
                 public void onSuccess(Object driver) {
                     if(driver != null) {
@@ -466,8 +463,8 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
 
         Log.d("LIBI", "openChat:  before start activity3");
         //update the driver to database with the new chat hash
-        databaseRef.saveDriver(ApplicationModel.getCurrentDriver(),FirebaseAuth.getInstance().getCurrentUser().getUid());
-        databaseRef.saveDriver(ApplicationModel.getLastDriverSearch(),ApplicationModel.getChattedDriverUid());
+        Database.saveDriver(ApplicationModel.getCurrentDriver(),FirebaseAuth.getInstance().getCurrentUser().getUid());
+        Database.saveDriver(ApplicationModel.getLastDriverSearch(),ApplicationModel.getChattedDriverUid());
 
         Log.d("LIBI", "openChat:  before start activity4");
         startActivity(intent);
@@ -488,7 +485,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         CarView.allCarViews.add(card);
         //Save car to database
 
-        databaseRef.saveDriver(driver,FirebaseAuth.getInstance().getCurrentUser().getUid());
+        Database.saveDriver(driver,FirebaseAuth.getInstance().getCurrentUser().getUid());
 
         Log.d("BIBI", "Main Activity: sendInput");
 
@@ -501,7 +498,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         ApplicationModel.getCurrentDriver().getCars().get(carView.getCardId()).setCarNumber(newCar.getCarNumber());
         ApplicationModel.getCurrentDriver().getCars().get(carView.getCardId()).setNickname(newCar.getNickname());
         ApplicationModel.getCurrentDriver().getCars().get(carView.getCardId()).setEmojiId(newCar.getEmojiId());
-        databaseRef.saveDriver(driver,FirebaseAuth.getInstance().getCurrentUser().getUid());
+        Database.saveDriver(driver,FirebaseAuth.getInstance().getCurrentUser().getUid());
 
         updateCarView(driver.getCars().get(carView.getCardId()),carView.getCardId());
         if(ApplicationModel.getCurrentCar().getCarNumber().equals(driver.getCars().get(carView.getCardId()).getCarNumber())){

@@ -19,7 +19,6 @@ import com.google.firebase.auth.FirebaseAuth;
 public class EditCarDialog extends DialogFragment {
 
     private OnInputListener onInputListener;
-    private Database databaseRef;
     private ImageView finishEditBtn;
     private ImageView deleteBtn;
     private CarForm carForm;
@@ -53,7 +52,6 @@ public class EditCarDialog extends DialogFragment {
         setIds(view);
         carForm.changeContainer(formContainer);
         setClickListeners();
-        databaseRef = new Database(new MD5());
         checker = new FieldsChecker();
         //Dear future Sarel, you need to finish the delete button (Lines 56, 95-103.. have fun :))
         locateButtons();
