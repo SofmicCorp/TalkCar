@@ -66,7 +66,7 @@ public class ChatActivity extends AppCompatActivity {
         getIntentDetails();
         setClickListeners();
         loadOldChat(chattedCar);
-        setSounds(ChatActivity.this);
+        setSounds();
     }
 
     @Override
@@ -87,8 +87,8 @@ public class ChatActivity extends AppCompatActivity {
         ApplicationModel.currentChatKey = null;
     }
 
-    public void setSounds(Context context){
-        sendSound = MediaPlayer.create(context, R.raw.send_message_sound);
+    public void setSounds(){
+        sendSound = MediaPlayer.create(ChatActivity.this, R.raw.send_message_sound);
     }
 
     private void loadOldChat(Car chattedCar) {

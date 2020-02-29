@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -28,11 +29,8 @@ import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.text.FirebaseVisionText;
 import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 
 //For Future Sarel And Mor!
 //There is one really important thing about how this system works.
@@ -71,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
     public static boolean someMessageWereNotRead;
     public static Activity activity;
     public static boolean isActive;
+    private MediaPlayer beepSound;
     private final int DELAY = 3*1000; //Delay for 3 seconds.
 
 
@@ -85,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         MainActivity.activity = this;
         MainActivity.someMessageWereNotRead = false;
         setIds();
+        setSounds();
         setClickListeners();
         Log.d("BIBI", "MainActivity : onCreate  ");
         checkIfAllMessagesWereRead();
@@ -118,6 +118,14 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
 //
 //            }
 //        });
+    }
+
+    public void setSounds(){
+        beepSound = MediaPlayer.create(MainActivity.this, R.raw.beep_sound);
+    }
+
+    public void makeBeepSound(){
+        beepSound.start();
     }
 
     private void initEmojiMap() {
@@ -209,14 +217,15 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
             @Override
             public void onSuccess(Object object) {
 
-                Log.d("PUPA", "here baby: ");
-
                 chatKeyLastMessageMap = (HashMap<String, Message>) object;
+                Log.d("LOLA", "chats.getDrawable() " + chats.getDrawable().getConstantState());
+                Log.d("LOLA", "getResources().getDrawable(R.drawable.inbox_icon " +getResources().getDrawable(R.drawable.inbox_icon).getConstantState());
 
-                Log.d("PUPA", "someMessageWereNotRead  " + someMessageWereNotRead);
-                Log.d("PUPA", "valuues: " + chatKeyLastMessageMap.values());
-                Log.d("PUPA", "kets: " + chatKeyLastMessageMap.keySet());
+
                 if(someMessageWereNotRead){
+                    if(chats.getDrawable().getConstantState() == getResources().getDrawable(R.drawable.inbox_icon).getConstantState()) {
+                        makeBeepSound();
+                    }
                     chats.setImageResource(R.drawable.inbox_icon_unread);
                 } else {
                     chats.setImageResource(R.drawable.inbox_icon);
