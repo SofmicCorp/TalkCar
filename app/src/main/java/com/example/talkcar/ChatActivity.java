@@ -40,6 +40,7 @@ public class ChatActivity extends AppCompatActivity {
     private static Car chattedCar;
     public static Database database;
     private MediaPlayer sendSound;
+    private static MediaPlayer receiveSound;
     public static boolean isActive = false;
     public static Context context;
 
@@ -89,6 +90,7 @@ public class ChatActivity extends AppCompatActivity {
 
     public void setSounds(){
         sendSound = MediaPlayer.create(ChatActivity.this, R.raw.send_message_sound);
+        receiveSound = MediaPlayer.create(ChatActivity.this,R.raw.recieve_message_sound);
     }
 
     private void loadOldChat(Car chattedCar) {
@@ -101,6 +103,10 @@ public class ChatActivity extends AppCompatActivity {
 
     public void makeSendSound(){
         sendSound.start();
+    }
+
+    public static void makeReceiveSound(){
+        receiveSound.start();
     }
 
     private void setClickListeners() {
@@ -287,6 +293,9 @@ public class ChatActivity extends AppCompatActivity {
                     return;
                 Chat chat = (Chat)object;
                 if(chat.getMessages().get(chat.getMessages().size() -1).getReceiver().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                    if(chat.isSomeMessageWereNotRead()){
+                        makeReceiveSound();
+                    }
                     chat.setSomeMessageWereNotRead(false);
                     MainActivity.someMessageWereNotRead = false;
                     Database.saveChat(chat);

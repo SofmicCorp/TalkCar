@@ -185,17 +185,12 @@ public class Database {
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     for (int i = 0; i < ApplicationModel.getCurrentDriver().getCars().size() ; i++) {
                         if(ApplicationModel.getCurrentDriver().getCars().get(i).getHashMap() != null){
-                            Log.d("PUPA", "1: ");
                         for (int j = 0; j < ApplicationModel.getCurrentDriver().getCars().get(i).getHashMap().size(); j++) {
                             if (postSnapshot.getKey().equals(ApplicationModel.getCurrentDriver().getCars().get(i).getHashMap().values().toArray()[j])) {
-                                Log.d("PUPA", "2: ");
-                                Log.d("PUPA", "2.2: " + (postSnapshot.getValue(Chat.class)).isSomeMessageWereNotRead());
                                 if(postSnapshot.getValue(Chat.class).isSomeMessageWereNotRead()){
-                                    Log.d("PUPA", "3: ");
                                     int lastMessageIndex = postSnapshot.getValue(Chat.class).getMessages().size() - 1;
                                     Message lastMessage = postSnapshot.getValue(Chat.class).getMessages().get(lastMessageIndex);
                                     if(lastMessage.getReceiver().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
-                                        Log.d("PUPA", "4: ");
                                         MainActivity.someMessageWereNotRead = true;
                                         chatKeyLastMessageMap.put(postSnapshot.getValue(Chat.class).getKey(),lastMessage);
                                     }

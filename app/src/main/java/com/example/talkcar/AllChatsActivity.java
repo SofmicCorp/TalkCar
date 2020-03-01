@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.talkcar.Notifications.Data;
 import com.example.talkcar.Notifications.Token;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -15,6 +16,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class AllChatsActivity extends AppCompatActivity {
@@ -30,7 +32,6 @@ public class AllChatsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_chats);
         setIds();
-        addAllMyChattedCarList();
         //updateToken(FirebaseInstanceId.getInstance().getToken());
     }
 
@@ -46,17 +47,41 @@ public class AllChatsActivity extends AppCompatActivity {
         isActive = false;
     }
 
-    private void addAllMyChattedCarList() {
+    @Override
+    protected void onResume() {
+        super.onResume();
+        addAllMyChattedCarList();
+    }
 
+    private void addAllMyChattedCarList() {
 
         Database.findAllMyChattedCar(new OnGetDataListener() {
             @Override
-            public void onSuccess(Object chattedCarList) {
+            public void onSuccess(final Object chattedCarList) {
 
-                if(chattedCarList != null){
-                    //There is at least one conversation
-                    readCars((ArrayList<Car>)chattedCarList);
-                }
+                Database.findUnreadChatsKeys(new OnGetDataListener() {
+                    @Override
+                    public void onSuccess(Object chatKeyLastMessageMap) {
+
+                        if(chattedCarList != null){
+                            //There is at least one conversation
+
+                            readCars((ArrayList<Car>)chattedCarList,(HashMap<String,Message>)chatKeyLastMessageMap);
+                        }
+
+                    }
+
+                    @Override
+                    public void onStart() {
+
+                    }
+
+                    @Override
+                    public void onFailure() {
+
+                    }
+                });
+
             }
 
             @Override
@@ -69,13 +94,11 @@ public class AllChatsActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
 
-    private void readCars(ArrayList<Car> chattedCarList) {
+    private void readCars(ArrayList<Car> chattedCarList, HashMap<String, Message> chatKeyLastMessageMap) {
 
-        carAdapter = new CarAdapter(AllChatsActivity.this,chattedCarList);
+        carAdapter = new CarAdapter(AllChatsActivity.this,chattedCarList,chatKeyLastMessageMap);
         recyclerView.setAdapter(carAdapter);
 
 
