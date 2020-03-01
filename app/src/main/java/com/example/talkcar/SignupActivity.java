@@ -105,7 +105,6 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
 
     private void createFireBaseUser(){
 
-        Log.d("BIBI", "SignupActivity: createFireBaseUser: ");
         if(!checker.checkUserDetailsFields(namePlaceHolder,emailPlaceHolder, passwordPlaceHolder)) {
             return;
         }

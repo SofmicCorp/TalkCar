@@ -2,6 +2,7 @@ package com.example.talkcar;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,17 +14,21 @@ import androidx.annotation.NonNull;
 import androidx.core.view.LayoutInflaterFactory;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
 
     private Context mContext;
     private List<Car> mCars;
+    private HashMap<String, Message> chatKeyLastMessageMap;
 
-    public CarAdapter(Context mContext,List<Car> mCars){
+    public CarAdapter(Context mContext, List<Car> mCars, HashMap<String, Message> chatKeyLastMessageMap){
 
         this.mContext = mContext;
         this.mCars = mCars;
+        this.chatKeyLastMessageMap = chatKeyLastMessageMap;
     }
 
     @NonNull
@@ -38,8 +43,20 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         final Car car = mCars.get(position);
-        holder.carnumber.setText(car.getCarNumber());
+        holder.carNumber.setText(car.getCarNumber());
         holder.profileImage.setImageResource(MainActivity.emojiMap.get(car.getEmojiId()));
+
+        Log.d("LUBA", "car: ");
+
+        if(chatKeyLastMessageMap.size() > 0) {
+            Object[] keysChats = car.getHashMap().values().toArray();
+            for (int i = 0; i < chatKeyLastMessageMap.size(); i++) {
+                if (chatKeyLastMessageMap.get(keysChats[i]) != null) {
+                    holder.profileImageBackground.setImageResource(R.drawable.unreadwhitecircle);
+                }
+            }
+        }
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,12 +77,15 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView carnumber;
+        public TextView carNumber;
+        public ImageView profileImageBackground;
         public ImageView profileImage;
+
 
         public ViewHolder(View itemView){
             super(itemView);
-            carnumber = itemView.findViewById(R.id.car_number);
+            carNumber = itemView.findViewById(R.id.car_number);
+            profileImageBackground = itemView.findViewById(R.id.profile_image_background);
             profileImage = itemView.findViewById(R.id.profile_image);
 
         }

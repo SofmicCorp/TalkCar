@@ -41,7 +41,7 @@ public class FieldsChecker {
         return newCarNumber;
     }
 
-    public boolean checkCarDetailsFields(EditText carNumberPlaceHolder, EditText nicknamePlaceHolder) {
+    public boolean checkCarDetailsFields(final EditText carNumberPlaceHolder, EditText nicknamePlaceHolder) {
 
         if(carNumberPlaceHolder.getText().toString().isEmpty()) {
             carNumberPlaceHolder.setError("Please enter car number");
@@ -58,8 +58,12 @@ public class FieldsChecker {
             //Nickname becomes car number
             nicknamePlaceHolder.setText(carNumberPlaceHolder.getText());
         }
+
         return true;
     }
+
+
+
 
 
     public boolean checkUserDetailsFields(EditText namePlaceHolder, EditText emailPlaceHolder, EditText passwordPlaceHolder){
@@ -96,15 +100,11 @@ public class FieldsChecker {
             passwordPlaceHolder.setError("Please enter password");
             return false;
         }
+
          return true;
     }
 
-    private boolean isCarNumberAlreadyExists() {
 
-        //need to be completed. need to check is car number is not exists in data base!
-        return false;
-
-    }
 
     public static StringBuilder addDashesSevenDigit(String carNumber) {
 
