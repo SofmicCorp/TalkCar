@@ -61,6 +61,7 @@ public class AddNewCarDialog extends DialogFragment {
                     //if we are here details of car are empty or ilegal
                     return;
                 }
+
                 checkCarNumberExistens(car);
             }
         });
@@ -68,6 +69,13 @@ public class AddNewCarDialog extends DialogFragment {
 
 
     private void checkCarNumberExistens(final Car car) {
+
+        for (int i = 0; i <CarForm.allForms.size() ; i++) {
+            if(CarForm.allForms.get(i).getCarNumberPlaceHolder().getText().toString().equals(car.getCarNumber())){
+                carForm.getCarNumberPlaceHolder().setError("You already used this car number...");
+                return;
+            }
+        }
 
         final ProgressBar progressBar = dynamicallyXML.createProgressBar(getContext());
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(100,100);
