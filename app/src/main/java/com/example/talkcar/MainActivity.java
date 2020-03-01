@@ -219,9 +219,6 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
             public void onSuccess(Object object) {
 
                 chatKeyLastMessageMap = (HashMap<String, Message>) object;
-                Log.d("LOLA", "chats.getDrawable() " + chats.getDrawable().getConstantState());
-                Log.d("LOLA", "getResources().getDrawable(R.drawable.inbox_icon " +getResources().getDrawable(R.drawable.inbox_icon).getConstantState());
-
 
                 if(someMessageWereNotRead){
                     if(chats.getDrawable().getConstantState() == getResources().getDrawable(R.drawable.inbox_icon).getConstantState()) {
