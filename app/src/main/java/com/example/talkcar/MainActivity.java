@@ -14,6 +14,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -209,6 +210,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         settings = (ImageView)findViewById(R.id.settings);
         shine = (ImageView)findViewById(R.id.shine);
         chats = (ImageView)findViewById(R.id.chats);
+
 
     }
 

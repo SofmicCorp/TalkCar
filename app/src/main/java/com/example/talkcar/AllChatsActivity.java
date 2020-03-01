@@ -17,6 +17,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -110,9 +111,8 @@ public class AllChatsActivity extends AppCompatActivity {
 
     private void readCars(ArrayList<Car> chattedCarList, HashMap<String, Message> chatKeyLastMessageMap) {
 
-        carAdapter = new CarAdapter(AllChatsActivity.this,chattedCarList,chatKeyLastMessageMap);
-        recyclerView.setAdapter(carAdapter);
-
+            carAdapter = new CarAdapter(AllChatsActivity.this, chattedCarList, chatKeyLastMessageMap);
+            recyclerView.setAdapter(carAdapter);
 
     }
 

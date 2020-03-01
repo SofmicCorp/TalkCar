@@ -149,10 +149,12 @@ public class Database {
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     Driver driver = postSnapshot.getValue(Driver.class);
                     for(int j = 0; j < driver.getCars().size(); j++){
-                        for(int k = 0; k < ApplicationModel.getCurrentDriver().getCars().size(); k++){
-                            if(ApplicationModel.getCurrentDriver().getCars().get(k).getHashMap() != null) {
-                                if (ApplicationModel.getCurrentDriver().getCars().get(k).getHashMap().get(driver.getCars().get(j).getCarNumber()) != null) {
-                                    allMyChattedCar.add(driver.getCars().get(j));
+                        if(ApplicationModel.getCurrentDriver() != null) {
+                            for (int k = 0; k < ApplicationModel.getCurrentDriver().getCars().size(); k++) {
+                                if (ApplicationModel.getCurrentDriver().getCars().get(k).getHashMap() != null) {
+                                    if (ApplicationModel.getCurrentDriver().getCars().get(k).getHashMap().get(driver.getCars().get(j).getCarNumber()) != null) {
+                                        allMyChattedCar.add(driver.getCars().get(j));
+                                    }
                                 }
                             }
                         }
@@ -183,21 +185,23 @@ public class Database {
                 HashMap<String,Message> chatKeyLastMessageMap = new HashMap<>(); //<Chat Key,Last Message>
 
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    if(ApplicationModel.getCurrentDriver() != null){
                     for (int i = 0; i < ApplicationModel.getCurrentDriver().getCars().size() ; i++) {
-                        if(ApplicationModel.getCurrentDriver().getCars().get(i).getHashMap() != null){
-                        for (int j = 0; j < ApplicationModel.getCurrentDriver().getCars().get(i).getHashMap().size(); j++) {
-                            if (postSnapshot.getKey().equals(ApplicationModel.getCurrentDriver().getCars().get(i).getHashMap().values().toArray()[j])) {
-                                if(postSnapshot.getValue(Chat.class).isSomeMessageWereNotRead()){
-                                    int lastMessageIndex = postSnapshot.getValue(Chat.class).getMessages().size() - 1;
-                                    Message lastMessage = postSnapshot.getValue(Chat.class).getMessages().get(lastMessageIndex);
-                                    if(lastMessage.getReceiver().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
-                                        MainActivity.someMessageWereNotRead = true;
-                                        chatKeyLastMessageMap.put(postSnapshot.getValue(Chat.class).getKey(),lastMessage);
+                        if (ApplicationModel.getCurrentDriver().getCars().get(i).getHashMap() != null) {
+                            for (int j = 0; j < ApplicationModel.getCurrentDriver().getCars().get(i).getHashMap().size(); j++) {
+                                if (postSnapshot.getKey().equals(ApplicationModel.getCurrentDriver().getCars().get(i).getHashMap().values().toArray()[j])) {
+                                    if (postSnapshot.getValue(Chat.class).isSomeMessageWereNotRead()) {
+                                        int lastMessageIndex = postSnapshot.getValue(Chat.class).getMessages().size() - 1;
+                                        Message lastMessage = postSnapshot.getValue(Chat.class).getMessages().get(lastMessageIndex);
+                                        if (lastMessage.getReceiver().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                                            MainActivity.someMessageWereNotRead = true;
+                                            chatKeyLastMessageMap.put(postSnapshot.getValue(Chat.class).getKey(), lastMessage);
+                                        }
                                     }
                                 }
                             }
                         }
-                        }
+                    }
                     }
                 }
 
@@ -212,6 +216,30 @@ public class Database {
             }
         });
 
+    }
+
+    public static void findAllLastMessages(final OnGetDataListener listener){
+
+        listener.onStart();
+        final ArrayList<Message> allLastMessages = new ArrayList<>();
+
+        databaseReferenceChats.addValueEventListener(new ValueEventListener(){
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()){
+                    Chat chat = postSnapshot.getValue(Chat.class);
+                    if(chat.getMessages() != null) {
+                        allLastMessages.add(chat.getMessages().get(chat.getMessages().size() - 1));
+                    }
+                }
+                listener.onSuccess(allLastMessages);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public static void saveDriver(final Driver driver, final String uId) {

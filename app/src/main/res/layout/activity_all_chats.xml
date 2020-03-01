@@ -24,10 +24,10 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:fontFamily="sans-serif-smallcaps"
-                android:text="Messages"
+                android:text="messages"
                 android:background="@drawable/header_dialog_shape"
                 android:textColor="@color/neatWhite"
-                android:textSize="30dp" />
+                android:textSize="50dp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"

@@ -34,9 +34,9 @@
 
             <ImageView
                 android:id="@+id/car_picker_background"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginRight="35dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginRight="33dp"
                 android:layout_gravity="center"
                 android:src="@drawable/whitecircle"
                 />

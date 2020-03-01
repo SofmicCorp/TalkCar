@@ -10,8 +10,8 @@
 
         <ImageView
             android:id="@+id/profile_image_background"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_marginRight="10dp"
             android:paddingTop="5dp"
             android:paddingLeft="10dp"
@@ -20,8 +20,8 @@
 
         <ImageView
             android:id="@+id/profile_image"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_marginRight="7dp"
             android:paddingLeft="10dp"
             android:layout_gravity="center" />
@@ -39,10 +39,28 @@
         android:textColor="@color/black"
         android:textStyle="bold"
         android:layout_centerVertical="true"
-        android:textSize="20sp"/>
+        android:textSize="20dp"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="your text goes here"
+        android:layout_toRightOf="@id/frame"
+        android:id="@+id/last_message"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@id/car_number"
+        android:fontFamily="sans-serif-condensed"
+        android:textColor="@color/black"
+        android:layout_marginTop="5dp"
+        android:paddingTop="15dp"
+        android:maxLines="1" />
 
-
-
+    <View
+        android:id="@+id/horizontal_line"
+        android:layout_width="330dp"
+        android:layout_gravity="center"
+        android:layout_height="1dp"
+        android:layout_marginLeft="10dp"
+        android:background="@color/darkGray" />
 
 </RelativeLayout>
