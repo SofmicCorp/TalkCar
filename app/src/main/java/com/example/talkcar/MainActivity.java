@@ -162,6 +162,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
             }
         }, DELAY);
 
+        checkIfAllMessagesWereRead();
         super.onResume();
     }
 

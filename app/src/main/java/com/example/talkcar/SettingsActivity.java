@@ -8,10 +8,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 public class SettingsActivity extends AppCompatActivity {
 
     private TextView signout;
     private TextView username;
+    private TextView messages;
     private SharedPreferences sharedPreferences;
     private final String LOGIN_FILE = "login";
     public static boolean isActive;
@@ -46,6 +49,14 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void setClickListeners() {
 
+        messages.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                goToAllChatsActivity();
+            }
+        });
+
         signout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,6 +66,14 @@ public class SettingsActivity extends AppCompatActivity {
                 goToLoginActivity();
             }
         });
+
+    }
+
+    private void goToAllChatsActivity() {
+
+        Intent intent = new Intent(this,AllChatsActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void logout() {
@@ -74,6 +93,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     public void setIds(){
         signout = (TextView)findViewById(R.id.logout);
+        messages = (TextView)findViewById(R.id.messages);
         username = (TextView)findViewById(R.id.username);
     }
 }

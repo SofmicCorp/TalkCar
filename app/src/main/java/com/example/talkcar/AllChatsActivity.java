@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 
 import com.example.talkcar.Notifications.Data;
@@ -25,6 +26,9 @@ public class AllChatsActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private CarAdapter carAdapter;
     private List<Car> carList;
+    private Handler handler;
+    private Runnable runnable;
+    private final int DELAY = 3*1000; //Delay for 3 seconds.
 
 
     @Override
@@ -32,6 +36,7 @@ public class AllChatsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_chats);
         setIds();
+        handler = new Handler();
         //updateToken(FirebaseInstanceId.getInstance().getToken());
     }
 
@@ -50,6 +55,14 @@ public class AllChatsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        handler.postDelayed( runnable = new Runnable() {
+            public void run() {
+                addAllMyChattedCarList();
+                handler.postDelayed(runnable, DELAY);
+
+            }
+        }, DELAY);
+
         addAllMyChattedCarList();
     }
 
@@ -65,7 +78,6 @@ public class AllChatsActivity extends AppCompatActivity {
 
                         if(chattedCarList != null){
                             //There is at least one conversation
-
                             readCars((ArrayList<Car>)chattedCarList,(HashMap<String,Message>)chatKeyLastMessageMap);
                         }
 
