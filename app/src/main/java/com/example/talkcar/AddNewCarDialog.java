@@ -3,11 +3,15 @@ package com.example.talkcar;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +27,7 @@ public class AddNewCarDialog extends DialogFragment {
     private CarForm carForm;
     private LinearLayout formContainer;
     private FieldsChecker checker;
+    private DynamicallyXML dynamicallyXML;
 
 
     @Nullable
@@ -33,6 +38,7 @@ public class AddNewCarDialog extends DialogFragment {
         setClickListeners();
         carForm = new CarForm((getContext()),formContainer);
         checker = new FieldsChecker();
+        dynamicallyXML = new DynamicallyXML();
         Log.d("BIBI", "AddNewCarDialog : onCreateView  ");
 
         return view;
@@ -52,17 +58,49 @@ public class AddNewCarDialog extends DialogFragment {
 
                 Car car = createNewCar();
                 if(car == null){
-                    Log.d("BIBI", "im null: ");
                     //if we are here details of car are empty or ilegal
                     return;
                 }
-                //Adding car to the new form list.
-                CarForm.allForms.add(carForm);
-                onInputListener.sendInput(car);
-                getDialog().dismiss();
-                Log.d("BIBI", "AddNewCarDialog : setOnClickListstenrs  ");
+                checkCarNumberExistens(car);
             }
         });
+    }
+
+
+    private void checkCarNumberExistens(final Car car) {
+
+        final ProgressBar progressBar = dynamicallyXML.createProgressBar(getContext());
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(100,100);
+        params.gravity = Gravity.CENTER;
+        formContainer.addView(progressBar,params);
+
+        Database.searchCarByCarNumber(car.getCarNumber(), new OnGetDataListener() {
+            @Override
+            public void onSuccess(Object findedCar) {
+                if(findedCar == null) {
+                    //There is no car with that car number
+                    // Adding car to the new form list.
+                    CarForm.allForms.add(carForm);
+                    onInputListener.sendInput(car);
+                    getDialog().dismiss();
+                } else {
+                    formContainer.removeView(progressBar);
+                    carForm.getNicknamePlaceHolder().setText("");
+                    carForm.getCarNumberPlaceHolder().setError("Car number is already exists...");
+                }
+            }
+
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+        });
+
     }
 
     public Car createNewCar(){

@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
@@ -76,6 +77,14 @@ public class DynamicallyXML {
         cardView.setMaxCardElevation(6);
 
         return cardView;
+    }
+
+    public ProgressBar createProgressBar(Context context){
+
+        ProgressBar progressBar = new ProgressBar(context,null,android.R.attr.progressBarStyleLarge);
+        progressBar.setIndeterminate(true);
+        progressBar.setVisibility(View.VISIBLE);
+        return  progressBar;
     }
 
     //To be complete

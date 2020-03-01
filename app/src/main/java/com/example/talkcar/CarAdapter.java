@@ -46,6 +46,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
         holder.carNumber.setText(car.getCarNumber());
         holder.profileImage.setImageResource(MainActivity.emojiMap.get(car.getEmojiId()));
 
+        Log.d("LUBA", "car: ");
 
         if(chatKeyLastMessageMap.size() > 0) {
             Object[] keysChats = car.getHashMap().values().toArray();
