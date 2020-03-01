@@ -104,7 +104,6 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
             profileImage = itemView.findViewById(R.id.profile_image);
             lastMessage = itemView.findViewById(R.id.last_message);
             horizontalLine = itemView.findViewById(R.id.horizontal_line);
-
         }
     }
 

@@ -24,8 +24,8 @@ import java.util.List;
 public class AllChatsActivity extends AppCompatActivity {
 
     public static boolean isActive;
-    private RecyclerView recyclerView;
-    private CarAdapter carAdapter;
+    private static RecyclerView recyclerView;
+    public static CarAdapter carAdapter;
     private List<Car> carList;
     private Handler handler;
     private Runnable runnable;
@@ -111,8 +111,23 @@ public class AllChatsActivity extends AppCompatActivity {
 
     private void readCars(ArrayList<Car> chattedCarList, HashMap<String, Message> chatKeyLastMessageMap) {
 
-            carAdapter = new CarAdapter(AllChatsActivity.this, chattedCarList, chatKeyLastMessageMap);
-            recyclerView.setAdapter(carAdapter);
+//        if(carAdapter == null){
+//            carAdapter = new CarAdapter(AllChatsActivity.this, chattedCarList, chatKeyLastMessageMap);
+//            recyclerView.setAdapter(carAdapter);
+//            return;
+//        }
+//
+//        if(chatKeyLastMessageMap.size() > 0) {
+//            carAdapter = new CarAdapter(AllChatsActivity.this, chattedCarList, chatKeyLastMessageMap);
+//            recyclerView.setAdapter(carAdapter);
+//        } else {
+//            Log.d("LUBA", "here!!: ");
+//            carAdapter.getHolder().profileImageBackground.setImageResource(R.drawable.whitecircle);
+//            recyclerView.setAdapter(carAdapter);
+//        }
+
+        carAdapter = new CarAdapter(AllChatsActivity.this, chattedCarList, chatKeyLastMessageMap);
+        recyclerView.setAdapter(carAdapter);
 
     }
 
