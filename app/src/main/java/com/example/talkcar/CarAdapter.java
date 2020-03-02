@@ -31,12 +31,14 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
     private HashMap<String, Message> chatKeyLastMessageMap;
     private String theLastMessage;
     private CarAdapter.ViewHolder holder;
+    private static  ArrayList<Message> allLastMessages;
 
     public CarAdapter(Context mContext, List<Car> mCars, HashMap<String, Message> chatKeyLastMessageMap){
 
         this.mContext = mContext;
         this.mCars = mCars;
         this.chatKeyLastMessageMap = chatKeyLastMessageMap;
+        allLastMessages = new ArrayList<>();
     }
 
     @NonNull
@@ -109,30 +111,41 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
 
     private void handleLastMessage(final ViewHolder holder, final Car car){
 
-        Database.findAllLastMessages(new OnGetDataListener() {
+        Database.findAllLastMessagesToSpecificDriver(FirebaseAuth.getInstance().getCurrentUser().getUid(),new OnGetDataListener() {
             @Override
             public void onSuccess(Object object) {
                 if(object != null){
-                    ArrayList<Message> allMessages = (ArrayList<Message>) object;
-                    for (int i = 0; i < allMessages.size(); i++) {
-                        if(allMessages.get(i).getReceiver().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()) && allMessages.get(i).getSender().equals(car.getDriverUid())
-                                || allMessages.get(i).getSender().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()) &&  allMessages.get(i).getReceiver().equals(car.getDriverUid())){
-                            theLastMessage = allMessages.get(i).getMessage();
-                        }
+                    if(allLastMessages.size() == 0){
+                        allLastMessages = (ArrayList<Message>) object;
+                    }
+
+                    for (int i = 0; i < allLastMessages.size(); i++) {
+                            if(car.getDriverUid().equals(allLastMessages.get(i).getSender()) ||car.getDriverUid().equals( allLastMessages.get(i).getReceiver())) {
+                                theLastMessage = allLastMessages.get(i).getMessage();
+                                allLastMessages.remove(i);
+                                if (!(holder.lastMessage.getText().toString().equals(theLastMessage))) {
+                                    holder.lastMessage.setText(theLastMessage);
+                                    break;
+                                }
+                            }
                     }
                 }
 
-                switch (theLastMessage){
-                    case "default":
-                        holder.lastMessage.setText("There is no message yet");
-                        break;
-                    default:
-                        if(!(holder.lastMessage.getText().toString().equals(theLastMessage))) {
-                            Log.d("LUBA", "holder.lastMessage.getText().toString() " + holder.lastMessage.getText().toString());
-                            Log.d("LUBA", "theLastMessage " + theLastMessage);
-                            holder.lastMessage.setText(theLastMessage);
-                        }
+                if(theLastMessage.equals("default")){
+                    holder.lastMessage.setText("There is no message yet");
                 }
+
+//                switch (theLastMessage){
+//                    case "default":
+//                        holder.lastMessage.setText("There is no message yet");
+//                        break;
+//                    default:
+//                        if(!(holder.lastMessage.getText().toString().equals(theLastMessage))) {
+//                            Log.d("LUBA", "holder.lastMessage.getText().toString() " + holder.lastMessage.getText().toString());
+//                            Log.d("LUBA", "theLastMessage " + theLastMessage);
+//                            holder.lastMessage.setText(theLastMessage);
+//                        }
+//                }
             }
 
             @Override

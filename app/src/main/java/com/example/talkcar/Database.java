@@ -218,7 +218,7 @@ public class Database {
 
     }
 
-    public static void findAllLastMessages(final OnGetDataListener listener){
+    public static void findAllLastMessagesToSpecificDriver(final String uId,final OnGetDataListener listener){
 
         listener.onStart();
         final ArrayList<Message> allLastMessages = new ArrayList<>();
@@ -229,8 +229,9 @@ public class Database {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()){
                     Chat chat = postSnapshot.getValue(Chat.class);
-                    if(chat.getMessages() != null) {
-                        allLastMessages.add(chat.getMessages().get(chat.getMessages().size() - 1));
+                    int size = chat.getMessages().size() - 1;
+                    if(chat.getMessages() != null && (chat.getMessages().get(size).getSender().equals(uId) ||chat.getMessages().get(size).getReceiver().equals(uId))) {
+                        allLastMessages.add(chat.getMessages().get(size));
                     }
                 }
                 listener.onSuccess(allLastMessages);
