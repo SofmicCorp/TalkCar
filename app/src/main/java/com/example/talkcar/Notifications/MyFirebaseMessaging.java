@@ -66,7 +66,6 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
             }
 
             if (keyChat.equals(ApplicationModel.currentChatKey)) {
-                ChatActivity.makeReceiveSound();
                 ChatActivity.readChat(keyChat);
             }
         }

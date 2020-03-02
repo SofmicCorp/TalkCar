@@ -293,7 +293,9 @@ public class ChatActivity extends AppCompatActivity {
                     return;
                 Chat chat = (Chat)object;
                 if(chat.getMessages().get(chat.getMessages().size() -1).getReceiver().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
-                    
+                    if(chat.isSomeMessageWereNotRead()){
+                        makeReceiveSound();
+                    }
                     chat.setSomeMessageWereNotRead(false);
                     MainActivity.someMessageWereNotRead = false;
                     Database.saveChat(chat);
