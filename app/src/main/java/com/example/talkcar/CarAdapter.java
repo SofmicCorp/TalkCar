@@ -44,6 +44,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
     public CarAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(mContext).inflate(R.layout.car_item, parent,false);
             holder =  new CarAdapter.ViewHolder(view);
+        Log.d("KUBA", "holder from car adapter class: " + holder);
             return holder;
 
     }
@@ -68,7 +69,6 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
                 }
             }
         }
-
         handleLastMessage(holder,car);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
