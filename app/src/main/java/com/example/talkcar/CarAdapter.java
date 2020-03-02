@@ -62,7 +62,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
         if(chatKeyLastMessageMap.size() > 0) {
             if(car.getHashMap() != null) {
                 Object[] keysChats = car.getHashMap().values().toArray();
-                for (int i = 0; i < chatKeyLastMessageMap.size(); i++) {
+                for (int i = 0; i < keysChats.length; i++) {
                     if (chatKeyLastMessageMap.get(keysChats[i]) != null) {
                         holder.profileImageBackground.setImageResource(R.drawable.unreadwhitecircle);
                     }
