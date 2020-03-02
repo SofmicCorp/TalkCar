@@ -36,8 +36,13 @@ public class AllChatsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_chats);
+        Log.d("LUBA", "onCreate: ");
+        Log.d("LUBA", "Recyevler View before setId: " + recyclerView);
         setIds();
+        Log.d("LUBA", "Recyevler View after setId: " + recyclerView);
         handler = new Handler();
+        addAllMyChattedCarList();
+
         //updateToken(FirebaseInstanceId.getInstance().getToken());
     }
 
@@ -50,7 +55,11 @@ public class AllChatsActivity extends AppCompatActivity {
     @Override
     public void onStop() {
         super.onStop();
+
+        Log.d("LUBA", "onStop!: ");
+        carAdapter = null;
         isActive = false;
+        handler.removeCallbacksAndMessages(null);
     }
 
     @Override
@@ -59,8 +68,7 @@ public class AllChatsActivity extends AppCompatActivity {
         handler.postDelayed( runnable = new Runnable() {
             public void run() {
                 addAllMyChattedCarList();
-                handler.postDelayed(runnable, DELAY);
-
+                    handler.postDelayed(runnable, DELAY);
             }
         }, DELAY);
 
@@ -111,24 +119,31 @@ public class AllChatsActivity extends AppCompatActivity {
 
     private void readCars(ArrayList<Car> chattedCarList, HashMap<String, Message> chatKeyLastMessageMap) {
 
-//        if(carAdapter == null){
-//            carAdapter = new CarAdapter(AllChatsActivity.this, chattedCarList, chatKeyLastMessageMap);
-//            recyclerView.setAdapter(carAdapter);
-//            return;
-//        }
-//
-//        if(chatKeyLastMessageMap.size() > 0) {
-//            carAdapter = new CarAdapter(AllChatsActivity.this, chattedCarList, chatKeyLastMessageMap);
-//            recyclerView.setAdapter(carAdapter);
-//        } else {
-//            Log.d("LUBA", "here!!: ");
-//            carAdapter.getHolder().profileImageBackground.setImageResource(R.drawable.whitecircle);
-//            recyclerView.setAdapter(carAdapter);
-//        }
+        Log.d("LUBA", "recycler view in readCars method: "+ recyclerView);
+        Log.d("LUBA", "carAdapter view in readCars method: "+ carAdapter);
 
-        carAdapter = new CarAdapter(AllChatsActivity.this, chattedCarList, chatKeyLastMessageMap);
-        recyclerView.setAdapter(carAdapter);
+        if(carAdapter == null){
+            carAdapter = new CarAdapter(AllChatsActivity.this, chattedCarList, chatKeyLastMessageMap);
+            if(recyclerView != null) {
+                Log.d("LUBA", "here!!!!!!!!!!: ");
+                recyclerView.setAdapter(carAdapter);
+            }
+            return;
+        }
 
+        if(chatKeyLastMessageMap.size() > 0) {
+            carAdapter = new CarAdapter(AllChatsActivity.this, chattedCarList, chatKeyLastMessageMap);
+            recyclerView.setAdapter(carAdapter);
+        }
+
+
+           else {
+            Log.d("KUBA", "carAdapter from allLChats: " + carAdapter.getHolder());
+            Log.d("KUBA", "HOLDER from allLChats: " + carAdapter.getHolder());
+               if(carAdapter.getHolder() != null) {
+                   carAdapter.getHolder().profileImageBackground.setImageResource(R.drawable.whitecircle);
+               }
+        }
     }
 
     private void setIds() {
@@ -136,7 +151,10 @@ public class AllChatsActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(AllChatsActivity.this));
-        carList = new ArrayList<>();
+
+        if(carList == null) {
+            carList = new ArrayList<>();
+        }
     }
 
     public static void updateToken(String token){

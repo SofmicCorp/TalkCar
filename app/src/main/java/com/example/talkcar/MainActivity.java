@@ -158,7 +158,8 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
             public void run() {
                 effects.shine(takePhoto,shine);
                 checkIfAllMessagesWereRead();
-                handler.postDelayed(runnable, DELAY);
+                    handler.postDelayed(runnable, DELAY);
+
 
             }
         }, DELAY);
@@ -183,6 +184,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
     public void onStop() {
         super.onStop();
         isActive = false;
+        handler.removeCallbacksAndMessages(null);
     }
 
     private void updateCarPickerIcon(int index) {

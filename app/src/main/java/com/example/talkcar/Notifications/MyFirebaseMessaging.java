@@ -20,6 +20,7 @@ import androidx.core.app.NotificationManagerCompat;
 
 import com.example.talkcar.AllChatsActivity;
 import com.example.talkcar.ApplicationModel;
+import com.example.talkcar.Chat;
 import com.example.talkcar.ChatActivity;
 import com.example.talkcar.Database;
 import com.example.talkcar.LoginActivity;
@@ -65,6 +66,7 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
             }
 
             if (keyChat.equals(ApplicationModel.currentChatKey)) {
+                ChatActivity.makeReceiveSound();
                 ChatActivity.readChat(keyChat);
             }
         }
