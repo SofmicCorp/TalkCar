@@ -28,6 +28,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -43,6 +48,7 @@ public class ChatActivity extends AppCompatActivity {
     private static MediaPlayer receiveSound;
     public static boolean isActive = false;
     public static Context context;
+    private String chatKey;
 
     private DatabaseReference reference;
 
@@ -95,7 +101,8 @@ public class ChatActivity extends AppCompatActivity {
 
     private void loadOldChat(Car chattedCar) {
 
-            final String chatKey = findChatKey();
+            chatKey = findChatKey();
+            Log.d("SUSI", "chatKey: " + chatKey);
             ApplicationModel.currentChatKey = chatKey;
             readChat(chatKey);
 
@@ -165,8 +172,9 @@ public class ChatActivity extends AppCompatActivity {
         Log.d("LIBI", "newMessage.getRec " + newMessage.getReceiver());
         Log.d("LIBI", "newMessage.getmsg " + newMessage.getMessage());
 
-        final String chatKey = findChatKey();
-
+        if(chatKey == null) {
+            chatKey = findChatKey();
+        }
         database.searchChatByKey(chatKey, new OnGetDataListener() {
             @Override
             public void onSuccess(Object object) {
@@ -177,6 +185,7 @@ public class ChatActivity extends AppCompatActivity {
                 } else {
                     //if there is no chat between those cars.
                     chat = new Chat(chatKey);
+                    Log.d("SUKI", "im here!: ");
 
                 }
                 chat.addMessage(newMessage);
@@ -223,17 +232,22 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private String findChatKey() {
-        String chatKey = null;
 
-        for(int i = 0; i <  ApplicationModel.getCurrentDriver().getCars().size(); i++){
-            if(ApplicationModel.getCurrentDriver().getCars().get(i).getHashMap() != null){
-                chatKey = ApplicationModel.getCurrentDriver().getCars().get(i).getHashMap().get(ApplicationModel.getLastCarNumberSearch().getCarNumber());
-                if(chatKey != null){
+        //Masive problem - Think about it with mor
+        //In findChatKey we look for the key of the chat with the car we talk with.
+        //Problem is that if Two of my cars speaks with the same car the first converstaion always
+        //"Catch" in the net but it should give us the right conversation and now it dont.
+        //Check for SUSI on logd that will clarify things.
+
+        for (int i = 0; i < ApplicationModel.getCurrentDriver().getCars().size(); i++) {
+            Set<String> allHashMapKeys = ApplicationModel.getCurrentDriver().getCars().get(i).getHashMap().keySet();
+            for (String hashKey: allHashMapKeys) {
+                if(hashKey.equals(ApplicationModel.getLastCarNumberSearch().getCarNumber())){
+                    chatKey = ApplicationModel.getCurrentDriver().getCars().get(i).getHashMap().get(hashKey);
                     return chatKey;
                 }
             }
         }
-
         return chatKey;
     }
 

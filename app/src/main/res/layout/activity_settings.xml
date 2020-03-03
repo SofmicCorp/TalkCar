@@ -43,7 +43,7 @@
                 android:textSize="20dp"
                 android:fontFamily="sans-serif-condensed"
                 android:textColor="@color/black"
-                android:drawableLeft="@drawable/messageicon"
+                android:drawableLeft="@drawable/ic_message_settings"
                 android:drawablePadding="5dp"/>
 
             <TextView
@@ -57,7 +57,22 @@
                 android:textSize="20dp"
                 android:fontFamily="sans-serif-condensed"
                 android:textColor="@color/black"
-                android:drawableLeft="@drawable/termsicon"
+                android:drawableLeft="@drawable/ic_terms_settings"
+                android:drawablePadding="2dp"
+                />
+
+            <TextView
+                android:id="@+id/personal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Personal Settings"
+                android:gravity="left"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:textSize="20dp"
+                android:fontFamily="sans-serif-condensed"
+                android:textColor="@color/black"
+                android:drawableLeft="@drawable/ic_personal_info"
                 android:drawablePadding="2dp"
                 />
 
@@ -72,7 +87,7 @@
                 android:textSize="20dp"
                 android:fontFamily="sans-serif-condensed"
                 android:textColor="@color/black"
-                android:drawableLeft="@drawable/dooricon"
+                android:drawableLeft="@drawable/ic_logout_settings"
                 android:drawablePadding="2dp"
                 />
 

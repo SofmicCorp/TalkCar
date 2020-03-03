@@ -132,10 +132,9 @@ public class AllChatsActivity extends AppCompatActivity {
         }
 
         if(chatKeyLastMessageMap.size() > 0) {
-            carAdapter = new CarAdapter(AllChatsActivity.this, chattedCarList, chatKeyLastMessageMap);
-            recyclerView.setAdapter(carAdapter);
+                carAdapter = new CarAdapter(AllChatsActivity.this, chattedCarList, chatKeyLastMessageMap);
+                recyclerView.setAdapter(carAdapter);
         }
-
 
            else {
             Log.d("KUBA", "carAdapter from allLChats: " + carAdapter.getHolder());
