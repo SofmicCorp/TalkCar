@@ -16,10 +16,10 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:fontFamily="sans-serif-smallcaps"
-            android:text="edit car"
             android:background="@color/neatBlue"
+            android:fontFamily="@font/francois_one"
+            android:gravity="center"
+            android:text="edit car"
             android:textColor="@color/neatWhite"
             android:textSize="30dp" />
 

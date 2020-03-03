@@ -17,14 +17,13 @@
                 android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="user name"
-                android:gravity="left"
-                android:layout_marginTop="20dp"
-                android:textSize="50dp"
                 android:layout_marginLeft="30dp"
-                android:fontFamily="sans-serif-condensed"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/francois_one"
+                android:gravity="left"
+                android:text="user name"
                 android:textColor="@color/neatBlue"
-               />
+                android:textSize="50dp" />
 
             <View
                 android:layout_width="330dp"
