@@ -87,7 +87,6 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         setIds();
         setSounds();
         setClickListeners();
-        Log.d("BIBI", "MainActivity : onCreate  ");
         checkIfAllMessagesWereRead();
         initEmojiMap();
         fieldsChecker = new FieldsChecker();
@@ -348,7 +347,6 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
                     }
                     else
                         Toast.makeText(MainActivity.this, "Car was not found in the system...", Toast.LENGTH_SHORT).show();
-
                 }
 
                 @Override
@@ -358,11 +356,9 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
 
                 @Override
                 public void onFailure() {
-                    Toast.makeText(MainActivity.this, "Somthing went wrong...", Toast.LENGTH_SHORT).show();
-
+                    Toast.makeText(MainActivity.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
                 }
             });
-
         }
     }
 
@@ -435,7 +431,6 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
 
         Intent intent = new Intent(this,ChatActivity.class);
         intent.putExtra("chattedCar", chattedCar);
-
 
 
         Log.d("LIBI", "openChat:  before start activity1");

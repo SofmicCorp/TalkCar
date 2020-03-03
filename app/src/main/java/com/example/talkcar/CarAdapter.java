@@ -71,6 +71,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
                 }
             }
         }
+
         handleLastMessage(holder,car);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

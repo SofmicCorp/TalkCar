@@ -2,6 +2,7 @@ package com.example.talkcar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,6 +16,8 @@ public class SettingsActivity extends AppCompatActivity {
     private TextView signout;
     private TextView username;
     private TextView messages;
+    private TextView personalSettings;
+    public static Activity activity;
     private SharedPreferences sharedPreferences;
     private final String LOGIN_FILE = "login";
     public static boolean isActive;
@@ -24,6 +27,7 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         sharedPreferences = getSharedPreferences(LOGIN_FILE,MODE_PRIVATE);
+        activity = this;
         setIds();
         username.setText(ApplicationModel.getCurrentDriver().getName());
         setClickListeners();
@@ -57,6 +61,13 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        personalSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToPersonalSettingsActivity();
+            }
+        });
+
         signout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,6 +78,11 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void goToPersonalSettingsActivity() {
+        Intent intent = new Intent(this,PersonalSettingsActivity.class);
+        startActivity(intent);
     }
 
     private void goToAllChatsActivity() {
@@ -95,5 +111,6 @@ public class SettingsActivity extends AppCompatActivity {
         signout = (TextView)findViewById(R.id.logout);
         messages = (TextView)findViewById(R.id.messages);
         username = (TextView)findViewById(R.id.username);
+        personalSettings = (TextView)findViewById(R.id.personal);
     }
 }

@@ -84,6 +84,7 @@ public class WaitingActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(!task.isSuccessful()) {
+                    Toast.makeText(WaitingActivity.this, "Email or password is incorrect", Toast.LENGTH_SHORT).show();
                     goToLoginActivity(1);
                 }else {
                     //finding the current driver in database
@@ -132,6 +133,7 @@ public class WaitingActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Object driver) {
                 if(driver != null){
+                    Log.d("PUKI", "driver: " + driver);
                     ApplicationModel.setCurrentDriver((Driver)driver);
                     Log.d("BIBI", "Waiting Activity : automaticSignin mor!!!: ");
                     goToMainActivity();
@@ -212,7 +214,7 @@ public class WaitingActivity extends AppCompatActivity {
                     }
             }else{
                     saveCurrentApplicationUserDetailsToSharedPreferences(email);
-                    Driver driver = saveDriverToDatabase(name, FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    Driver driver = saveDriverToDatabase(name,email, FirebaseAuth.getInstance().getCurrentUser().getUid());
                     addUidToAllDriversCars(driver);
                     //Set current driver on app
                     ApplicationModel.setCurrentDriver(driver);
@@ -234,9 +236,9 @@ public class WaitingActivity extends AppCompatActivity {
     }
 
 
-    private Driver saveDriverToDatabase(String name, String uId){
+    private Driver saveDriverToDatabase(String name,String email ,String uId){
 
-        Driver driver = new Driver(name,uId);
+        Driver driver = new Driver(name,email,uId);
         for(int i = 0; i < CarForm.allForms.size(); i++){
             String carNumber = CarForm.allForms.get(i).getCarNumberPlaceHolder().getText().toString();
             String nickName = CarForm.allForms.get(i).getNicknamePlaceHolder().getText().toString();
