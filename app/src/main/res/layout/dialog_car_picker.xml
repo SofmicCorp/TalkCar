@@ -20,7 +20,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/header_dialog_shape"
-                android:fontFamily="@font/francois_one"
+                android:fontFamily="sans-serif-smallcaps"
                 android:gravity="center"
                 android:text="pick a car"
                 android:textColor="@color/neatWhite"

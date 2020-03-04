@@ -21,7 +21,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:background="@color/neatBlue"
-                android:fontFamily="@font/francois_one"
+                android:fontFamily="sans-serif-smallcaps"
                 android:gravity="center"
                 android:text="signup"
                 android:textColor="@color/neatWhite"
