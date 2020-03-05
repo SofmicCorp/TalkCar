@@ -137,10 +137,21 @@ public class CarForm extends RelativeLayout implements Serializable {
 
     public void changeContainer(LinearLayout formContainer){
 
-       currentContainer.removeAllViews();
-       currentContainer= formContainer;
+        formContainer.setOrientation(LinearLayout.VERTICAL);
+        formContainer.setGravity(Gravity.CENTER);
 
-       setEmojiContainer();
+        emojiContainer.setOrientation(LinearLayout.HORIZONTAL);
+        emojiContainer.setGravity(Gravity.CENTER_HORIZONTAL);
+
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 250);
+        lp.setMargins(0,0,70,0);
+        emojiContainer.setLayoutParams(lp);
+
+
+        currentContainer.removeAllViews();
+        currentContainer= formContainer;
+
+        setEmojiContainer();
 
        dynamicallyXML.addAllViewsLayout(currentContainer,inputUserContainer,emojiContainer,seeMoreContainer);
 
