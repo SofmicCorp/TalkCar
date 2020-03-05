@@ -22,12 +22,24 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:fontFamily="sans-serif-smallcaps"
-                android:text="pick your emoji"
-                android:background="@drawable/header_dialog_shape"
-                android:textColor="@color/neatWhite"
-                android:textSize="30dp" />
+                android:layout_marginLeft="5dp"
+                android:padding="10dp"
+                android:fontFamily="sans-serif-condensed-light"
+                android:gravity="left"
+                android:paddingLeft="5dp"
+                android:text="Pick Your Emoji"
+                android:textColor="@color/black"
+                android:textSize="30dp"
+                android:textStyle="bold" />
+
+            <View
+                android:id="@+id/horizontal_line"
+                android:layout_width="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_height="1dp"
+                android:background="@color/darkGray" />
 
 
             <LinearLayout

@@ -480,11 +480,12 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
 
         //get the new car details and create a card view to that car
         TextView nickname = dynamicallyXML.createTextView(this,car.getNickname(),40, Color.BLACK, Gravity.CENTER,20,50,10,10);
-        CarView card = new CarView(nickname, CarForm.allForms.size() - 1 ,container,this,this,car.getCarNumber());
+        CarView card = new CarView(nickname, CarForm.allForms.size() - 1 ,container,this,activity,car.getCarNumber());
         CarView.allCarViews.add(card);
         //Save car to database
 
         Database.saveDriver(driver,FirebaseAuth.getInstance().getCurrentUser().getUid());
+        changeCurrentCar(CarView.allCarViews.size() - 1);
 
         Log.d("BIBI", "Main Activity: sendInput");
 

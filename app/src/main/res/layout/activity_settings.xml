@@ -17,19 +17,24 @@
                 android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="20dp"
-                android:fontFamily="sans-serif-smallcaps"
+                android:layout_marginLeft="5dp"
+                android:padding="10dp"
+                android:fontFamily="sans-serif-condensed-light"
                 android:gravity="left"
-                android:text="user name"
-                android:textColor="@color/neatBlue"
-                android:textSize="50dp" />
+                android:paddingLeft="5dp"
+                android:text="Username"
+                android:textColor="@color/darkBlue"
+                android:textSize="40dp"
+                android:textStyle="bold" />
 
             <View
-                android:layout_width="330dp"
+                android:id="@+id/horizontal_line"
+                android:layout_width="match_parent"
                 android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:layout_height="1dp"
-                android:background="@color/lightGray" />
+                android:background="@color/darkGray" />
 
             <TextView
                 android:id="@+id/messages"
@@ -86,7 +91,7 @@
                 android:textSize="20dp"
                 android:fontFamily="sans-serif-condensed"
                 android:textColor="@color/black"
-                android:drawableLeft="@drawable/ic_logout_settings"
+                android:drawableLeft="@drawable/leave_icon"
                 android:drawablePadding="2dp"
                 />
 

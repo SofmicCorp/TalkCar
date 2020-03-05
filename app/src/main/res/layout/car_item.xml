@@ -28,18 +28,17 @@
     </FrameLayout>
 
     <TextView
+        android:id="@+id/car_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="car number"
-        android:id="@+id/car_number"
-        android:layout_toRightOf="@id/frame"
         android:layout_toEndOf="@id/frame"
-        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/frame"
+        android:layout_marginTop="15dp"
         android:fontFamily="sans-serif-smallcaps"
+        android:text="car number"
         android:textColor="@color/black"
-        android:textStyle="bold"
-        android:layout_centerVertical="true"
-        android:textSize="20dp"/>
+        android:textSize="20dp"
+        android:textStyle="bold" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -47,20 +46,20 @@
         android:text=""
         android:layout_toRightOf="@id/frame"
         android:id="@+id/last_message"
-        android:layout_marginLeft="10dp"
         android:layout_below="@id/car_number"
         android:fontFamily="sans-serif-condensed"
-        android:textColor="@color/black"
-        android:layout_marginTop="5dp"
-        android:paddingTop="15dp"
+        android:textColor="@color/darkGray"
+        android:paddingBottom="10dp"
         android:maxLines="1" />
 
     <View
         android:id="@+id/horizontal_line"
-        android:layout_width="330dp"
+        android:layout_width="match_parent"
         android:layout_gravity="center"
         android:layout_height="1dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginRight="20dp"
+        android:layout_below="@id/frame"
         android:background="@color/darkGray" />
 
 </RelativeLayout>

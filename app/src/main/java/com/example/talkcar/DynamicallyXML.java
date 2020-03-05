@@ -6,6 +6,7 @@ import android.graphics.Typeface;
 import android.media.Image;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -32,13 +33,13 @@ public class DynamicallyXML {
 
     public TextView createTextView(Context context,String text, int size, int color, int gravity, int leftMargin, int topMargin, int rightMargin, int bottomMargin) {
 
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(910, 130);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         lp.setMargins(leftMargin,topMargin,rightMargin,bottomMargin);
         lp.gravity = gravity;
         TextView textView = new TextView(context);
         textView.setTextSize(size);
         textView.setText(text);
-        textView.setTypeface(Typeface.create("sans-serif-smallcaps", Typeface.NORMAL));
+        textView.setTypeface(Typeface.create("sans-serif-condensed", Typeface.BOLD));
         textView.setTextColor(color);
         textView.setLayoutParams(lp);
 
@@ -48,12 +49,12 @@ public class DynamicallyXML {
     public EditText createEditText(Context context,String hint, int type) {
 
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(700, 100);
-        lp.setMargins(0,30,20,20);
+        lp.setMargins(0,20,0,20);
         lp.gravity = Gravity.CENTER;
         EditText editText = new EditText(context);
         editText.setHint(hint);
         editText.setTextSize(13);
-        editText.setPadding(40,0,0,0);
+        editText.setPadding(40,0,40,0);
         editText.setTypeface(Typeface.create("sans-serif-condensed", Typeface.NORMAL));
         editText.setHintTextColor(Color.BLACK);
         editText.setTextColor(Color.BLACK);

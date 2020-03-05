@@ -34,12 +34,11 @@ public class AddNewCarDialog extends DialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_new_car,container, false);
+        dynamicallyXML = new DynamicallyXML();
         setIds(view);
         setClickListeners();
         carForm = new CarForm((getContext()),formContainer);
         checker = new FieldsChecker();
-        dynamicallyXML = new DynamicallyXML();
-        Log.d("BIBI", "AddNewCarDialog : onCreateView  ");
 
         return view;
     }
