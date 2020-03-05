@@ -479,7 +479,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         driver.addCar(car);
 
         //get the new car details and create a card view to that car
-        TextView nickname = dynamicallyXML.createTextView(this,car.getNickname(),40, Color.BLACK, Gravity.CENTER,20,50,10,10);
+        TextView nickname = dynamicallyXML.createTextView(this,car.getNickname(),"sans-serif-smallcaps",40, Color.BLACK, Gravity.CENTER,20,50,10,10);
         CarView card = new CarView(nickname, CarForm.allForms.size() - 1 ,container,this,activity,car.getCarNumber());
         CarView.allCarViews.add(card);
         //Save car to database
@@ -534,7 +534,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
 
             Car car = driver.getCars().get(i);
             carNickname = new StringBuilder(car.getNickname());
-            TextView nickname = dynamicallyXML.createTextView(this, carNickname.toString(), 40, Color.BLACK, Gravity.CENTER, 20, 50, 10, 10);
+            TextView nickname = dynamicallyXML.createTextView(this, carNickname.toString(),"sans-serif-smallcaps", 40, Color.BLACK, Gravity.CENTER, 20, 50, 10, 10);
             final CarView carView = new CarView(nickname, i, container, this, MainActivity.activity, car.getCarNumber());
 
             CarForm.allForms.get(i).getCarNumberPlaceHolder().setText(car.getCarNumber());

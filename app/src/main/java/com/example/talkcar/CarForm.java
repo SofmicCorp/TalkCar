@@ -67,14 +67,14 @@ public class CarForm extends RelativeLayout implements Serializable {
 
         carNumberPlaceHolder =  dynamicallyXML.createEditText(context,"Car Number", InputType.TYPE_CLASS_PHONE);
         nicknamePlaceHolder = dynamicallyXML.createEditText(context,"Nickname (optional)",InputType.TYPE_CLASS_TEXT);
-        TextView pickYourEmojiText = dynamicallyXML.createTextView(context,"Pick Your Car's Emoji!",13,Color.BLACK,Gravity.CENTER,0,10,0,0);
+        TextView pickYourEmojiText = dynamicallyXML.createTextView(context,"Pick Your Car's Emoji!","sans-serif-condensed",13,Color.BLACK,Gravity.CENTER,0,10,0,0);
         dynamicallyXML.addAllViewsLayout(inputUserContainer,carNumberPlaceHolder,nicknamePlaceHolder,pickYourEmojiText);
 
         //Set click listener to all emojis.
         setEmojiClickListeners(allEmojis);
         //add To Emoji Container
         addEmojiToContainer(emojiContainer);
-        seeMore = dynamicallyXML.createTextView(context,"See More",13,Color.BLACK,Gravity.CENTER,0,10,0,0);
+        seeMore = dynamicallyXML.createTextView(context,"See More","sans-serif-condensed",13,Color.BLACK,Gravity.CENTER,0,10,0,0);
         setSeeMoreClickListener();
         dynamicallyXML.addAllViewsLayout(seeMoreContainer,seeMore);
 

@@ -31,7 +31,7 @@ public class DynamicallyXML {
         return imageView;
     }
 
-    public TextView createTextView(Context context,String text, int size, int color, int gravity, int leftMargin, int topMargin, int rightMargin, int bottomMargin) {
+    public TextView createTextView(Context context,String text,String fontFamily, int size, int color, int gravity, int leftMargin, int topMargin, int rightMargin, int bottomMargin) {
 
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         lp.setMargins(leftMargin,topMargin,rightMargin,bottomMargin);
@@ -39,7 +39,7 @@ public class DynamicallyXML {
         TextView textView = new TextView(context);
         textView.setTextSize(size);
         textView.setText(text);
-        textView.setTypeface(Typeface.create("sans-serif-condensed", Typeface.BOLD));
+        textView.setTypeface(Typeface.create(fontFamily, Typeface.BOLD));
         textView.setTextColor(color);
         textView.setLayoutParams(lp);
 
