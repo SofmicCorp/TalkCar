@@ -163,6 +163,7 @@ public class WaitingActivity extends AppCompatActivity {
         Intent intent = new Intent(this,LoginActivity.class);
         intent.putExtra("error", ERROR); //failed on authincate
         startActivity(intent);
+        finish();
 
     }
 

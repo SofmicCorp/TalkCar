@@ -28,14 +28,16 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
 
     private Context mContext;
     private List<Car> mCars;
+    private HashMap<Car,String> mChattedCarMap;
     private HashMap<String, Message> chatKeyLastMessageMap;
     private String theLastMessage;
     private CarAdapter.ViewHolder holder;
     private static  ArrayList<Message> allLastMessages;
 
-    public CarAdapter(Context mContext, List<Car> mCars, HashMap<String, Message> chatKeyLastMessageMap){
+    public CarAdapter(Context mContext, HashMap<Car,String> mChattedCarMap ,List<Car> mCars, HashMap<String, Message> chatKeyLastMessageMap){
 
         this.mContext = mContext;
+        this.mChattedCarMap = mChattedCarMap;
         this.mCars = mCars;
         this.chatKeyLastMessageMap = chatKeyLastMessageMap;
         allLastMessages = new ArrayList<>();
@@ -62,8 +64,11 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
 
         Log.d("LUBA", "chatKeyLastMessageMap.size(): " + chatKeyLastMessageMap.size());
         if(chatKeyLastMessageMap.size() > 0) {
-            if(car.getHashMap() != null) {
-                Object[] keysChats = car.getHashMap().values().toArray();
+
+            holder.profileImageBackground.setImageResource(R.drawable.unreadwhitecircle);
+
+            if(mChattedCarMap != null) {
+                Object[] keysChats = mChattedCarMap.values().toArray();
                 for (int i = 0; i < keysChats.length; i++) {
                     if (chatKeyLastMessageMap.get(keysChats[i]) != null) {
                         holder.profileImageBackground.setImageResource(R.drawable.unreadwhitecircle);
@@ -80,8 +85,10 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
                 Intent intent = new Intent(mContext,ChatActivity.class);
                 intent.putExtra("chattedCar",car);
                 ApplicationModel.setLastCarNumberSearch(car);
+                ApplicationModel.currentChatKey = mChattedCarMap.get(car);
                 ApplicationModel.setChattedDriverUid(car.getDriverUid());
                 mContext.startActivity(intent);
+
             }
         });
     }

@@ -3,11 +3,16 @@ package com.example.talkcar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class ApplicationModel {
     public static Driver currentDriver;
     public static Driver lastDriverSearch;
     public static Car currentCar;
     public static Car lastCarNumberSearch;
+    public static HashMap<Car, String > allChattedCars;
+    public static ArrayList<Car> allChattedCarArray;
     public static String chattedDriverUid;
     public static String currentChatKey;
 

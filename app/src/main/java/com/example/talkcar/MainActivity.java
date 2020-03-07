@@ -32,6 +32,7 @@ import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 //For Future Sarel And Mor!
 //There is one really important thing about how this system works.
@@ -80,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         dynamicallyXML = new DynamicallyXML();
+        AllChatsActivity.findAllMyChattedCar();
         effects = new Effects();
         handler = new Handler();
         MainActivity.activity = this;
@@ -436,28 +438,30 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         Log.d("LIBI", "openChat:  before start activity1");
         if(ApplicationModel.getCurrentCar().getHashMap() == null ){
             //Current driver dont have a conversation at all
-            ApplicationModel.getCurrentCar().setHashMap(new HashMap<String, String>());
+            ApplicationModel.getCurrentCar().setHashMap(new HashMap<String, Car>());
             messageKey = ApplicationModel.getCurrentCar().getCarNumber() + chattedCar.getCarNumber();
         } else {
             if(ApplicationModel.getCurrentCar().getHashMap().get(chattedCar.getCarNumber()) != null){
                 //Converstaion with chattedCar was allready happenened before
-                messageKey = ApplicationModel.getCurrentCar().getHashMap().get(chattedCar.getCarNumber());
+                messageKey = ApplicationModel.allChattedCars.get(chattedCar);
             } else {
                 //Converstaion with chattedCar was NOT happenened before
                 messageKey = ApplicationModel.getCurrentCar().getCarNumber() + chattedCar.getCarNumber();
             }
         }
 
-
+        ApplicationModel.currentChatKey = messageKey;
         Log.d("LIBI", "openChat:  before start activity2");
 
-        ApplicationModel.getCurrentCar().getHashMap().put(chattedCar.getCarNumber(),messageKey);
+        Car fakeCar = new Car(chattedCar.getCarNumber(),chattedCar.getNickname(),chattedCar.getEmojiId(),chattedCar.getDriverUid());
+        ApplicationModel.getCurrentCar().getHashMap().put(messageKey,fakeCar);
 
         int index = ApplicationModel.getLastDriverSearch().getCars().indexOf(chattedCar);
         if(ApplicationModel.getLastDriverSearch().getCars().get(index).getHashMap() == null ){
-            ApplicationModel.getLastDriverSearch().getCars().get(index).setHashMap(new HashMap<String, String>());
+            ApplicationModel.getLastDriverSearch().getCars().get(index).setHashMap(new HashMap<String, Car>());
         }
-        ApplicationModel.getLastDriverSearch().getCars().get(index).getHashMap().put(ApplicationModel.getCurrentCar().getCarNumber(),messageKey);
+        Car myChattedCar = new Car(ApplicationModel.getCurrentCar().getCarNumber(),ApplicationModel.getCurrentCar().getNickname(),ApplicationModel.getCurrentCar().getEmojiId(),ApplicationModel.getCurrentCar().getDriverUid());
+        ApplicationModel.getLastDriverSearch().getCars().get(index).getHashMap().put(messageKey,myChattedCar);
 
 
         Log.d("LIBI", "openChat:  before start activity3");

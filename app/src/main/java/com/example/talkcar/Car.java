@@ -9,7 +9,7 @@ public class Car implements Serializable {
     private String nickname;
     private String emojiId;
     private String driverUid;
-    private HashMap<String,String> hashMap;
+    private HashMap<String,Car> hashMap;
 
 
     public Car(){
@@ -54,11 +54,11 @@ public class Car implements Serializable {
         return nickname;
     }
 
-    public HashMap<String, String> getHashMap() {
+    public  HashMap<String,Car> getHashMap() {
         return hashMap;
     }
 
-    public void setHashMap(HashMap<String, String> hashMap) {
+    public void setHashMap(HashMap<String,Car> hashMap) {
         this.hashMap = hashMap;
     }
 

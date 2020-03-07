@@ -46,7 +46,6 @@ public class Database {
 
                     for(int j = 0; j < driver.getCars().size(); j++){
                         if(driver.getCars().get(j).getCarNumber().equals(carNumber)) {
-
                             ApplicationModel.setLastCarNumberSearch(driver.getCars().get(j));
                             Log.d("BIBI", "Database:searchCarByCarNumber OndataChange" );
 
@@ -138,38 +137,38 @@ public class Database {
 
     public static void findAllMyChattedCar(final OnGetDataListener listener){
 
-        listener.onStart();
-
-        databaseReferenceDrivers.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                ArrayList<Car> allMyChattedCar = new ArrayList<>();
-
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    Driver driver = postSnapshot.getValue(Driver.class);
-                    for(int j = 0; j < driver.getCars().size(); j++){
-                        if(ApplicationModel.getCurrentDriver() != null) {
-                            for (int k = 0; k < ApplicationModel.getCurrentDriver().getCars().size(); k++) {
-                                if (ApplicationModel.getCurrentDriver().getCars().get(k).getHashMap() != null) {
-                                    if (ApplicationModel.getCurrentDriver().getCars().get(k).getHashMap().get(driver.getCars().get(j).getCarNumber()) != null) {
-                                        allMyChattedCar.add(driver.getCars().get(j));
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                Log.d("BUBA", "time that search take : " + difference);
-
-                listener.onSuccess(allMyChattedCar);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                listener.onFailure();
-            }
-        });
+//        listener.onStart();
+//
+//        databaseReferenceDrivers.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//
+//                HashMap<String,Car> allMyChattedCar = new HashMap<>();
+//
+//                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+//                    Driver driver = postSnapshot.getValue(Driver.class);
+//                    for(int j = 0; j < driver.getCars().size(); j++){
+//                        if(ApplicationModel.getCurrentDriver() != null) {
+//                            for (int k = 0; k < ApplicationModel.getCurrentDriver().getCars().size(); k++) {
+//                                if (ApplicationModel.getCurrentDriver().getCars().get(k).getHashMap() != null) {
+//                                    if (ApplicationModel.getCurrentDriver().getCars().get(k).getHashMap().get(driver.getCars().get(j).getCarNumber()) != null) {
+//                                        allMyChattedCar.put(ApplicationModel.getCurrentDriver().getCars().get(k).getHashMap().get(driver.getCars().get(j).getCarNumber()),driver.getCars().get(j));
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//                Log.d("BUBA", "time that search take : " + difference);
+//
+//                listener.onSuccess(allMyChattedCar);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//                listener.onFailure();
+//            }
+//        });
 
     }
 

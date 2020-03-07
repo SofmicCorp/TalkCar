@@ -27,7 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button signInBtn;
     private EditText emailPlaceHolder;
     private EditText passwordPlaceHolder;
-    private TextView signupText;
+    private Button signupBtn;
     private FirebaseAuth mFirebaseAuth;
     private FieldsChecker checker;
     private int error;
@@ -107,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        signupText.setOnClickListener(new View.OnClickListener() {
+        signupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 goToSignupActivity();
@@ -143,7 +143,7 @@ public class LoginActivity extends AppCompatActivity {
         signInBtn = (Button)findViewById(R.id.signin_btn);
         emailPlaceHolder = (EditText)findViewById(R.id.email_placeholder);
         passwordPlaceHolder = (EditText)findViewById(R.id.password_placeholder);
-        signupText = (TextView)findViewById(R.id.signup_text);
+        signupBtn = (Button)findViewById(R.id.signup_btn);
     }
 
 

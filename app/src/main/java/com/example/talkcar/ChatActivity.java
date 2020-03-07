@@ -233,22 +233,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private String findChatKey() {
 
-        //Masive problem - Think about it with mor
-        //In findChatKey we look for the key of the chat with the car we talk with.
-        //Problem is that if Two of my cars speaks with the same car the first converstaion always
-        //"Catch" in the net but it should give us the right conversation and now it dont.
-        //Check for SUSI on logd that will clarify things.
-
-        for (int i = 0; i < ApplicationModel.getCurrentDriver().getCars().size(); i++) {
-            Set<String> allHashMapKeys = ApplicationModel.getCurrentDriver().getCars().get(i).getHashMap().keySet();
-            for (String hashKey: allHashMapKeys) {
-                if(hashKey.equals(ApplicationModel.getLastCarNumberSearch().getCarNumber())){
-                    chatKey = ApplicationModel.getCurrentDriver().getCars().get(i).getHashMap().get(hashKey);
-                    return chatKey;
-                }
-            }
-        }
-        return chatKey;
+        return ApplicationModel.currentChatKey;
     }
 
     private void sendNotification(final String receiver, final String sender, final String msg) {

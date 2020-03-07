@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class AllChatsActivity extends AppCompatActivity {
 
@@ -77,17 +79,15 @@ public class AllChatsActivity extends AppCompatActivity {
 
     private void addAllMyChattedCarList() {
 
-        Database.findAllMyChattedCar(new OnGetDataListener() {
-            @Override
-            public void onSuccess(final Object chattedCarList) {
+            findAllMyChattedCar();
 
                 Database.findUnreadChatsKeys(new OnGetDataListener() {
                     @Override
                     public void onSuccess(Object chatKeyLastMessageMap) {
 
-                        if(chattedCarList != null){
+                        if(ApplicationModel.allChattedCars != null){
                             //There is at least one conversation
-                            readCars((ArrayList<Car>)chattedCarList,(HashMap<String,Message>)chatKeyLastMessageMap);
+                            readCars(ApplicationModel.allChattedCars,ApplicationModel.allChattedCarArray,(HashMap<String,Message>)chatKeyLastMessageMap);
                         }
 
                     }
@@ -103,27 +103,16 @@ public class AllChatsActivity extends AppCompatActivity {
                     }
                 });
 
-            }
 
-            @Override
-            public void onStart() {
-
-            }
-
-            @Override
-            public void onFailure() {
-
-            }
-        });
     }
 
-    private void readCars(ArrayList<Car> chattedCarList, HashMap<String, Message> chatKeyLastMessageMap) {
+    private void readCars(HashMap<Car, String> allChattedCarMap, ArrayList<Car> chattedCarList, HashMap<String, Message> chatKeyLastMessageMap) {
 
         Log.d("LUBA", "recycler view in readCars method: "+ recyclerView);
         Log.d("LUBA", "carAdapter view in readCars method: "+ carAdapter);
 
         if(carAdapter == null){
-            carAdapter = new CarAdapter(AllChatsActivity.this, chattedCarList, chatKeyLastMessageMap);
+            carAdapter = new CarAdapter(AllChatsActivity.this,allChattedCarMap, chattedCarList, chatKeyLastMessageMap);
             if(recyclerView != null) {
                 Log.d("LUBA", "here!!!!!!!!!!: ");
                 recyclerView.setAdapter(carAdapter);
@@ -132,7 +121,7 @@ public class AllChatsActivity extends AppCompatActivity {
         }
 
         if(chatKeyLastMessageMap.size() > 0) {
-                carAdapter = new CarAdapter(AllChatsActivity.this, chattedCarList, chatKeyLastMessageMap);
+                carAdapter = new CarAdapter(AllChatsActivity.this, allChattedCarMap,chattedCarList, chatKeyLastMessageMap);
                 recyclerView.setAdapter(carAdapter);
         }
 
@@ -161,5 +150,23 @@ public class AllChatsActivity extends AppCompatActivity {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tokens");
         Token token1 = new Token(token);
         reference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(token);
+    }
+
+    public static void findAllMyChattedCar(){
+
+        HashMap<Car,String> allMyCahttedCarMap = new HashMap<>(); //<Chatted
+        ArrayList<Car> allMyChattedCar = new ArrayList<>();
+
+        for (Car car : ApplicationModel.getCurrentDriver().getCars()) {
+            if(car.getHashMap() != null) {
+                for (Map.Entry<String, Car> entry : car.getHashMap().entrySet()) {
+                    allMyCahttedCarMap.put(entry.getValue(), entry.getKey());
+                    allMyChattedCar.add(entry.getValue());
+                }
+            }
+        }
+
+        ApplicationModel.allChattedCars = allMyCahttedCarMap;
+        ApplicationModel.allChattedCarArray = allMyChattedCar;
     }
 }
