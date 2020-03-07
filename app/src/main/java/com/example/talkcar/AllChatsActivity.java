@@ -85,7 +85,9 @@ public class AllChatsActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Object chatKeyLastMessageMap) {
 
-                        if(ApplicationModel.allChattedCars != null){
+                        Log.d("SUBA", ":ApplicationModel.allChattedCars =  " + ApplicationModel.allChattedCars);
+
+                        if(ApplicationModel.allChattedCarArray != null){
                             //There is at least one conversation
                             readCars(ApplicationModel.allChattedCars,ApplicationModel.allChattedCarArray,(HashMap<String,Message>)chatKeyLastMessageMap);
                         }
@@ -154,19 +156,41 @@ public class AllChatsActivity extends AppCompatActivity {
 
     public static void findAllMyChattedCar(){
 
-        HashMap<Car,String> allMyCahttedCarMap = new HashMap<>(); //<Chatted
-        ArrayList<Car> allMyChattedCar = new ArrayList<>();
+        Database.searchDriverByUid(FirebaseAuth.getInstance().getCurrentUser().getUid(), new OnGetDataListener() {
+            @Override
+            public void onSuccess(Object driver) {
 
-        for (Car car : ApplicationModel.getCurrentDriver().getCars()) {
-            if(car.getHashMap() != null) {
-                for (Map.Entry<String, Car> entry : car.getHashMap().entrySet()) {
-                    allMyCahttedCarMap.put(entry.getValue(), entry.getKey());
-                    allMyChattedCar.add(entry.getValue());
+                if(driver == null)
+                    return;
+
+                Driver dbDriver = (Driver)driver;
+                HashMap<Car,String> allMyCahttedCarMap = new HashMap<>(); //<Chatted
+                ArrayList<Car> allMyChattedCar = new ArrayList<>();
+
+                for (Car car : dbDriver.getCars()) {
+                    if(car.getHashMap() != null) {
+                        for (Map.Entry<String, Car> entry : car.getHashMap().entrySet()) {
+                            allMyCahttedCarMap.put(entry.getValue(), entry.getKey());
+                            allMyChattedCar.add(entry.getValue());
+                        }
+                    }
                 }
-            }
-        }
 
-        ApplicationModel.allChattedCars = allMyCahttedCarMap;
-        ApplicationModel.allChattedCarArray = allMyChattedCar;
+                ApplicationModel.allChattedCars = allMyCahttedCarMap;
+                ApplicationModel.allChattedCarArray = allMyChattedCar;
+            }
+
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+        });
+
+
     }
 }
