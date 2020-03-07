@@ -20,12 +20,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@color/neatBlue"
-                android:fontFamily="sans-serif-smallcaps"
+                android:layout_marginTop="80dp"
+                android:fontFamily="sans-serif-condensed-medium"
                 android:gravity="center"
-                android:text="signup"
-                android:textColor="@color/neatWhite"
-                android:textSize="80dp" />
+                android:paddingLeft="5dp"
+                android:text="Sign Up"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="40dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:gravity="center"
+                android:paddingLeft="5dp"
+                android:textStyle="bold"
+                android:text="It's free and only takes a minute."
+                android:textColor="@color/darkGray"
+                android:textSize="15dp"/>
+
+
+
+
+
+
 
             <EditText
                 android:id="@+id/name_holder"
@@ -33,7 +54,7 @@
                 android:layout_height="40dp"
                 android:hint="Name"
                 android:textSize="13dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="40dp"
                 android:textColorHint="@color/black"
                 android:background="@drawable/edit_text_shape"
                 android:fontFamily="sans-serif-condensed"
@@ -99,7 +120,7 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginTop="20dp"
-                   android:layout_centerInParent="true"
+                    android:layout_centerInParent="true"
                     android:src="@drawable/plussign" />
             </RelativeLayout>
 

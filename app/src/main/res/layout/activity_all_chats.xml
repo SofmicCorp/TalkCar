@@ -22,11 +22,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/header_dialog_shape"
-                android:fontFamily="sans-serif-smallcaps"
-                android:gravity="center"
-                android:text="messages"
+                android:fontFamily="sans-serif-condensed"
+                android:gravity="left"
+                android:paddingLeft="8dp"
+                android:text="Messages"
                 android:textColor="@color/neatWhite"
-                android:textSize="50dp" />
+                android:textSize="25dp" />
+
+            <View
+                android:id="@+id/horizontal_line"
+                android:layout_width="match_parent"
+                android:layout_gravity="center"
+                android:layout_height="1dp"
+                android:background="@color/neatWhite" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"

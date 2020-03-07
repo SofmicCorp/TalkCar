@@ -8,89 +8,94 @@
     tools:context=".SettingsActivity">
 
 
-        <LinearLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginLeft="5dp"
+            android:padding="10dp"
+            android:fontFamily="sans-serif-condensed-light"
+            android:gravity="left"
+            android:paddingLeft="5dp"
+            android:text="Username"
+            android:textColor="@color/darkBlue"
+            android:textSize="40dp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/username"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="20dp"
-                android:fontFamily="sans-serif-smallcaps"
-                android:gravity="left"
-                android:text="user name"
-                android:textColor="@color/neatBlue"
-                android:textSize="50dp" />
+        <View
+            android:id="@+id/horizontal_line"
+            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_height="1dp"
+            android:background="@color/darkGray" />
 
-            <View
-                android:layout_width="330dp"
-                android:layout_gravity="center"
-                android:layout_height="1dp"
-                android:background="@color/lightGray" />
+        <TextView
+            android:id="@+id/messages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Messages"
+            android:gravity="left"
+            android:layout_marginTop="20dp"
+            android:textSize="20dp"
+            android:fontFamily="sans-serif-condensed"
+            android:textColor="@color/black"
+            android:drawableLeft="@drawable/ic_message_settings"
+            android:drawablePadding="5dp"/>
 
-            <TextView
-                android:id="@+id/messages"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="Messages"
-                android:gravity="left"
-                android:layout_marginTop="20dp"
-                android:textSize="20dp"
-                android:fontFamily="sans-serif-condensed"
-                android:textColor="@color/black"
-                android:drawableLeft="@drawable/ic_message_settings"
-                android:drawablePadding="5dp"/>
+        <TextView
+            android:id="@+id/terms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Terms and Policies"
+            android:layout_marginLeft="10dp"
+            android:gravity="left"
+            android:layout_marginTop="20dp"
+            android:textSize="20dp"
+            android:fontFamily="sans-serif-condensed"
+            android:textColor="@color/black"
+            android:drawableLeft="@drawable/ic_terms_settings"
+            android:drawablePadding="2dp"
+            />
 
-            <TextView
-                android:id="@+id/terms"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Terms and Policies"
-                android:layout_marginLeft="10dp"
-                android:gravity="left"
-                android:layout_marginTop="20dp"
-                android:textSize="20dp"
-                android:fontFamily="sans-serif-condensed"
-                android:textColor="@color/black"
-                android:drawableLeft="@drawable/ic_terms_settings"
-                android:drawablePadding="2dp"
-                />
+        <TextView
+            android:id="@+id/personal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Personal Settings"
+            android:gravity="left"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:textSize="20dp"
+            android:fontFamily="sans-serif-condensed"
+            android:textColor="@color/black"
+            android:drawableLeft="@drawable/ic_personal_info"
+            android:drawablePadding="2dp"
+            />
 
-            <TextView
-                android:id="@+id/personal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Personal Settings"
-                android:gravity="left"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:textSize="20dp"
-                android:fontFamily="sans-serif-condensed"
-                android:textColor="@color/black"
-                android:drawableLeft="@drawable/ic_personal_info"
-                android:drawablePadding="2dp"
-                />
+        <TextView
+            android:id="@+id/logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Log out"
+            android:gravity="left"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:textSize="20dp"
+            android:fontFamily="sans-serif-condensed"
+            android:textColor="@color/black"
+            android:drawableLeft="@drawable/leave_icon"
+            android:drawablePadding="2dp"
+            />
 
-            <TextView
-                android:id="@+id/logout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Log out"
-                android:gravity="left"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:textSize="20dp"
-                android:fontFamily="sans-serif-condensed"
-                android:textColor="@color/black"
-                android:drawableLeft="@drawable/ic_logout_settings"
-                android:drawablePadding="2dp"
-                />
-
-        </LinearLayout>
+    </LinearLayout>
 
 
 
