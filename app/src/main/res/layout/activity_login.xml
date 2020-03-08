@@ -7,18 +7,20 @@
     android:background="@color/neatWhite"
     tools:context=".LoginActivity">
 
-        <ImageView
-            android:id="@+id/logo"
-            android:layout_width="wrap_content"
-            android:layout_height="201dp"
-            android:layout_marginTop="50dp"
-            android:src="@drawable/logo"/>
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/logo"/>
 
     <LinearLayout
         android:id="@+id/signin_container"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:layout_below="@id/logo"
         >
 
@@ -38,7 +40,7 @@
             android:drawableLeft="@drawable/emailicon"
             android:padding="20dp"/>
 
-            />
+        />
 
         <EditText
             android:id="@+id/password_placeholder"
@@ -68,35 +70,47 @@
             android:layout_marginTop="20dp"
             android:layout_gravity="center" />
 
+        <Button
+            android:id="@+id/signup_btn"
+            android:layout_width="300dp"
+            android:layout_height="70dp"
+            android:text="@string/sign_up"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-smallcaps"
+            android:background="@drawable/button_shape_signup"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/dont_have_account_text_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Don't have an account? "
-                android:textStyle="bold"
-                android:layout_marginLeft="87dp"
-                android:fontFamily="sans-serif-smallcaps"
-                android:textColor="@color/black"
-                android:layout_marginTop="20dp"
-                />
+        <!--        <RelativeLayout-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent">-->
 
-            <TextView
-                android:id="@+id/signup_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_toRightOf="@id/dont_have_account_text_text"
-                android:fontFamily="sans-serif-smallcaps"
-                android:text="Sign up."
-                android:textColor="@color/darkBlue"
-                android:textStyle="bold" />
+        <!--            <TextView-->
+        <!--                android:id="@+id/dont_have_account_text_text"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:text="Don't have an account? "-->
+        <!--                android:textStyle="bold"-->
+        <!--                android:layout_centerInParent="true"-->
+        <!--                android:fontFamily="sans-serif-smallcaps"-->
+        <!--                android:textColor="@color/black"-->
+        <!--                -->
+        <!--                />-->
 
-        </RelativeLayout>
+        <!--            <TextView-->
+        <!--                android:id="@+id/signup_text"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--               -->
+        <!--                android:layout_centerHorizontal="true"-->
+        <!--                android:layout_toRightOf="@id/dont_have_account_text_text"-->
+        <!--                android:fontFamily="sans-serif-smallcaps"-->
+        <!--                android:text="Sign up."-->
+        <!--                android:textColor="@color/darkBlue"-->
+        <!--                android:textStyle="bold" />-->
+
+        <!--        </RelativeLayout>-->
 
     </LinearLayout>
 

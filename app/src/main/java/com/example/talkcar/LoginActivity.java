@@ -25,9 +25,9 @@ import com.google.firebase.database.DataSnapshot;
 public class LoginActivity extends AppCompatActivity {
 
     private Button signInBtn;
+    private Button signUpBtn;
     private EditText emailPlaceHolder;
     private EditText passwordPlaceHolder;
-    private TextView signupText;
     private FirebaseAuth mFirebaseAuth;
     private FieldsChecker checker;
     private int error;
@@ -107,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        signupText.setOnClickListener(new View.OnClickListener() {
+        signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 goToSignupActivity();
@@ -141,9 +141,9 @@ public class LoginActivity extends AppCompatActivity {
     private void setIds() {
 
         signInBtn = (Button)findViewById(R.id.signin_btn);
+        signUpBtn = (Button) findViewById(R.id.signup_btn);
         emailPlaceHolder = (EditText)findViewById(R.id.email_placeholder);
         passwordPlaceHolder = (EditText)findViewById(R.id.password_placeholder);
-        signupText = (TextView)findViewById(R.id.signup_text);
     }
 
 
