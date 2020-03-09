@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -28,6 +29,7 @@ public class AllChatsActivity extends AppCompatActivity {
     public static CarAdapter carAdapter;
     private List<Car> carList;
     private Handler handler;
+    public static Context context;
     private Runnable runnable;
     private final int DELAY = 3*1000; //Delay for 3 seconds.
 
@@ -43,6 +45,7 @@ public class AllChatsActivity extends AppCompatActivity {
         setIds();
         Log.d("LUBA", "Recyevler View after setId: " + recyclerView);
         handler = new Handler();
+        context = this;
         addAllMyChattedCarList();
 
         //updateToken(FirebaseInstanceId.getInstance().getToken());
@@ -67,17 +70,17 @@ public class AllChatsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        handler.postDelayed( runnable = new Runnable() {
-            public void run() {
-                addAllMyChattedCarList();
-                    handler.postDelayed(runnable, DELAY);
-            }
-        }, DELAY);
+//        handler.postDelayed( runnable = new Runnable() {
+//            public void run() {
+//                addAllMyChattedCarList();
+//                    handler.postDelayed(runnable, DELAY);
+//            }
+//        }, DELAY);
 
         addAllMyChattedCarList();
     }
 
-    private void addAllMyChattedCarList() {
+    public static void addAllMyChattedCarList() {
 
         Database.findAllMyChattedCar(new OnGetDataListener() {
             @Override
@@ -119,13 +122,13 @@ public class AllChatsActivity extends AppCompatActivity {
         });
     }
 
-    private void readCars(ArrayList<Car> chattedCarList, HashMap<String, Message> chatKeyLastMessageMap) {
+    public static void readCars(ArrayList<Car> chattedCarList, HashMap<String, Message> chatKeyLastMessageMap) {
 
         Log.d("LUBA", "recycler view in readCars method: "+ recyclerView);
         Log.d("LUBA", "carAdapter view in readCars method: "+ carAdapter);
 
         if(carAdapter == null){
-            carAdapter = new CarAdapter(AllChatsActivity.this, chattedCarList, chatKeyLastMessageMap);
+            carAdapter = new CarAdapter(context, chattedCarList, chatKeyLastMessageMap);
             if(recyclerView != null) {
                 Log.d("LUBA", "here!!!!!!!!!!: ");
                 recyclerView.setAdapter(carAdapter);
@@ -134,7 +137,7 @@ public class AllChatsActivity extends AppCompatActivity {
         }
 
         if(chatKeyLastMessageMap.size() > 0) {
-                carAdapter = new CarAdapter(AllChatsActivity.this, chattedCarList, chatKeyLastMessageMap);
+                carAdapter = new CarAdapter(context, chattedCarList, chatKeyLastMessageMap);
                 recyclerView.setAdapter(carAdapter);
         }
 
