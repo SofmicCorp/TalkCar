@@ -146,7 +146,7 @@ public class Database {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                ArrayList<Car> allMyChattedCar = new ArrayList<>();
+                ApplicationModel.chattedCarsMap.reset();
                 Log.d("KUCHINI", "im here1!:");
 
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
@@ -154,6 +154,8 @@ public class Database {
 
                     Driver driver = postSnapshot.getValue(Driver.class);
                     for(int j = 0; j < driver.getCars().size(); j++){
+                        if(driver.getuId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))
+                            break;
                         if(ApplicationModel.getCurrentDriver() != null) {
                             Log.d("KUCHINI", "im here3!:");
                             Log.d("KUCHINI", "SIZE OF CARS: " + ApplicationModel.getCurrentDriver().getCars().size());
@@ -161,10 +163,12 @@ public class Database {
                                 Log.d("KUCHINI", "im here4!:");
                                 if (ApplicationModel.getCurrentDriver().getCars().get(k).getHashMap() != null) {
                                     Log.d("KUCHINI", "im here5!:");
-                                    if (ApplicationModel.getCurrentDriver().getCars().get(k).getHashMap().get(driver.getCars().get(j).getCarNumber()) != null) {
+                                    Log.d("KUCHINI", " ApplicationModel.getCurrentDriver().getCars().get(k).getHashMap()" +  ApplicationModel.getCurrentDriver().getCars().get(k).getHashMap());
+                                    String chatKey = ApplicationModel.getCurrentDriver().getCars().get(k).getHashMap().get(driver.getCars().get(j).getCarNumber());
+                                    if (chatKey!= null) {
                                         Log.d("KUCHINI", "im here6!:");
                                         Log.d("KUCHINI", "driver.getCars().get(j):" + driver.getCars().get(j));
-                                        allMyChattedCar.add(driver.getCars().get(j));
+                                        ApplicationModel.chattedCarsMap.add(driver.getCars().get(j),chatKey);
                                     }
                                 }
                             }
@@ -173,7 +177,7 @@ public class Database {
                 }
                 Log.d("BUBA", "time that search take : " + difference);
 
-                listener.onSuccess(allMyChattedCar);
+                listener.onSuccess(ApplicationModel.chattedCarsMap);
             }
 
             @Override
@@ -257,7 +261,7 @@ public class Database {
     public static void saveDriver(final Driver driver, final String uId) {
 
         Log.d("BIBI", "Database: saveDriver: ");
-        ApplicationModel.setCurrentDriver(driver);
+        //ApplicationModel.setCurrentDriver(driver);
         databaseReferenceDrivers.child(uId).setValue(driver);
     }
 

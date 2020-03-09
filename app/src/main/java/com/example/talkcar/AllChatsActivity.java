@@ -34,8 +34,6 @@ public class AllChatsActivity extends AppCompatActivity {
     private final int DELAY = 3*1000; //Delay for 3 seconds.
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,15 +82,15 @@ public class AllChatsActivity extends AppCompatActivity {
 
         Database.findAllMyChattedCar(new OnGetDataListener() {
             @Override
-            public void onSuccess(final Object chattedCarList) {
+            public void onSuccess(final Object chattedCarMap) {
 
                 Database.findUnreadChatsKeys(new OnGetDataListener() {
                     @Override
                     public void onSuccess(Object chatKeyLastMessageMap) {
 
-                        if(chattedCarList != null){
+                        if(chattedCarMap != null){
                             //There is at least one conversation
-                            readCars((ArrayList<Car>)chattedCarList,(HashMap<String,Message>)chatKeyLastMessageMap);
+                            readCars((ChattedCarsMap)chattedCarMap,(HashMap<String,Message>)chatKeyLastMessageMap);
                         }
 
                     }
@@ -122,13 +120,13 @@ public class AllChatsActivity extends AppCompatActivity {
         });
     }
 
-    public static void readCars(ArrayList<Car> chattedCarList, HashMap<String, Message> chatKeyLastMessageMap) {
+    public static void readCars(ChattedCarsMap chattedCarsMap, HashMap<String, Message> chatKeyLastMessageMap) {
 
         Log.d("LUBA", "recycler view in readCars method: "+ recyclerView);
         Log.d("LUBA", "carAdapter view in readCars method: "+ carAdapter);
 
         if(carAdapter == null){
-            carAdapter = new CarAdapter(context, chattedCarList, chatKeyLastMessageMap);
+            carAdapter = new CarAdapter(context, chattedCarsMap.getChattedCars(), chatKeyLastMessageMap);
             if(recyclerView != null) {
                 Log.d("LUBA", "here!!!!!!!!!!: ");
                 recyclerView.setAdapter(carAdapter);
@@ -137,7 +135,7 @@ public class AllChatsActivity extends AppCompatActivity {
         }
 
         if(chatKeyLastMessageMap.size() > 0) {
-                carAdapter = new CarAdapter(context, chattedCarList, chatKeyLastMessageMap);
+                carAdapter = new CarAdapter(context, chattedCarsMap.getChattedCars(), chatKeyLastMessageMap);
                 recyclerView.setAdapter(carAdapter);
         }
 

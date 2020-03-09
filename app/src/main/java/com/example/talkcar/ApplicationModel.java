@@ -10,6 +10,7 @@ public class ApplicationModel {
     public static Car lastCarNumberSearch;
     public static String chattedDriverUid;
     public static String currentChatKey;
+    public static ChattedCarsMap chattedCarsMap;
 
 
     public static Driver getCurrentDriver() {

@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.talkcar.Notifications.Data;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -91,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         checkIfAllMessagesWereRead();
         initEmojiMap();
         fieldsChecker = new FieldsChecker();
+        ApplicationModel.chattedCarsMap = new ChattedCarsMap();
         updateCarPickerIcon(0);
         AllChatsActivity.updateToken(FirebaseInstanceId.getInstance().getToken());
 
@@ -424,13 +426,13 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         }
     }
 
-    private void openChat(Car chattedCar) {
+    private void openChat(final Car chattedCar) {
 
-        String messageKey;
+        final String messageKey;
 
         Toast.makeText(this, "chat has been open with " + chattedCar.getCarNumber(), Toast.LENGTH_SHORT).show();
 
-        Intent intent = new Intent(this,ChatActivity.class);
+        final Intent intent = new Intent(this,ChatActivity.class);
         intent.putExtra("chattedCar", chattedCar);
 
 
@@ -463,11 +465,33 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
 
         Log.d("LIBI", "openChat:  before start activity3");
         //update the driver to database with the new chat hash
-        Database.saveDriver(ApplicationModel.getCurrentDriver(),FirebaseAuth.getInstance().getCurrentUser().getUid());
-        Database.saveDriver(ApplicationModel.getLastDriverSearch(),ApplicationModel.getChattedDriverUid());
 
-        Log.d("LIBI", "openChat:  before start activity4");
-        startActivity(intent);
+        Database.findAllMyChattedCar(new OnGetDataListener() {
+            @Override
+            public void onSuccess(Object object) {
+
+                int addedCarIndex = ApplicationModel.chattedCarsMap.add(chattedCar,messageKey);
+                Database.saveDriver(ApplicationModel.getCurrentDriver(),FirebaseAuth.getInstance().getCurrentUser().getUid());
+                Database.saveDriver(ApplicationModel.getLastDriverSearch(),ApplicationModel.getChattedDriverUid());
+
+                Log.d("LIBI", "openChat:  before start activity4");
+
+
+                intent.putExtra("index",addedCarIndex);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+        });
+
 
     }
 

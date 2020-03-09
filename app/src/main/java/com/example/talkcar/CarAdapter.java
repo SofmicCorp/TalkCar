@@ -35,6 +35,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
 
     public CarAdapter(Context mContext, List<Car> mCars, HashMap<String, Message> chatKeyLastMessageMap){
 
+
         this.mContext = mContext;
         this.mCars = mCars;
         this.chatKeyLastMessageMap = chatKeyLastMessageMap;
@@ -52,7 +53,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
 
         final Car car = mCars.get(position);
         holder.carNumber.setText(car.getCarNumber());
@@ -79,6 +80,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
             public void onClick(View v) {
                 Intent intent = new Intent(mContext,ChatActivity.class);
                 intent.putExtra("chattedCar",car);
+                intent.putExtra("index",position);
                 ApplicationModel.setLastCarNumberSearch(car);
                 ApplicationModel.setChattedDriverUid(car.getDriverUid());
                 mContext.startActivity(intent);
