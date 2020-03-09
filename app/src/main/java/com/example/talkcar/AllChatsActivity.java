@@ -168,9 +168,10 @@ public class AllChatsActivity extends AppCompatActivity {
 
     public static void deleteAllChatOfCar(Car carToDelete) {
 
-
-        for(String keyChat:carToDelete.getHashMap().values()){
-            Database.deleteChat(keyChat);
+        if(carToDelete.getHashMap() != null) {
+            for (String keyChat : carToDelete.getHashMap().values()) {
+                Database.deleteChat(keyChat);
+            }
         }
     }
 }

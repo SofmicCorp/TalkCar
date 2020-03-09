@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentActivity;
@@ -84,9 +85,17 @@ public class LicencePlateView implements Serializable {
 
     void setClickListeners(ImageView delete,ImageView edit){
 
+
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if(SignupActivity.isActive)
+                    return;
+                if(ApplicationModel.getCurrentDriver().getCars().size() == 1){
+                    Toast.makeText(context, "You need to have at least 1 car", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Car carToDelete = findMyCarByCarNumber(CarForm.allForms.get(cardId).getCarNumberPlaceHolder().getText().toString());
                 if(SignupActivity.isActive) {
                    removeLicencePlateFromUI(carToDelete);
@@ -97,6 +106,8 @@ public class LicencePlateView implements Serializable {
                         ApplicationModel.getCurrentDriver().getCars().remove(carToDelete);
                         Database.saveDriver(ApplicationModel.getCurrentDriver(),ApplicationModel.getCurrentDriver().getuId());
                         removeLicencePlateFromUI(carToDelete);
+
+
                     }
                 }
             }
@@ -120,14 +131,21 @@ public class LicencePlateView implements Serializable {
 
     private void deleteChattedCarsHash(final Car carToDelete) {
 
+        if(carToDelete.getHashMap() == null)
+            return;
+
         for(String carNumber : carToDelete.getHashMap().keySet()){
             Database.searchCarByCarNumber(carNumber, new OnGetDataListener() {
                 @Override
                 public void onSuccess(Object object) {
+
                     if(object != null){
                         Driver driver = (Driver)object;
                         ApplicationModel.getLastCarNumberSearch().getHashMap().remove(carToDelete.getCarNumber());
+                        ApplicationModel.chattedCarsMap.remove(ApplicationModel.getLastCarNumberSearch());
                         Database.saveDriver(driver,driver.getuId());
+
+
                     }
                 }
 

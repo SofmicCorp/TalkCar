@@ -2,6 +2,7 @@ package com.example.talkcar;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class Car implements Serializable {
 
@@ -69,4 +70,14 @@ public class Car implements Serializable {
     public void setDriverUid(String driverUid) {
         this.driverUid = driverUid;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Car car = (Car) o;
+        return Objects.equals(carNumber, car.carNumber);
+    }
+
+
 }
