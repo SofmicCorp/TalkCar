@@ -65,6 +65,10 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
                 displayNotification(remoteMessage);
             }
 
+            if(MainActivity.isActive){
+
+            }
+
             if (keyChat.equals(ApplicationModel.currentChatKey)) {
                 ChatActivity.readChat(keyChat);
             }

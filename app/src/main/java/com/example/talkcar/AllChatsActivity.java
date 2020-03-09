@@ -32,6 +32,8 @@ public class AllChatsActivity extends AppCompatActivity {
     private final int DELAY = 3*1000; //Delay for 3 seconds.
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -161,5 +163,13 @@ public class AllChatsActivity extends AppCompatActivity {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tokens");
         Token token1 = new Token(token);
         reference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(token);
+    }
+
+    public static void deleteAllChatOfCar(Car carToDelete) {
+
+
+        for(String keyChat:carToDelete.getHashMap().values()){
+            Database.deleteChat(keyChat);
+        }
     }
 }
