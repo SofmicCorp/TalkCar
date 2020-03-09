@@ -47,6 +47,7 @@ public class ChatActivity extends AppCompatActivity {
     private MediaPlayer sendSound;
     private static MediaPlayer receiveSound;
     public static boolean isActive = false;
+    private int keyIndex;
     public static Context context;
     private String chatKey;
 
@@ -72,6 +73,7 @@ public class ChatActivity extends AppCompatActivity {
         setIds();
         getIntentDetails();
         setClickListeners();
+        chatKey = ApplicationModel.chattedCarsMap.getKeyChats().get(keyIndex);
         loadOldChat(chattedCar);
         setSounds();
     }
@@ -101,7 +103,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private void loadOldChat(Car chattedCar) {
 
-            chatKey = findChatKey();
+
             Log.d("SUSI", "chatKey: " + chatKey);
             ApplicationModel.currentChatKey = chatKey;
             readChat(chatKey);
@@ -137,6 +139,8 @@ public class ChatActivity extends AppCompatActivity {
 
         intent = getIntent();
         chattedCar = (Car)intent.getSerializableExtra("chattedCar");
+        keyIndex = intent.getIntExtra("index",-1);
+        Log.d("Sukami", "key Index " + keyIndex);
         profieImage.setImageResource(MainActivity.emojiMap.get(chattedCar.getEmojiId()));
         chattedCarNicknameTV.setText(chattedCar.getNickname());
         chattedCarNumberTV.setText(chattedCar.getCarNumber());
@@ -172,9 +176,6 @@ public class ChatActivity extends AppCompatActivity {
         Log.d("LIBI", "newMessage.getRec " + newMessage.getReceiver());
         Log.d("LIBI", "newMessage.getmsg " + newMessage.getMessage());
 
-        if(chatKey == null) {
-            chatKey = findChatKey();
-        }
         database.searchChatByKey(chatKey, new OnGetDataListener() {
             @Override
             public void onSuccess(Object object) {
@@ -231,25 +232,6 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
-    private String findChatKey() {
-
-        //Masive problem - Think about it with mor
-        //In findChatKey we look for the key of the chat with the car we talk with.
-        //Problem is that if Two of my cars speaks with the same car the first converstaion always
-        //"Catch" in the net but it should give us the right conversation and now it dont.
-        //Check for SUSI on logd that will clarify things.
-
-        for (int i = 0; i < ApplicationModel.getCurrentDriver().getCars().size(); i++) {
-            Set<String> allHashMapKeys = ApplicationModel.getCurrentDriver().getCars().get(i).getHashMap().keySet();
-            for (String hashKey: allHashMapKeys) {
-                if(hashKey.equals(ApplicationModel.getLastCarNumberSearch().getCarNumber())){
-                    chatKey = ApplicationModel.getCurrentDriver().getCars().get(i).getHashMap().get(hashKey);
-                    return chatKey;
-                }
-            }
-        }
-        return chatKey;
-    }
 
     private void sendNotification(final String receiver, final String sender, final String msg) {
 
@@ -266,7 +248,7 @@ public class ChatActivity extends AppCompatActivity {
                 for(DataSnapshot snapshot: dataSnapshot.getChildren()){
                     String token = snapshot.getValue(String.class);
                     Log.d("LIBI", "chatted car : " + chattedCar);
-                    Data data = new Data(FirebaseAuth.getInstance().getCurrentUser().getUid(),findChatKey(),R.mipmap.talkcar_launcher_round,sender + " :" + msg,"BIP BIP! Someone just sent you a message",receiver);
+                    Data data = new Data(FirebaseAuth.getInstance().getCurrentUser().getUid(),chatKey,R.mipmap.talkcar_launcher_round,sender + " :" + msg,"BIP BIP! Someone just sent you a message",receiver);
 
                     Sender sender = new Sender(data,token);
 
