@@ -147,15 +147,23 @@ public class Database {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 ArrayList<Car> allMyChattedCar = new ArrayList<>();
+                Log.d("KUCHINI", "im here1!:");
 
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    Log.d("KUCHINI", "im here2!:");
+
                     Driver driver = postSnapshot.getValue(Driver.class);
                     for(int j = 0; j < driver.getCars().size(); j++){
                         if(ApplicationModel.getCurrentDriver() != null) {
-                            Log.d("MORI", "SIZE OF CARS: " + ApplicationModel.getCurrentDriver().getCars().size());
+                            Log.d("KUCHINI", "im here3!:");
+                            Log.d("KUCHINI", "SIZE OF CARS: " + ApplicationModel.getCurrentDriver().getCars().size());
                             for (int k = 0; k < ApplicationModel.getCurrentDriver().getCars().size(); k++) {
+                                Log.d("KUCHINI", "im here4!:");
                                 if (ApplicationModel.getCurrentDriver().getCars().get(k).getHashMap() != null) {
+                                    Log.d("KUCHINI", "im here5!:");
                                     if (ApplicationModel.getCurrentDriver().getCars().get(k).getHashMap().get(driver.getCars().get(j).getCarNumber()) != null) {
+                                        Log.d("KUCHINI", "im here6!:");
+                                        Log.d("KUCHINI", "driver.getCars().get(j):" + driver.getCars().get(j));
                                         allMyChattedCar.add(driver.getCars().get(j));
                                     }
                                 }
@@ -249,6 +257,7 @@ public class Database {
     public static void saveDriver(final Driver driver, final String uId) {
 
         Log.d("BIBI", "Database: saveDriver: ");
+        ApplicationModel.setCurrentDriver(driver);
         databaseReferenceDrivers.child(uId).setValue(driver);
     }
 

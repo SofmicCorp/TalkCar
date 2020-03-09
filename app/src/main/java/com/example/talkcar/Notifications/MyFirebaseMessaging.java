@@ -23,14 +23,17 @@ import com.example.talkcar.ApplicationModel;
 import com.example.talkcar.Chat;
 import com.example.talkcar.ChatActivity;
 import com.example.talkcar.Database;
+import com.example.talkcar.Driver;
 import com.example.talkcar.LoginActivity;
 import com.example.talkcar.MainActivity;
+import com.example.talkcar.OnGetDataListener;
 import com.example.talkcar.R;
 import com.example.talkcar.SettingsActivity;
 import com.example.talkcar.SignupActivity;
 import com.example.talkcar.WaitingActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -41,38 +44,64 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
     final String CHANNEL_DESC = "TalkCar Notification";
 
     @Override
-    public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
+    public void onMessageReceived(@NonNull final RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
-        Log.d("LIBI", "ApplicationModel: " + ApplicationModel.getCurrentDriver());
-        Log.d("LIBI", "onMessageReceived: " + remoteMessage.getData());
-        String sented = remoteMessage.getData().get("sented");
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        Database.searchDriverByUid(FirebaseAuth.getInstance().getCurrentUser().getUid(), new OnGetDataListener() {
+            @Override
+            public void onSuccess(Object object) {
 
-        Log.d("LIBI", "firebase user : " + firebaseUser);
-        Log.d("LIBI", "sented: " + sented);
-        Log.d("LIBI", "firebaseUser.getUid()): " + firebaseUser.getUid());
+                if(object == null){
+                    return;
+                }
+                ApplicationModel.setCurrentDriver((Driver)object);
+                Log.d("LIBI", "ApplicationModel: " + ApplicationModel.getCurrentDriver());
+                Log.d("LIBI", "onMessageReceived: " + remoteMessage.getData());
+                String sented = remoteMessage.getData().get("sented");
+                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        String keyChat = remoteMessage.getData().get("keyChat");
-        Log.d("LIBI", "key chat : " + keyChat);
-        Log.d("LIBI", "ApplicationModel.currentChatKey : " + ApplicationModel.currentChatKey);
+                Log.d("LIBI", "firebase user : " + firebaseUser);
+                Log.d("LIBI", "sented: " + sented);
+                Log.d("LIBI", "firebaseUser.getUid()): " + firebaseUser.getUid());
+
+                String keyChat = remoteMessage.getData().get("keyChat");
+                Log.d("LIBI", "key chat : " + keyChat);
+                Log.d("LIBI", "ApplicationModel.currentChatKey : " + ApplicationModel.currentChatKey);
 
 
-        if(firebaseUser!= null) {
+                if(firebaseUser!= null) {
 
-            if (!(ChatActivity.isActive || MainActivity.isActive || LoginActivity.isActive || SignupActivity.isActive ||
-                    WaitingActivity.isActive || SettingsActivity.isActive || AllChatsActivity.isActive)) {
-                displayNotification(remoteMessage);
+                    if (!(ChatActivity.isActive || MainActivity.isActive || LoginActivity.isActive || SignupActivity.isActive ||
+                            WaitingActivity.isActive || SettingsActivity.isActive || AllChatsActivity.isActive)) {
+                        displayNotification(remoteMessage);
+                    }
+
+                    if(MainActivity.isActive){
+                        MainActivity.someMessageWereNotRead = true;
+                        MainActivity.checkIfAllMessagesWereRead();
+                    }
+                    if(AllChatsActivity.isActive || MainActivity.isActive){
+                        AllChatsActivity.addAllMyChattedCarList();
+                    }
+
+                    if (keyChat.equals(ApplicationModel.currentChatKey)) {
+                        ChatActivity.readChat(keyChat);
+                    }
+                }
             }
 
-            if(MainActivity.isActive){
+            @Override
+            public void onStart() {
 
             }
 
-            if (keyChat.equals(ApplicationModel.currentChatKey)) {
-                ChatActivity.readChat(keyChat);
+            @Override
+            public void onFailure() {
+
             }
-        }
+        });
+
+
     }
 
     private void displayNotification(RemoteMessage remoteMessage) {

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -54,7 +55,8 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
     private ImageView settings;
     private ImageView addCarBtn;
     private ImageView shine;
-    private ImageView chats;
+    private static ImageView chatsView;
+    private static Context context;
     public static HashMap<String,Integer> emojiMap;
     public static HashMap<String,Message> chatKeyLastMessageMap;
     private Bitmap imageBitmap;
@@ -68,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
     public static boolean someMessageWereNotRead;
     public static Activity activity;
     public static boolean isActive;
-    private MediaPlayer beepSound;
+    private static MediaPlayer beepSound;
     private final int DELAY = 3*1000; //Delay for 3 seconds.
 
 
@@ -82,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         handler = new Handler();
         MainActivity.activity = this;
         MainActivity.someMessageWereNotRead = false;
+        context = this;
         setIds();
         setSounds();
         setClickListeners();
@@ -122,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         beepSound = MediaPlayer.create(MainActivity.this, R.raw.beep_sound);
     }
 
-    public void makeBeepSound(){
+    public static void makeBeepSound(){
         beepSound.start();
     }
 
@@ -150,17 +153,16 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
     @Override
     protected void onResume() {
         //start handler as activity become visible
-
-        handler.postDelayed( runnable = new Runnable() {
-            public void run() {
-                effects.shine(takePhoto,shine);
-                checkIfAllMessagesWereRead();
-                    handler.postDelayed(runnable, DELAY);
-
-
-            }
-        }, DELAY);
-
+//
+//        handler.postDelayed( runnable = new Runnable() {
+//            public void run() {
+//                effects.shine(takePhoto,shine);
+//                checkIfAllMessagesWereRead();
+//                handler.postDelayed(runnable, DELAY);
+//
+//
+//            }
+//        }, DELAY);
         checkIfAllMessagesWereRead();
         super.onResume();
     }
@@ -208,12 +210,12 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         addCarBtn = (ImageView) findViewById(R.id.add_car_btn);
         settings = (ImageView)findViewById(R.id.settings);
         shine = (ImageView)findViewById(R.id.shine);
-        chats = (ImageView)findViewById(R.id.chats);
+        chatsView = (ImageView)findViewById(R.id.chats);
 
 
     }
 
-    private void checkIfAllMessagesWereRead() {
+    public static void checkIfAllMessagesWereRead() {
 
         Database.findUnreadChatsKeys(new OnGetDataListener() {
             @Override
@@ -221,13 +223,14 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
 
                 chatKeyLastMessageMap = (HashMap<String, Message>) object;
 
+                Log.d("YOGI", "someMessageWereNotRead: " + someMessageWereNotRead);
                 if(someMessageWereNotRead){
-                    if(chats.getDrawable().getConstantState() == getResources().getDrawable(R.drawable.inbox_icon).getConstantState()) {
+                    if(chatsView.getDrawable().getConstantState() == context.getResources().getDrawable(R.drawable.inbox_icon).getConstantState()) {
                         makeBeepSound();
                     }
-                    chats.setImageResource(R.drawable.inbox_icon_unread);
+                    chatsView.setImageResource(R.drawable.inbox_icon_unread);
                 } else {
-                    chats.setImageResource(R.drawable.inbox_icon);
+                    chatsView.setImageResource(R.drawable.inbox_icon);
                 }
             }
 
@@ -282,7 +285,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
             }
         });
 
-        chats.setOnClickListener(new View.OnClickListener() {
+        chatsView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
