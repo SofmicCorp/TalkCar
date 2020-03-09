@@ -103,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         //Create Forms And Card Views
         CarForm.createFormsFromCars(ApplicationModel.getCurrentDriver().getCars(),this);
         createCarViewsFromCars();
+        AllChatsActivity.addAllMyChattedCarList();
 
         //Script check
 //

@@ -48,7 +48,6 @@ public class Database {
 
                     for(int j = 0; j < driver.getCars().size(); j++){
                         if(driver.getCars().get(j).getCarNumber().equals(carNumber)) {
-
                             ApplicationModel.setLastCarNumberSearch(driver.getCars().get(j));
                             Log.d("BIBI", "Database:searchCarByCarNumber OndataChange" );
 

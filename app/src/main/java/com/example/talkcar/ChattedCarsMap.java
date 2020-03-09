@@ -33,9 +33,13 @@ public class ChattedCarsMap {
 
     public void remove(Car car){
 
-        int index = chattedCars.indexOf(car);
-        chattedCars.remove(car);
-        keyChats.remove(index);
+        for (int i = 0; i < chattedCars.size(); i++) {
+            if (car.equals(chattedCars.get(i))){
+                chattedCars.remove(i);
+                keyChats.remove(i);
+                return;
+            }
+        }
     }
 
     public void reset(){
