@@ -28,6 +28,8 @@ public class Database {
 
     public static void searchCarByCarNumber(final String carNumber,final OnGetDataListener listener) {
 
+        //The function return the driver and save the car at the Application Model
+
         startTime = System.currentTimeMillis();
 
         Log.d("BIBI", "searchCarByCarNumber");
@@ -150,6 +152,7 @@ public class Database {
                     Driver driver = postSnapshot.getValue(Driver.class);
                     for(int j = 0; j < driver.getCars().size(); j++){
                         if(ApplicationModel.getCurrentDriver() != null) {
+                            Log.d("MORI", "SIZE OF CARS: " + ApplicationModel.getCurrentDriver().getCars().size());
                             for (int k = 0; k < ApplicationModel.getCurrentDriver().getCars().size(); k++) {
                                 if (ApplicationModel.getCurrentDriver().getCars().get(k).getHashMap() != null) {
                                     if (ApplicationModel.getCurrentDriver().getCars().get(k).getHashMap().get(driver.getCars().get(j).getCarNumber()) != null) {
@@ -257,8 +260,10 @@ public class Database {
         databaseReferenceChats.child(chat.getKey()).setValue(chat);
     }
 
-    public static void deleteCar(String index){
-        databaseReferenceDrivers.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(index).removeValue();
+
+    public static void deleteChat(String keyChat) {
+
+        databaseReferenceChats.child(keyChat).removeValue();
     }
 }
 

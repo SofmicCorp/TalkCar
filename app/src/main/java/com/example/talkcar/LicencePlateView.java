@@ -17,10 +17,12 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.talkcar.Notifications.Data;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class CarView implements Serializable {
+public class LicencePlateView implements Serializable {
 
     private TextView nickname;
     private androidx.cardview.widget.CardView card;
@@ -29,10 +31,10 @@ public class CarView implements Serializable {
     private DynamicallyXML dynamicallyXML;
     private int cardId;
     private Activity activity;
-    public static ArrayList<CarView> allCarViews =  new ArrayList<>();
+    public static ArrayList<LicencePlateView> allLicencePlateViews =  new ArrayList<>();
 
 
-    public CarView(TextView nickname,int cardId, LinearLayout container, Context context,Activity activity, String carNumber){
+    public LicencePlateView(TextView nickname, int cardId, LinearLayout container, Context context, Activity activity, String carNumber){
 
         dynamicallyXML = new DynamicallyXML();
         this.nickname = nickname;
@@ -51,14 +53,14 @@ public class CarView implements Serializable {
 
         nickname.setTypeface(nickname.getTypeface(), Typeface.BOLD);
 
-        ImageView delete = dynamicallyXML.createImageView(context,R.drawable.deleteicon,70,70,Gravity.CENTER,100,100,0,5);
-        ImageView edit = dynamicallyXML.createImageView(context,R.drawable.editicon,70,70,Gravity.CENTER,20,100,0,5);
+        ImageView delete = dynamicallyXML.createImageView(context,R.drawable.deleteicon,70,70,Gravity.LEFT,100,100,0,5);
+        ImageView edit = dynamicallyXML.createImageView(context,R.drawable.editicon,70,70,Gravity.LEFT,20,100,0,5);
 
         //Layout params
 
         //Car number lp
         LinearLayout.LayoutParams carNumberLp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        carNumberLp.setMargins(0,20,50,20);
+        carNumberLp.setMargins(30,0,0,0);
 
         if(carNumber.equals(nickname.getText().toString())){
             if(carNumber.length() == 7){
@@ -73,9 +75,7 @@ public class CarView implements Serializable {
         nickname.setLayoutParams(carNumberLp);
 
         card.addView(edit);
-        if(ApplicationModel.getCurrentDriver() == null){
-            card.addView(delete);
-        }
+        card.addView(delete);
         card.addView(nickname);
         container.addView(card);
 
@@ -87,11 +87,18 @@ public class CarView implements Serializable {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                container.removeView(card); // remove from container - only removal from gui
-                allCarViews.remove(cardId); // remove from array of carsViews
-                CarForm.allForms.remove(cardId); //delete the car from forms
-                updateAllCarViewsIds(); //update all car views id after removal
+                Car carToDelete = findMyCarByCarNumber(CarForm.allForms.get(cardId).getCarNumberPlaceHolder().getText().toString());
+                if(SignupActivity.isActive) {
+                   removeLicencePlateFromUI(carToDelete);
+                } else {
+                    if(carToDelete != null) {
+                        AllChatsActivity.deleteAllChatOfCar(carToDelete);
+                        deleteChattedCarsHash(carToDelete);
+                        ApplicationModel.getCurrentDriver().getCars().remove(carToDelete);
+                        Database.saveDriver(ApplicationModel.getCurrentDriver(),ApplicationModel.getCurrentDriver().getuId());
+                        removeLicencePlateFromUI(carToDelete);
+                    }
+                }
             }
         });
 
@@ -102,13 +109,58 @@ public class CarView implements Serializable {
                 EditCarDialog dialog = new EditCarDialog();
 
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("carview",allCarViews.get(cardId));
+                bundle.putSerializable("carview", allLicencePlateViews.get(cardId));
                 bundle.putSerializable("newcarform", CarForm.allForms.get(cardId));
                 dialog.setArguments(bundle);
                 FragmentManager ft = ((FragmentActivity)activity).getSupportFragmentManager();
                 dialog.show(ft,"EditCarDialog");
             }
         });
+    }
+
+    private void deleteChattedCarsHash(final Car carToDelete) {
+
+        for(String carNumber : carToDelete.getHashMap().keySet()){
+            Database.searchCarByCarNumber(carNumber, new OnGetDataListener() {
+                @Override
+                public void onSuccess(Object object) {
+                    if(object != null){
+                        Driver driver = (Driver)object;
+                        ApplicationModel.getLastCarNumberSearch().getHashMap().remove(carToDelete.getCarNumber());
+                        Database.saveDriver(driver,driver.getuId());
+                    }
+                }
+
+                @Override
+                public void onStart() {
+
+                }
+
+                @Override
+                public void onFailure() {
+
+                }
+            });
+        }
+    }
+
+    private void removeLicencePlateFromUI(Car car) {
+        container.removeView(card); // remove from container - only removal from gui
+        allLicencePlateViews.remove(cardId); // remove from array of carsViews
+        CarForm.allForms.remove(cardId); //delete the car from forms
+        updateAllCarViewsIds(); //update all car views id after removal
+    }
+
+    private Car findMyCarByCarNumber(String carNumberToFind) {
+
+     if(MainActivity.isActive) {
+         for (Car car : ApplicationModel.getCurrentDriver().getCars()) {
+             if (car.getCarNumber().equals(carNumberToFind)) {
+                 return car;
+             }
+         }
+     }
+        return null;
     }
 
     public void changeContainer(LinearLayout formContainer){
@@ -120,14 +172,14 @@ public class CarView implements Serializable {
 
     private void updateAllCarViewsIds(){
 
-        for(int i = 0; i < allCarViews.size(); i++){
-            allCarViews.get(i).setCardId(i);
+        for(int i = 0; i < allLicencePlateViews.size(); i++){
+            allLicencePlateViews.get(i).setCardId(i);
         }
     }
 
     public static void removeAllCarViews(){
 
-        allCarViews.removeAll(allCarViews);
+        allLicencePlateViews.removeAll(allLicencePlateViews);
     }
 
     public CardView getCard() {

@@ -2,11 +2,9 @@ package com.example.talkcar;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -24,14 +22,14 @@ public class EditCarDialog extends DialogFragment {
     private CarForm carForm;
     private LinearLayout formContainer;
     private FieldsChecker checker;
-    private CarView carView;
+    private LicencePlateView licencePlateView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            carView = (CarView)getArguments().getSerializable("carview");
+            licencePlateView = (LicencePlateView)getArguments().getSerializable("carview");
             carForm = (CarForm)getArguments().getSerializable("newcarform");
         }
     }
@@ -87,7 +85,7 @@ public class EditCarDialog extends DialogFragment {
                     //if we are here details of car are empty or ilegal
                     return;
                 }
-                onInputListener.sendInputToEdit(car,carView, carForm);
+                onInputListener.sendInputToEdit(car, licencePlateView, carForm);
                 getDialog().dismiss();
 
             }
@@ -96,7 +94,7 @@ public class EditCarDialog extends DialogFragment {
 //        deleteBtn.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
-//                CarView.allCarViews.remove(carView);
+//                LicencePlateView.allLicencePlateViews.remove(licencePlateView);
 //                databaseRef.deleteCar(carForm.getFormNumber() + "");
 //                CarForm.allForms.remove(carForm);
 //                getDialog().dismiss();

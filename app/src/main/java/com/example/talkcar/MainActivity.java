@@ -14,7 +14,6 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,7 +22,6 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
@@ -43,7 +41,7 @@ import java.util.List;
 //only for the one scanrio when user go to main activity from sign up
 //Then we fill the array with the data from the current driver database (that is why we delete it, we dont want them to be
 //משוכפלים
-//As we said above for each CarView we need a form- they are highly copuled!
+//As we said above for each LicencePlateView we need a form- they are highly copuled!
 //So we create a forms array withthe data of the current drives
 //And we create CarsViews array from with the data of the current drivers!
 
@@ -95,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
 
         //Clean Forms and Car Views
         CarForm.removeAllForms();
-        CarView.removeAllCarViews();
+        LicencePlateView.removeAllCarViews();
 
         //Create Forms And Card Views
         CarForm.createFormsFromCars(ApplicationModel.getCurrentDriver().getCars(),this);
@@ -480,8 +478,8 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
 
         //get the new car details and create a card view to that car
         TextView nickname = dynamicallyXML.createTextView(this,car.getNickname(),40, Color.BLACK, Gravity.CENTER,20,50,10,10);
-        CarView card = new CarView(nickname, CarForm.allForms.size() - 1 ,container,this,this,car.getCarNumber());
-        CarView.allCarViews.add(card);
+        LicencePlateView card = new LicencePlateView(nickname, CarForm.allForms.size() - 1 ,container,this,this,car.getCarNumber());
+        LicencePlateView.allLicencePlateViews.add(card);
         //Save car to database
 
         Database.saveDriver(driver,FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -491,17 +489,17 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
     }
 
     @Override
-    public void sendInputToEdit(Car newCar, CarView carView, CarForm carForm) {
+    public void sendInputToEdit(Car newCar, LicencePlateView licencePlateView, CarForm carForm) {
 
         //Update data base and update all car views.
-        ApplicationModel.getCurrentDriver().getCars().get(carView.getCardId()).setCarNumber(newCar.getCarNumber());
-        ApplicationModel.getCurrentDriver().getCars().get(carView.getCardId()).setNickname(newCar.getNickname());
-        ApplicationModel.getCurrentDriver().getCars().get(carView.getCardId()).setEmojiId(newCar.getEmojiId());
+        ApplicationModel.getCurrentDriver().getCars().get(licencePlateView.getCardId()).setCarNumber(newCar.getCarNumber());
+        ApplicationModel.getCurrentDriver().getCars().get(licencePlateView.getCardId()).setNickname(newCar.getNickname());
+        ApplicationModel.getCurrentDriver().getCars().get(licencePlateView.getCardId()).setEmojiId(newCar.getEmojiId());
         Database.saveDriver(driver,FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-        updateCarView(driver.getCars().get(carView.getCardId()),carView.getCardId());
-        if(ApplicationModel.getCurrentCar().getCarNumber().equals(driver.getCars().get(carView.getCardId()).getCarNumber())){
-            updateCarPickerIcon(carView.getCardId());
+        updateCarView(driver.getCars().get(licencePlateView.getCardId()), licencePlateView.getCardId());
+        if(ApplicationModel.getCurrentCar().getCarNumber().equals(driver.getCars().get(licencePlateView.getCardId()).getCarNumber())){
+            updateCarPickerIcon(licencePlateView.getCardId());
         }
     }
 
@@ -520,7 +518,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
             stringBuilder = new StringBuilder(newCar.getNickname());
         }
 
-        CarView.allCarViews.get(index).getNickname().setText(stringBuilder);
+        LicencePlateView.allLicencePlateViews.get(index).getNickname().setText(stringBuilder);
     }
 
     public void createCarViewsFromCars(){
@@ -534,13 +532,13 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
             Car car = driver.getCars().get(i);
             carNickname = new StringBuilder(car.getNickname());
             TextView nickname = dynamicallyXML.createTextView(this, carNickname.toString(), 40, Color.BLACK, Gravity.CENTER, 20, 50, 10, 10);
-            final CarView carView = new CarView(nickname, i, container, this, MainActivity.activity, car.getCarNumber());
+            final LicencePlateView licencePlateView = new LicencePlateView(nickname, i, container, this, MainActivity.activity, car.getCarNumber());
 
             CarForm.allForms.get(i).getCarNumberPlaceHolder().setText(car.getCarNumber());
             CarForm.allForms.get(i).getNicknamePlaceHolder().setText(car.getNickname());
             CarForm.allForms.get(i).setEmojiID(car.getEmojiId());
 
-            CarView.allCarViews.add(carView);
+            LicencePlateView.allLicencePlateViews.add(licencePlateView);
         }
     }
 

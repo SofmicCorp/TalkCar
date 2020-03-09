@@ -42,7 +42,7 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
         setContentView(R.layout.activity_signup);
         setIds();
         CarForm.removeAllForms();
-        CarView.removeAllCarViews();
+        LicencePlateView.removeAllCarViews();
         mFirebaseAuth = FirebaseAuth.getInstance();
         dynamicallyXML = new DynamicallyXML();
         checker = new FieldsChecker();
@@ -133,12 +133,12 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
         Log.d("BIBI", "SignupActivity : sendInput");
         //get the new car details and create a card view to that car
        TextView nickname = dynamicallyXML.createTextView(this,car.getNickname(),40, Color.BLACK, Gravity.CENTER,20,50,10,10);
-       CarView carView= new CarView(nickname, CarForm.allForms.size() - 1 ,allFormContainer,this,this,car.getCarNumber());
-       CarView.allCarViews.add(carView);
+       LicencePlateView licencePlateView = new LicencePlateView(nickname, CarForm.allForms.size() - 1 ,allFormContainer,this,this,car.getCarNumber());
+       LicencePlateView.allLicencePlateViews.add(licencePlateView);
     }
 
     @Override
-    public void sendInputToEdit(Car car, CarView carView, CarForm carForm) {
+    public void sendInputToEdit(Car car, LicencePlateView licencePlateView, CarForm carForm) {
 
         Log.d("BIBI", "SignupActivity : sendInputToEdit");
         StringBuilder stringBuilder;
@@ -152,7 +152,7 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
         } else {
             stringBuilder = new StringBuilder(car.getNickname());
         }
-        carView.getNickname().setText(stringBuilder.toString());
+        licencePlateView.getNickname().setText(stringBuilder.toString());
     }
 
     private void updateFormValues(CarForm carForm, Car car){
