@@ -1,4 +1,4 @@
-package com.example.talkcar;
+package com.example.talkcar.Cars;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +12,16 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.talkcar.Cache.ApplicationModel;
+import com.example.talkcar.ChatActivity;
+import com.example.talkcar.Chats.Chat;
+import com.example.talkcar.Chats.ChattedCarsMap;
+import com.example.talkcar.Chats.Message;
+import com.example.talkcar.Database.Database;
+import com.example.talkcar.MainActivity;
+import com.example.talkcar.Interfaces.OnGetDataListener;
+import com.example.talkcar.R;
 
 import java.util.HashMap;
 
@@ -71,7 +81,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext,ChatActivity.class);
+                Intent intent = new Intent(mContext, ChatActivity.class);
                 intent.putExtra("chattedCar",car);
                 intent.putExtra("index",position);
                 ApplicationModel.setLastCarNumberSearch(car);

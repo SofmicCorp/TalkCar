@@ -1,4 +1,4 @@
-package com.example.talkcar;
+package com.example.talkcar.Helpers;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -14,6 +14,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
+
+import com.example.talkcar.R;
 
 public class DynamicallyXML {
 

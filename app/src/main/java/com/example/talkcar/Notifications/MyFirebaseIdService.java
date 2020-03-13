@@ -4,9 +4,6 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.example.talkcar.ApplicationModel;
-import com.example.talkcar.Hashable;
-import com.example.talkcar.MD5;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;

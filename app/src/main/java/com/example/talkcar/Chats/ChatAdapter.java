@@ -1,4 +1,4 @@
-package com.example.talkcar;
+package com.example.talkcar.Chats;
 
 import android.content.Context;
 import android.util.Log;
@@ -10,12 +10,11 @@ import android.widget.TextView;
 
 
 import androidx.annotation.NonNull;
-import androidx.core.view.LayoutInflaterFactory;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.talkcar.MainActivity;
+import com.example.talkcar.R;
 import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
 

@@ -1,4 +1,4 @@
-package com.example.talkcar;
+package com.example.talkcar.Cars;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,13 +10,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.example.talkcar.Database.Database;
+import com.example.talkcar.Helpers.DynamicallyXML;
+import com.example.talkcar.Helpers.FieldsChecker;
+import com.example.talkcar.Interfaces.OnGetDataListener;
+import com.example.talkcar.Interfaces.OnInputListener;
+import com.example.talkcar.R;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class AddNewCarDialog extends DialogFragment {

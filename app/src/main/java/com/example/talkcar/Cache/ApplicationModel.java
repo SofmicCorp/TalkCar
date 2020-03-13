@@ -1,7 +1,8 @@
-package com.example.talkcar;
+package com.example.talkcar.Cache;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.example.talkcar.Cars.Car;
+import com.example.talkcar.Chats.ChattedCarsMap;
+import com.example.talkcar.Driver.Driver;
 
 public class ApplicationModel {
     public static Driver currentDriver;

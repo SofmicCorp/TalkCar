@@ -1,4 +1,6 @@
-package com.example.talkcar;
+package com.example.talkcar.Chats;
+
+import com.example.talkcar.Cars.Car;
 
 import java.util.ArrayList;
 

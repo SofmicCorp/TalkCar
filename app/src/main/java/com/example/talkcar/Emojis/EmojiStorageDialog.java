@@ -1,9 +1,7 @@
-package com.example.talkcar;
+package com.example.talkcar.Emojis;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +12,11 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+
+import com.example.talkcar.Cars.CarForm;
+import com.example.talkcar.Helpers.DynamicallyXML;
+import com.example.talkcar.Interfaces.OnInputListener;
+import com.example.talkcar.R;
 
 public class EmojiStorageDialog extends DialogFragment {
 

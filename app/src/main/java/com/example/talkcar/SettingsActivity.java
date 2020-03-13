@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import com.example.talkcar.Cache.ApplicationModel;
 
 public class SettingsActivity extends AppCompatActivity {
 

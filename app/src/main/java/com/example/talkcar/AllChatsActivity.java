@@ -13,6 +13,13 @@ import android.view.Gravity;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.talkcar.Cars.Car;
+import com.example.talkcar.Cars.CarAdapter;
+import com.example.talkcar.Chats.ChattedCarsMap;
+import com.example.talkcar.Chats.Message;
+import com.example.talkcar.Database.Database;
+import com.example.talkcar.Helpers.DynamicallyXML;
+import com.example.talkcar.Interfaces.OnGetDataListener;
 import com.example.talkcar.Notifications.Token;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;

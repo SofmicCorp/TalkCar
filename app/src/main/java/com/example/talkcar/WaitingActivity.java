@@ -10,6 +10,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.talkcar.Cache.ApplicationModel;
+import com.example.talkcar.Cars.Car;
+import com.example.talkcar.Cars.CarForm;
+import com.example.talkcar.Database.Database;
+import com.example.talkcar.Driver.Driver;
+import com.example.talkcar.Interfaces.OnGetDataListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -17,7 +23,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
-import com.google.firebase.database.DataSnapshot;
 
 public class WaitingActivity extends AppCompatActivity {
 

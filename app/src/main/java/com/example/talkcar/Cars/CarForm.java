@@ -1,13 +1,11 @@
-package com.example.talkcar;
+package com.example.talkcar.Cars;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +16,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
+
+import com.example.talkcar.Helpers.DynamicallyXML;
+import com.example.talkcar.Emojis.EmojiStorageDialog;
+import com.example.talkcar.R;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -138,7 +140,7 @@ public class CarForm extends RelativeLayout implements Serializable {
         allEmojis = new ImageView[SIZE];
 
         //Adding all Emoji to the array
-        allEmojis[0] = dynamicallyXML.createImageView(getContext(),R.drawable.driver1,150,150, Gravity.CENTER,100,10,0,0);
+        allEmojis[0] = dynamicallyXML.createImageView(getContext(), R.drawable.driver1,150,150, Gravity.CENTER,100,10,0,0);
         allEmojis[1] = dynamicallyXML.createImageView(getContext(),R.drawable.driver2,150,150, Gravity.CENTER,100,10,0,0);
         allEmojis[2] = dynamicallyXML.createImageView(getContext(),R.drawable.driver3,150,150, Gravity.CENTER,100,10,0,0);
         allEmojis[3] = dynamicallyXML.createImageView(getContext(),R.drawable.twoboys,150,150, Gravity.CENTER,100,10,0,0);
@@ -248,7 +250,7 @@ public class CarForm extends RelativeLayout implements Serializable {
         allForms.removeAll(allForms);
     }
 
-    public static void createFormsFromCars(ArrayList<Car> cars,Context context){
+    public static void createFormsFromCars(ArrayList<Car> cars, Context context){
 
         LinearLayout container = new LinearLayout(context); //Fake container
 

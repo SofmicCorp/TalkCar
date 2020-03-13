@@ -1,4 +1,4 @@
-package com.example.talkcar;
+package com.example.talkcar.Chats;
 
 public class Message {
 

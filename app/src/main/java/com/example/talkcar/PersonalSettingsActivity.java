@@ -15,6 +15,11 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.example.talkcar.Cache.ApplicationModel;
+import com.example.talkcar.Database.Database;
+import com.example.talkcar.Driver.Driver;
+import com.example.talkcar.Helpers.DynamicallyXML;
+import com.example.talkcar.Helpers.FieldsChecker;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -22,7 +27,6 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 
 public class PersonalSettingsActivity extends AppCompatActivity {

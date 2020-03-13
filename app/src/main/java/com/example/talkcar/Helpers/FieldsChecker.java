@@ -1,8 +1,8 @@
-package com.example.talkcar;
+package com.example.talkcar.Helpers;
 
-import android.util.Log;
 import android.widget.EditText;
-import android.widget.Toast;
+
+import com.example.talkcar.Database.Database;
 
 public class FieldsChecker {
 

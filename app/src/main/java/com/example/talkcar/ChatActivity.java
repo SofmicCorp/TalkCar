@@ -17,6 +17,15 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.talkcar.Cache.ApplicationModel;
+import com.example.talkcar.Cars.Car;
+import com.example.talkcar.Chats.Chat;
+import com.example.talkcar.Chats.ChatAdapter;
+import com.example.talkcar.Chats.Message;
+import com.example.talkcar.Database.Database;
+import com.example.talkcar.Driver.Driver;
+import com.example.talkcar.Interfaces.APIService;
+import com.example.talkcar.Interfaces.OnGetDataListener;
 import com.example.talkcar.Notifications.Client;
 import com.example.talkcar.Notifications.Data;
 import com.example.talkcar.Notifications.MyResponse;
@@ -28,11 +37,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Callback;
