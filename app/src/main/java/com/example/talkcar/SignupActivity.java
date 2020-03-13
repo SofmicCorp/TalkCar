@@ -34,7 +34,6 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
     private Button signInBtn;
     private ImageView addCar;
     private FirebaseAuth mFirebaseAuth;
-    private Driver driver;
     private LinearLayout allFormContainer;
     private DynamicallyXML dynamicallyXML;
     private FieldsChecker checker;

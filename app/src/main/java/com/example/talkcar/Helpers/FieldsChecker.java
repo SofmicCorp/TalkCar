@@ -13,6 +13,7 @@ public class FieldsChecker {
     private final int DOTS = 58;
     private final int MIN_CAR_NUMBER_LENGTH = 7;
     private final int MAX_CAR_NUMBER_LENGTH = 8;
+    private final int MAX_NICKNAME_LENGTH = 10;
     private Database database;
     private static Boolean isExits;
 
@@ -59,6 +60,12 @@ public class FieldsChecker {
             nicknamePlaceHolder.setText(carNumberPlaceHolder.getText());
         }
 
+        if(nicknamePlaceHolder.getText().toString().length() > MAX_NICKNAME_LENGTH){
+            //Nickname becomes car number
+            nicknamePlaceHolder.setText(nicknamePlaceHolder.getText().toString().substring(0,MAX_NICKNAME_LENGTH));
+        }
+
+
         return true;
     }
 
@@ -80,6 +87,10 @@ public class FieldsChecker {
         }
          else if(!checkLoginFields(emailPlaceHolder,passwordPlaceHolder)){
             return false;
+        }
+
+        if(name.length() > MAX_NICKNAME_LENGTH){
+            namePlaceHolder.setText(name.substring(0, MAX_NICKNAME_LENGTH));
         }
 
         return true;
