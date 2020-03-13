@@ -81,7 +81,6 @@ public class AllChatsActivity extends AppCompatActivity {
 
     public static void addAllMyChattedCarList() {
 
-
         Database.findAllMyChattedCar(new OnGetDataListener() {
             @Override
             public void onSuccess(final Object chattedCarMap) {
