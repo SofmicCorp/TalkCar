@@ -39,7 +39,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
         this.mContext = mContext;
         this.mCarsMap = mCarsMap;
         this.chatKeyLastMessageMap = chatKeyLastMessageMap;
-       
+
     }
 
     @NonNull
