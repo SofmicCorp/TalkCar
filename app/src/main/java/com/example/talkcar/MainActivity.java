@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -445,6 +446,11 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
     }
 
     private void openChat(final Car chattedCar) {
+
+        if(chattedCar.getCarNumber().equals(ApplicationModel.getCurrentCar().getCarNumber())){
+            Toast.makeText(this, "Don't be stupid. ", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         final String messageKey;
 
