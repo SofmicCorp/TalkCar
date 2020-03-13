@@ -63,7 +63,7 @@ public class CarForm extends RelativeLayout implements Serializable {
         LinearLayout.LayoutParams lpCenterForm = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         LinearLayout.LayoutParams lpInputUser  = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         LinearLayout.LayoutParams lpCenter = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        LinearLayout.LayoutParams lpEmoji = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 200);
+        LinearLayout.LayoutParams lpEmoji = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 170);
 
 
         lpEmoji.gravity = Gravity.CENTER_HORIZONTAL;
