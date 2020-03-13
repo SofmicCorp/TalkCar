@@ -18,6 +18,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -82,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
     private Effects effects;
     private Handler handler;
     private Runnable runnable;
+    private ProgressBar progressBar;
     public static boolean someMessageWereNotRead;
     public static Activity activity;
     public static boolean isActive;
@@ -231,6 +233,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         addCarBtn = (ImageView) findViewById(R.id.add_car_btn);
         settings = (ImageView)findViewById(R.id.settings);
         shine = (ImageView)findViewById(R.id.shine);
+        progressBar = (ProgressBar)findViewById(R.id.progress_bar);
         chatsView = (ImageView)findViewById(R.id.chats);
 
 
@@ -357,6 +360,9 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
 
     private void startChatWithAnotherCar() {
 
+
+        progressBar.setVisibility(View.VISIBLE);
+
         if(chattedCarNumber != null) {
             chattedCarNumber = fieldsChecker.removeAllTokensFromCarNumber(chattedCarNumber);
             //Check if car number is in database, and if it does, open a conversation!
@@ -449,6 +455,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
 
         if(chattedCar.getCarNumber().equals(ApplicationModel.getCurrentCar().getCarNumber())){
             Toast.makeText(this, "Don't be stupid. ", Toast.LENGTH_SHORT).show();
+            progressBar.setVisibility(View.INVISIBLE);
             return;
         }
 
@@ -500,7 +507,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
 
                 Log.d("LIBI", "openChat:  before start activity4");
 
-
+                progressBar.setVisibility(View.INVISIBLE);
                 intent.putExtra("index",addedCarIndex);
                 startActivity(intent);
             }
