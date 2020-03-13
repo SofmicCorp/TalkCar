@@ -1,7 +1,6 @@
-package com.example.talkcar;
+package com.example.talkcar.Chats;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Chat {
 

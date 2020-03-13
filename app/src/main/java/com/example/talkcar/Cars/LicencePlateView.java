@@ -1,34 +1,37 @@
-package com.example.talkcar;
+package com.example.talkcar.Cars;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
-import com.example.talkcar.Notifications.Data;
+import com.example.talkcar.AllChatsActivity;
+import com.example.talkcar.Cache.ApplicationModel;
+import com.example.talkcar.Database.Database;
+import com.example.talkcar.Driver.Driver;
+import com.example.talkcar.Helpers.DynamicallyXML;
+import com.example.talkcar.Helpers.FieldsChecker;
+import com.example.talkcar.MainActivity;
+import com.example.talkcar.Interfaces.OnGetDataListener;
+import com.example.talkcar.R;
+import com.example.talkcar.SignupActivity;
 
 import java.io.Serializable;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class LicencePlateView implements Serializable {

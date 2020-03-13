@@ -1,39 +1,32 @@
 package com.example.talkcar.Notifications;
 
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 
 import com.example.talkcar.AllChatsActivity;
-import com.example.talkcar.ApplicationModel;
-import com.example.talkcar.Chat;
+import com.example.talkcar.Cache.ApplicationModel;
 import com.example.talkcar.ChatActivity;
-import com.example.talkcar.Database;
-import com.example.talkcar.Driver;
+import com.example.talkcar.Database.Database;
+import com.example.talkcar.Driver.Driver;
 import com.example.talkcar.LoginActivity;
 import com.example.talkcar.MainActivity;
-import com.example.talkcar.OnGetDataListener;
-import com.example.talkcar.R;
+import com.example.talkcar.Interfaces.OnGetDataListener;
 import com.example.talkcar.SettingsActivity;
 import com.example.talkcar.SignupActivity;
 import com.example.talkcar.WaitingActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 

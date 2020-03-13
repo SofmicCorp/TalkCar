@@ -1,4 +1,4 @@
-package com.example.talkcar;
+package com.example.talkcar.Cars;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -6,16 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import com.google.firebase.auth.FirebaseAuth;
-
-import java.io.Serializable;
+import com.example.talkcar.Helpers.FieldsChecker;
+import com.example.talkcar.MainActivity;
+import com.example.talkcar.Interfaces.OnInputListener;
+import com.example.talkcar.R;
 
 public class EditCarDialog extends DialogFragment {
 

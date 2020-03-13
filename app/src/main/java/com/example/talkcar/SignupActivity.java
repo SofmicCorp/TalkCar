@@ -15,6 +15,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.talkcar.Cars.AddNewCarDialog;
+import com.example.talkcar.Cars.Car;
+import com.example.talkcar.Cars.CarForm;
+import com.example.talkcar.Cars.LicencePlateView;
+import com.example.talkcar.Driver.Driver;
+import com.example.talkcar.Helpers.DynamicallyXML;
+import com.example.talkcar.Helpers.FieldsChecker;
+import com.example.talkcar.Interfaces.OnInputListener;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class SignupActivity extends AppCompatActivity implements OnInputListener {

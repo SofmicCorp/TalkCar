@@ -1,4 +1,4 @@
-package com.example.talkcar;
+package com.example.talkcar.Cars;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -13,6 +13,12 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+
+import com.example.talkcar.Cache.ApplicationModel;
+import com.example.talkcar.Driver.Driver;
+import com.example.talkcar.Helpers.DynamicallyXML;
+import com.example.talkcar.Interfaces.OnInputListener;
+import com.example.talkcar.R;
 
 import java.util.ArrayList;
 

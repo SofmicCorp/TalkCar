@@ -1,21 +1,25 @@
-package com.example.talkcar;
+package com.example.talkcar.Database;
 
 
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.talkcar.Cache.ApplicationModel;
+import com.example.talkcar.Chats.Chat;
+import com.example.talkcar.Chats.Message;
+import com.example.talkcar.Driver.Driver;
+import com.example.talkcar.Interfaces.OnGetDataListener;
+import com.example.talkcar.MainActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Set;
 
 
 public class Database {
@@ -218,7 +222,7 @@ public class Database {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                HashMap<String,Message> chatKeyLastMessageMap = new HashMap<>(); //<Chat Key,Last Message>
+                HashMap<String, Message> chatKeyLastMessageMap = new HashMap<>(); //<Chat Key,Last Message>
 
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     Log.d("YULIA", "im here1: ");
