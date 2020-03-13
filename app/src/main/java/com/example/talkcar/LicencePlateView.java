@@ -1,7 +1,10 @@
 package com.example.talkcar;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -9,11 +12,15 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -21,6 +28,7 @@ import androidx.fragment.app.FragmentManager;
 import com.example.talkcar.Notifications.Data;
 
 import java.io.Serializable;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class LicencePlateView implements Serializable {
@@ -83,32 +91,17 @@ public class LicencePlateView implements Serializable {
         setClickListeners(delete,edit);
     }
 
-    void setClickListeners(ImageView delete,ImageView edit){
+    void setClickListeners(final ImageView delete, ImageView edit){
 
 
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(SignupActivity.isActive)
-                    return;
-                if(ApplicationModel.getCurrentDriver().getCars().size() == 1){
-                    Toast.makeText(context, "You need to have at least 1 car", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                Car carToDelete = findMyCarByCarNumber(CarForm.allForms.get(cardId).getCarNumberPlaceHolder().getText().toString());
-                if(SignupActivity.isActive) {
-                   removeLicencePlateFromUI(carToDelete);
-                } else {
-                    if(carToDelete != null) {
-                        AllChatsActivity.deleteAllChatOfCar(carToDelete);
-                        deleteChattedCarsHash(carToDelete);
-                        ApplicationModel.getCurrentDriver().getCars().remove(carToDelete);
-                        Database.saveDriver(ApplicationModel.getCurrentDriver(),ApplicationModel.getCurrentDriver().getuId());
-                        removeLicencePlateFromUI(carToDelete);
-
-
-                    }
+                if(SignupActivity.isActive){
+                    deleteCar();
+                }else if(MainActivity.isActive) {
+                    popUpAlertDialog();
                 }
             }
         });
@@ -127,6 +120,79 @@ public class LicencePlateView implements Serializable {
                 dialog.show(ft,"EditCarDialog");
             }
         });
+    }
+
+    private void popUpAlertDialog() {
+
+        TextView alertMessage = dynamicallyXML.createTextView(context,
+                "Any related data to that car will be deleted and can not be restore.",
+                "sans-serif-condensed",15,Color.BLACK,Gravity.CENTER,
+                0,0,0,0);
+        alertMessage.setPadding(40,40,40,40);
+
+        new AlertDialog.Builder(context)
+                .setTitle("Are you sure?")
+                .setView(alertMessage)
+                .setIcon(R.drawable.warning_sign)
+                .setPositiveButton("YES",
+                        new DialogInterface.OnClickListener() {
+                            @TargetApi(11)
+                            public void onClick(DialogInterface dialog, int id) {
+                                deleteCar();
+                            }
+                        })
+                .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @TargetApi(11)
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                }).show();
+
+    }
+
+    private void deleteCar() {
+
+        Car carToDelete = findMyCarByCarNumber(CarForm.allForms.get(cardId).getCarNumberPlaceHolder().getText().toString());
+        if(SignupActivity.isActive) {
+            removeLicencePlateFromUI(carToDelete);
+        } else {
+
+            if(ApplicationModel.getCurrentDriver().getCars().size() == 1){
+                Toast.makeText(context, "You need to have at least 1 car", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(carToDelete != null) {
+                AllChatsActivity.deleteAllChatOfCar(carToDelete);
+                deleteChattedCarsHash(carToDelete);
+                ApplicationModel.getCurrentDriver().getCars().remove(carToDelete);
+                Database.saveDriver(ApplicationModel.getCurrentDriver(),ApplicationModel.getCurrentDriver().getuId());
+                removeLicencePlateFromUI(carToDelete);
+            }
+
+            //If the car we delete it the current car
+            if(ApplicationModel.getCurrentCar().getCarNumber().equals(carToDelete.getCarNumber())){
+                //Reset to one car before the delete car
+                resetCurrentDriver(carToDelete.getCarNumber());
+
+            }
+        }
+    }
+
+    private void resetCurrentDriver(String carNumberToDelete) {
+
+        int index = 0;
+        for (int i = 0; i < ApplicationModel.getCurrentDriver().getCars().size(); i++){
+            if(ApplicationModel.getCurrentDriver().getCars().get(i).getCarNumber().equals(carNumberToDelete)){
+                index = i;
+            }
+        }
+        if(index == 0){
+            index = ApplicationModel.getCurrentDriver().getCars().size() - 1;
+        } else {
+            index -= 1;
+        }
+
+        ApplicationModel.setCurrentCar(ApplicationModel.getCurrentDriver().getCars().get(index));
+        MainActivity.updateCarPickerIcon(index);
     }
 
     private void deleteChattedCarsHash(final Car carToDelete) {

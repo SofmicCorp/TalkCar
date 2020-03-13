@@ -5,9 +5,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.talkcar.Notifications.Data;
 import com.example.talkcar.Notifications.Token;
@@ -15,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.collection.LLRBNode;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
@@ -27,12 +32,11 @@ public class AllChatsActivity extends AppCompatActivity {
     public static boolean isActive;
     private static RecyclerView recyclerView;
     public static CarAdapter carAdapter;
+    private static LinearLayout messageContainer;
+    private static TextView noMessageToShowTV;
     private List<Car> carList;
-    private Handler handler;
     public static Context context;
-    private Runnable runnable;
-    private final int DELAY = 3*1000; //Delay for 3 seconds.
-
+    public static DynamicallyXML dynamicallyXML = new DynamicallyXML();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +46,6 @@ public class AllChatsActivity extends AppCompatActivity {
         Log.d("LUBA", "Recyevler View before setId: " + recyclerView);
         setIds();
         Log.d("LUBA", "Recyevler View after setId: " + recyclerView);
-        handler = new Handler();
         context = this;
         addAllMyChattedCarList();
 
@@ -62,7 +65,6 @@ public class AllChatsActivity extends AppCompatActivity {
         Log.d("LUBA", "onStop!: ");
         carAdapter = null;
         isActive = false;
-        handler.removeCallbacksAndMessages(null);
     }
 
     @Override
@@ -125,31 +127,39 @@ public class AllChatsActivity extends AppCompatActivity {
         Log.d("LUBA", "recycler view in readCars method: "+ recyclerView);
         Log.d("LUBA", "carAdapter view in readCars method: "+ carAdapter);
 
-        if(carAdapter == null){
-            carAdapter = new CarAdapter(context, chattedCarsMap.getChattedCars(), chatKeyLastMessageMap);
-            if(recyclerView != null) {
-                Log.d("LUBA", "here!!!!!!!!!!: ");
-                recyclerView.setAdapter(carAdapter);
+        if(noMessageToShowTV != null){
+            messageContainer.removeView(noMessageToShowTV);
+        }
+
+        if(chattedCarsMap.getChattedCars().size() == 0 && AllChatsActivity.isActive){
+            noMessageToShowTV = dynamicallyXML.createTextView(context,"We didn't find anything to show here","sans-serif-condensed",15, Color.BLACK, Gravity.CENTER,0,100,0,0);
+            messageContainer.addView(noMessageToShowTV);
+        }  else {
+            //There at least one conversation
+            if (carAdapter == null) {
+                carAdapter = new CarAdapter(context, chattedCarsMap, chatKeyLastMessageMap);
+                if (recyclerView != null) {
+                    recyclerView.setAdapter(carAdapter);
+                }
+                return;
             }
-            return;
-        }
 
-        if(chatKeyLastMessageMap.size() > 0) {
-                carAdapter = new CarAdapter(context, chattedCarsMap.getChattedCars(), chatKeyLastMessageMap);
+            if (chatKeyLastMessageMap.size() > 0) {
+                carAdapter = new CarAdapter(context, chattedCarsMap, chatKeyLastMessageMap);
                 recyclerView.setAdapter(carAdapter);
-        }
-
-           else {
-            Log.d("KUBA", "carAdapter from allLChats: " + carAdapter.getHolder());
-            Log.d("KUBA", "HOLDER from allLChats: " + carAdapter.getHolder());
-               if(carAdapter.getHolder() != null) {
-                   carAdapter.getHolder().profileImageBackground.setImageResource(R.drawable.whitecircle);
-               }
+            } else {
+                Log.d("KUBA", "carAdapter from allLChats: " + carAdapter.getHolder());
+                Log.d("KUBA", "HOLDER from allLChats: " + carAdapter.getHolder());
+                if (carAdapter.getHolder() != null) {
+                    carAdapter.getHolder().profileImageBackground.setImageResource(R.drawable.whitecircle);
+                }
+            }
         }
     }
 
     private void setIds() {
 
+        messageContainer = findViewById(R.id.messages_container);
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(AllChatsActivity.this));

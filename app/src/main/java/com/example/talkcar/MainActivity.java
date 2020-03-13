@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private ImageView takePhoto;
-    private ImageView carPicker;
+    private static ImageView carPicker;
     private ImageView settings;
     private ImageView addCarBtn;
     private ImageView shine;
@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
     private Bitmap imageBitmap;
     private FieldsChecker fieldsChecker;
     private String chattedCarNumber;
-    private Driver driver;
     private DynamicallyXML dynamicallyXML;
     private Effects effects;
     private Handler handler;
@@ -189,14 +188,13 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         handler.removeCallbacksAndMessages(null);
     }
 
-    private void updateCarPickerIcon(int index) {
+    public static void updateCarPickerIcon(int index) {
 
-        driver = ApplicationModel.getCurrentDriver();
-        ApplicationModel.setCurrentCar(driver.getCars().get(index));
+        ApplicationModel.setCurrentCar(ApplicationModel.getCurrentDriver().getCars().get(index));
 
-        Log.d("BUBA", "emojie id is : " + driver.getCars().get(index).getEmojiId());
+        Log.d("BUBA", "emojie id is : " + ApplicationModel.getCurrentDriver().getCars().get(index).getEmojiId());
         //Set icon
-        carPicker.setImageResource(emojiMap.get(driver.getCars().get(index).getEmojiId()));
+        carPicker.setImageResource(emojiMap.get(ApplicationModel.getCurrentDriver().getCars().get(index).getEmojiId()));
 
     }
 
@@ -332,7 +330,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
 
 
     private void changeCurrentCar(int index) {
-        ApplicationModel.setCurrentCar(driver.getCars().get(index));
+        ApplicationModel.setCurrentCar(ApplicationModel.getCurrentDriver().getCars().get(index));
         updateCarPickerIcon(index);
     }
 
@@ -505,14 +503,16 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         driver.addCar(car);
 
         //get the new car details and create a card view to that car
-        TextView nickname = dynamicallyXML.createTextView(this,car.getNickname(),40, Color.BLACK, Gravity.CENTER,20,50,10,10);
+        TextView nickname = dynamicallyXML.createTextView(this,car.getNickname(),"sans-serif-smallcaps",40, Color.BLACK, Gravity.CENTER,20,50,10,10);
         LicencePlateView card = new LicencePlateView(nickname, CarForm.allForms.size() - 1 ,container,this,this,car.getCarNumber());
         LicencePlateView.allLicencePlateViews.add(card);
         //Save car to database
 
         Database.saveDriver(driver,FirebaseAuth.getInstance().getCurrentUser().getUid());
+        updateCarPickerIcon(ApplicationModel.getCurrentDriver().getCars().size() -1);
 
-        Log.d("BIBI", "Main Activity: sendInput");
+        Log.d("AVATAR", "Current car is : " + ApplicationModel.getCurrentCar().getCarNumber());
+
 
     }
 
@@ -523,10 +523,10 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         ApplicationModel.getCurrentDriver().getCars().get(licencePlateView.getCardId()).setCarNumber(newCar.getCarNumber());
         ApplicationModel.getCurrentDriver().getCars().get(licencePlateView.getCardId()).setNickname(newCar.getNickname());
         ApplicationModel.getCurrentDriver().getCars().get(licencePlateView.getCardId()).setEmojiId(newCar.getEmojiId());
-        Database.saveDriver(driver,FirebaseAuth.getInstance().getCurrentUser().getUid());
+        Database.saveDriver(ApplicationModel.getCurrentDriver(),FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-        updateCarView(driver.getCars().get(licencePlateView.getCardId()), licencePlateView.getCardId());
-        if(ApplicationModel.getCurrentCar().getCarNumber().equals(driver.getCars().get(licencePlateView.getCardId()).getCarNumber())){
+        updateCarView(ApplicationModel.getCurrentDriver().getCars().get(licencePlateView.getCardId()), licencePlateView.getCardId());
+        if(ApplicationModel.getCurrentCar().getCarNumber().equals(ApplicationModel.getCurrentDriver().getCars().get(licencePlateView.getCardId()).getCarNumber())){
             updateCarPickerIcon(licencePlateView.getCardId());
         }
     }
@@ -555,11 +555,11 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         LinearLayout container = new LinearLayout(this); // fake container
 
         //Set the array of car views
-        for(int i = 0; i < driver.getCars().size(); i++) {
+        for(int i = 0; i < ApplicationModel.getCurrentDriver().getCars().size(); i++) {
 
-            Car car = driver.getCars().get(i);
+            Car car = ApplicationModel.getCurrentDriver().getCars().get(i);
             carNickname = new StringBuilder(car.getNickname());
-            TextView nickname = dynamicallyXML.createTextView(this, carNickname.toString(), 40, Color.BLACK, Gravity.CENTER, 20, 50, 10, 10);
+            TextView nickname = dynamicallyXML.createTextView(this, carNickname.toString(),"sans-serif-smallcaps",40, Color.BLACK, Gravity.CENTER, 20, 50, 10, 10);
             final LicencePlateView licencePlateView = new LicencePlateView(nickname, i, container, this, MainActivity.activity, car.getCarNumber());
 
             CarForm.allForms.get(i).getCarNumberPlaceHolder().setText(car.getCarNumber());
@@ -574,5 +574,6 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
     public void sendInput(int index) {
         changeCurrentCar(index);
     }
+
 
 }

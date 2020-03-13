@@ -18,7 +18,6 @@ public class EditCarDialog extends DialogFragment {
 
     private OnInputListener onInputListener;
     private ImageView finishEditBtn;
-    private ImageView deleteBtn;
     private CarForm carForm;
     private LinearLayout formContainer;
     private FieldsChecker checker;
@@ -70,7 +69,6 @@ public class EditCarDialog extends DialogFragment {
     private void setIds(View view) {
 
         finishEditBtn = view.findViewById(R.id.finish_edit_btn);
-        deleteBtn = view.findViewById(R.id.delete_btn);
         formContainer= view.findViewById(R.id.form_container);
     }
 
@@ -90,16 +88,6 @@ public class EditCarDialog extends DialogFragment {
 
             }
         });
-
-//        deleteBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                LicencePlateView.allLicencePlateViews.remove(licencePlateView);
-//                databaseRef.deleteCar(carForm.getFormNumber() + "");
-//                CarForm.allForms.remove(carForm);
-//                getDialog().dismiss();
-//            }
-//        });
     }
 
     private Car createNewCar(){
@@ -108,7 +96,7 @@ public class EditCarDialog extends DialogFragment {
             return null;
         }
 
-        Car car = new Car(carForm.getCarNumberPlaceHolder().getText().toString(), carForm.getNicknamePlaceHolder().getText().toString(), carForm.getEmojiID(), FirebaseAuth.getInstance().getCurrentUser().getUid());
+        Car car = new Car(carForm.getCarNumberPlaceHolder().getText().toString(), carForm.getNicknamePlaceHolder().getText().toString(), carForm.getEmojiID(), null);
 
         return car;
     }

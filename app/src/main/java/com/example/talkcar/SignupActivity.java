@@ -132,7 +132,7 @@ public class SignupActivity extends AppCompatActivity implements OnInputListener
 
         Log.d("BIBI", "SignupActivity : sendInput");
         //get the new car details and create a card view to that car
-       TextView nickname = dynamicallyXML.createTextView(this,car.getNickname(),40, Color.BLACK, Gravity.CENTER,20,50,10,10);
+       TextView nickname = dynamicallyXML.createTextView(this,car.getNickname(),"sans-serif-smallcaps",40, Color.BLACK, Gravity.CENTER,20,50,10,10);
        LicencePlateView licencePlateView = new LicencePlateView(nickname, CarForm.allForms.size() - 1 ,allFormContainer,this,this,car.getCarNumber());
        LicencePlateView.allLicencePlateViews.add(licencePlateView);
     }

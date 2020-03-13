@@ -3,6 +3,7 @@ package com.example.talkcar;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.InputType;
@@ -15,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
@@ -31,12 +31,13 @@ public class CarForm extends RelativeLayout implements Serializable {
     private String emojiID;
     private Context context;
     private ImageView[] allEmojis;
-    private LinearLayout formHeader;
+    private LinearLayout pickEmojiHeader;
     private LinearLayout inputUserContainer;
     private LinearLayout emojiContainer;
     private LinearLayout seeMoreContainer;
     private LinearLayout currentContainer;
     private TextView seeMore;
+    private TextView pickYourEmojiText;
     public static ArrayList<CarForm> allForms = new ArrayList<>();
 
     public CarForm(Context context, LinearLayout formContainer) {
@@ -47,40 +48,69 @@ public class CarForm extends RelativeLayout implements Serializable {
         this.context = context;
         setEmojiID("1"); //In every form the default emoji will be the emoji in place 1 in the array.
         createAllEmojies();
+
+
         //Create Form layouts
-         formHeader = new LinearLayout(context);
+
          inputUserContainer = new LinearLayout(context);
+        pickEmojiHeader = new LinearLayout(context);
          emojiContainer = new LinearLayout(context);
          seeMoreContainer = new LinearLayout(context);
 
-         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 250);
+         //Create Layout Params
+        LinearLayout.LayoutParams lpCenterForm = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        LinearLayout.LayoutParams lpInputUser  = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams lpCenter = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        LinearLayout.LayoutParams lpEmoji = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 200);
 
-        emojiContainer.setLayoutParams(lp);
+
+        lpEmoji.gravity = Gravity.CENTER_HORIZONTAL;
+        lpCenterForm.gravity = Gravity.CENTER_HORIZONTAL;
+        lpCenter.gravity = Gravity.CENTER_HORIZONTAL;
+        lpCenterForm.gravity = Gravity.CENTER_VERTICAL;
+
+
+        //Set LayoutParams
+        formContainer.setLayoutParams(lpCenterForm);
+        inputUserContainer.setLayoutParams(lpInputUser);
+        emojiContainer.setLayoutParams(lpEmoji);
+        seeMoreContainer.setLayoutParams(lpCenter);
+        pickEmojiHeader.setLayoutParams(lpCenter);
+
+
 
         //Set Layouts Orientation
         inputUserContainer.setOrientation(LinearLayout.VERTICAL);
-        formHeader.setOrientation(LinearLayout.HORIZONTAL);
+        pickEmojiHeader.setOrientation(LinearLayout.HORIZONTAL);
         emojiContainer.setOrientation(LinearLayout.HORIZONTAL);
-        seeMoreContainer.setOrientation(LinearLayout.VERTICAL);
+        seeMoreContainer.setOrientation(LinearLayout.HORIZONTAL);
 
         carNumberPlaceHolder =  dynamicallyXML.createEditText(context,"Car Number", InputType.TYPE_CLASS_PHONE);
         nicknamePlaceHolder = dynamicallyXML.createEditText(context,"Nickname (optional)",InputType.TYPE_CLASS_TEXT);
-        TextView pickYourEmojiText = dynamicallyXML.createTextView(context,"pick your emoji's car!",13,Color.BLACK,Gravity.CENTER,220,50,0,0);
-        dynamicallyXML.addAllViewsLayout(inputUserContainer,carNumberPlaceHolder,nicknamePlaceHolder,pickYourEmojiText);
+        pickYourEmojiText = dynamicallyXML.createTextView(context,"Pick Your Car's Emoji!","sans-serif-condensed",13,Color.BLACK,Gravity.CENTER_HORIZONTAL,0,30,0,0);
+        seeMore = dynamicallyXML.createTextView(context,"See More","sans-serif-condensed",13,Color.BLACK,Gravity.CENTER_HORIZONTAL,0,50,0,0);
+        seeMore.setTypeface(seeMore.getTypeface(), Typeface.BOLD);
+        
+        pickYourEmojiText.setGravity(Gravity.CENTER);
+        seeMore.setGravity(Gravity.CENTER);
+
 
         //Set click listener to all emojis.
         setEmojiClickListeners(allEmojis);
-        //add To Emoji Container
-        addEmojiToContainer(emojiContainer);
-        seeMore = dynamicallyXML.createTextView(context,"see more",13,Color.BLACK,Gravity.CENTER,370,50,0,0);
-        setSeeMoreClickListener();
-        dynamicallyXML.addAllViewsLayout(seeMoreContainer,seeMore);
 
-        dynamicallyXML.addAllViewsLayout(formContainer,formHeader,inputUserContainer,emojiContainer,seeMoreContainer);
+        //add To Emoji Container
+        dynamicallyXML.addAllViewsLayout(inputUserContainer,carNumberPlaceHolder,nicknamePlaceHolder);
+        pickEmojiHeader.addView(pickYourEmojiText);
+        addEmojiToContainer(emojiContainer);
+        seeMoreContainer.addView(seeMore);
+
+        setClickListeners();
+
+        dynamicallyXML.addAllViewsLayout(formContainer,inputUserContainer,pickEmojiHeader,emojiContainer,seeMoreContainer);
 
     }
 
-    private void setSeeMoreClickListener() {
+    private void setClickListeners() {
 
         seeMore.setOnClickListener(new OnClickListener() {
             @Override
@@ -135,13 +165,19 @@ public class CarForm extends RelativeLayout implements Serializable {
 
     public void changeContainer(LinearLayout formContainer){
 
-        currentContainer.removeView(formHeader);
+        //Create Layout Params
+        LinearLayout.LayoutParams lpCenterForm = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        lpCenterForm.gravity = Gravity.CENTER_VERTICAL;
+
+        formContainer.setLayoutParams(lpCenterForm);
+
+        currentContainer.removeView(pickEmojiHeader);
         currentContainer.removeView(inputUserContainer);
         currentContainer.removeView(emojiContainer);
         currentContainer.removeView(seeMoreContainer);
 
         setEmojiContainer();
-        dynamicallyXML.addAllViewsLayout(formContainer,formHeader,inputUserContainer,emojiContainer,seeMoreContainer);
+        dynamicallyXML.addAllViewsLayout(formContainer,inputUserContainer,pickEmojiHeader,emojiContainer,seeMoreContainer);
         currentContainer= formContainer;
     }
 

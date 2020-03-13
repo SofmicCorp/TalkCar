@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.core.view.LayoutInflaterFactory;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.talkcar.Notifications.Data;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -27,19 +28,18 @@ import java.util.List;
 public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
 
     private Context mContext;
-    private List<Car> mCars;
+    private ChattedCarsMap mCarsMap;
     private HashMap<String, Message> chatKeyLastMessageMap;
-    private String theLastMessage;
     private CarAdapter.ViewHolder holder;
-    private static  ArrayList<Message> allLastMessages;
 
-    public CarAdapter(Context mContext, List<Car> mCars, HashMap<String, Message> chatKeyLastMessageMap){
+
+    public CarAdapter(Context mContext, ChattedCarsMap mCarsMap, HashMap<String, Message> chatKeyLastMessageMap){
 
 
         this.mContext = mContext;
-        this.mCars = mCars;
+        this.mCarsMap = mCarsMap;
         this.chatKeyLastMessageMap = chatKeyLastMessageMap;
-        allLastMessages = new ArrayList<>();
+       
     }
 
     @NonNull
@@ -55,25 +55,26 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
 
-        final Car car = mCars.get(position);
+        final Car car = mCarsMap.getChattedCars().get(position);
+        final String keyChat = mCarsMap.getKeyChats().get(position);
+
         holder.carNumber.setText(car.getCarNumber());
         holder.profileImage.setImageResource(MainActivity.emojiMap.get(car.getEmojiId()));
-        theLastMessage = "default";
+
 
 
         Log.d("LUBA", "chatKeyLastMessageMap.size(): " + chatKeyLastMessageMap.size());
         if(chatKeyLastMessageMap.size() > 0) {
             if(car.getHashMap() != null) {
-                Object[] keysChats = car.getHashMap().values().toArray();
-                for (int i = 0; i < keysChats.length; i++) {
-                    if (chatKeyLastMessageMap.get(keysChats[i]) != null) {
+
+                    if (chatKeyLastMessageMap.get(keyChat) != null) {
+                        Log.d("YULIA", "here: ");
                         holder.profileImageBackground.setImageResource(R.drawable.unreadwhitecircle);
                     }
-                }
             }
         }
 
-        handleLastMessage(holder,car);
+        handleLastMessage(holder,car,keyChat);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,7 +91,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return mCars.size();
+        return mCarsMap.getChattedCars().size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -98,7 +99,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
         public TextView carNumber;
         public ImageView profileImageBackground;
         public ImageView profileImage;
-        private TextView lastMessage;
+        public TextView lastMessage;
         public View horizontalLine;
 
 
@@ -112,43 +113,15 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
         }
     }
 
-    private void handleLastMessage(final ViewHolder holder, final Car car){
+    private void handleLastMessage(final ViewHolder holder, final Car car,String keyChat){
 
-        Database.findAllLastMessagesToSpecificDriver(FirebaseAuth.getInstance().getCurrentUser().getUid(),new OnGetDataListener() {
+        Database.findChatByKey(keyChat, new OnGetDataListener() {
             @Override
             public void onSuccess(Object object) {
-                if(object != null){
-                    if(allLastMessages.size() == 0){
-                        allLastMessages = (ArrayList<Message>) object;
-                    }
 
-                    for (int i = 0; i < allLastMessages.size(); i++) {
-                            if(car.getDriverUid().equals(allLastMessages.get(i).getSender()) ||car.getDriverUid().equals( allLastMessages.get(i).getReceiver())) {
-                                theLastMessage = allLastMessages.get(i).getMessage();
-                                allLastMessages.remove(i);
-                                if (!(holder.lastMessage.getText().toString().equals(theLastMessage))) {
-                                    holder.lastMessage.setText(theLastMessage);
-                                    break;
-                                }
-                            }
-                    }
-                }
+                Chat chat = (Chat)object;
+                holder.lastMessage.setText(chat.getMessages().get(chat.getMessages().size() - 1).getMessage());
 
-                if(theLastMessage.equals("default")){
-                    holder.lastMessage.setText("There is no message yet");
-                }
-
-//                switch (theLastMessage){
-//                    case "default":
-//                        holder.lastMessage.setText("There is no message yet");
-//                        break;
-//                    default:
-//                        if(!(holder.lastMessage.getText().toString().equals(theLastMessage))) {
-//                            Log.d("LUBA", "holder.lastMessage.getText().toString() " + holder.lastMessage.getText().toString());
-//                            Log.d("LUBA", "theLastMessage " + theLastMessage);
-//                            holder.lastMessage.setText(theLastMessage);
-//                        }
-//                }
             }
 
             @Override
@@ -161,6 +134,54 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
 
             }
         });
+
+//        Database.findAllLastMessagesToSpecificDriver(FirebaseAuth.getInstance().getCurrentUser().getUid(),new OnGetDataListener() {
+//            @Override
+//            public void onSuccess(Object object) {
+//                if(object != null){
+//                    if(allLastMessages.size() == 0){
+//                        allLastMessages = (ArrayList<Message>) object;
+//                    }
+//
+//                    for (int i = 0; i < allLastMessages.size(); i++) {
+//                            if(car.getDriverUid().equals(allLastMessages.get(i).getSender()) ||car.getDriverUid().equals( allLastMessages.get(i).getReceiver())) {
+//                                theLastMessage = allLastMessages.get(i).getMessage();
+//                                allLastMessages.remove(i);
+//                                if (!(holder.lastMessage.getText().toString().equals(theLastMessage))) {
+//                                    holder.lastMessage.setText(theLastMessage);
+//                                    break;
+//                                }
+//                            }
+//                    }
+//                }
+//
+//                if(theLastMessage.equals("default")){
+//                    holder.lastMessage.setText("There is no message yet");
+//                }
+
+//                switch (theLastMessage){
+//                    case "default":
+//                        holder.lastMessage.setText("There is no message yet");
+//                        break;
+//                    default:
+//                        if(!(holder.lastMessage.getText().toString().equals(theLastMessage))) {
+//                            Log.d("LUBA", "holder.lastMessage.getText().toString() " + holder.lastMessage.getText().toString());
+//                            Log.d("LUBA", "theLastMessage " + theLastMessage);
+//                            holder.lastMessage.setText(theLastMessage);
+//                        }
+//                }
+//            }
+
+//            @Override
+//            public void onStart() {
+//
+//            }
+//
+//            @Override
+//            public void onFailure() {
+//
+//            }
+//        });
     }
 
     public ViewHolder getHolder() {
