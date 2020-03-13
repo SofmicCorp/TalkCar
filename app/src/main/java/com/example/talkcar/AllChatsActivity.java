@@ -7,23 +7,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.talkcar.Notifications.Data;
 import com.example.talkcar.Notifications.Token;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.collection.LLRBNode;
-import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -153,7 +147,7 @@ public class AllChatsActivity extends AppCompatActivity {
                 Log.d("KUBA", "carAdapter from allLChats: " + carAdapter.getHolder());
                 Log.d("KUBA", "HOLDER from allLChats: " + carAdapter.getHolder());
                 if (carAdapter.getHolder() != null) {
-                    carAdapter.getHolder().profileImageBackground.setImageResource(R.drawable.whitecircle);
+                    carAdapter.getHolder().chattedProfileImageBackground.setImageResource(R.drawable.whitecircle);
                 }
             }
         }

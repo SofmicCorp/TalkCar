@@ -2,28 +2,18 @@ package com.example.talkcar;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
 import androidx.annotation.NonNull;
-import androidx.core.view.LayoutInflaterFactory;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.talkcar.Notifications.Data;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
 
@@ -56,8 +46,12 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
 
         final Car car = mCarsMap.getChattedCars().get(position);
         final String keyChat = mCarsMap.getKeyChats().get(position);
-        holder.carNumber.setText(car.getCarNumber());
-        holder.profileImage.setImageResource(MainActivity.emojiMap.get(car.getEmojiId()));
+        holder.chattedCarNumber.setText(car.getCarNumber());
+        holder.chattedProfileImage.setImageResource(MainActivity.emojiMap.get(car.getEmojiId()));
+
+        holder.myCarNumber.setText(mCarsMap.getMyCars().get(position).getCarNumber());
+        holder.myCarProfileImage.setImageResource(MainActivity.emojiMap.get(mCarsMap.getMyCars().get(position).getEmojiId()));
+
 
 
 
@@ -67,7 +61,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
 
                     if (chatKeyLastMessageMap.get(keyChat) != null) {
                         Log.d("YULIA", "here: ");
-                        holder.profileImageBackground.setImageResource(R.drawable.unreadwhitecircle);
+                        holder.chattedProfileImageBackground.setImageResource(R.drawable.unreadwhitecircle);
                     }
             }
         }
@@ -94,20 +88,29 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView carNumber;
-        public ImageView profileImageBackground;
-        public ImageView profileImage;
+        public TextView chattedCarNumber;
+        public ImageView chattedProfileImageBackground;
+        public ImageView chattedProfileImage;
+
+        public TextView myCarNumber;
+        public ImageView myCarProfileImageBackground;
+        public ImageView myCarProfileImage;
+
         public TextView lastMessage;
         public View horizontalLine;
 
 
         public ViewHolder(View itemView){
             super(itemView);
-            carNumber = itemView.findViewById(R.id.car_number);
-            profileImageBackground = itemView.findViewById(R.id.profile_image_background);
-            profileImage = itemView.findViewById(R.id.profile_image);
+            chattedCarNumber = itemView.findViewById(R.id.car_number);
+            chattedProfileImageBackground = itemView.findViewById(R.id.profile_image_background);
+            chattedProfileImage = itemView.findViewById(R.id.profile_image);
             lastMessage = itemView.findViewById(R.id.last_message);
             horizontalLine = itemView.findViewById(R.id.horizontal_line);
+            myCarNumber = itemView.findViewById(R.id.my_car_number);
+            myCarProfileImageBackground = itemView.findViewById(R.id.my_car_profile_image_background);
+            myCarProfileImage = itemView.findViewById(R.id.my_car_profile_image);
+            
         }
     }
 

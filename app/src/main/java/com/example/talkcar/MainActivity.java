@@ -474,7 +474,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
             @Override
             public void onSuccess(Object object) {
 
-                int addedCarIndex = ApplicationModel.chattedCarsMap.add(chattedCar,messageKey);
+                int addedCarIndex = ApplicationModel.chattedCarsMap.add(chattedCar,ApplicationModel.getCurrentCar(),messageKey);
                 Database.saveDriver(ApplicationModel.getCurrentDriver(),FirebaseAuth.getInstance().getCurrentUser().getUid());
                 Database.saveDriver(ApplicationModel.getLastDriverSearch(),ApplicationModel.getChattedDriverUid());
 

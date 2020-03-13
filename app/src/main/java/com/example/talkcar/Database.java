@@ -189,7 +189,7 @@ public class Database {
                                     if (chatKey!= null) {
                                         Log.d("KUCHINI", "im here6!:");
                                         Log.d("KUCHINI", "driver.getCars().get(j):" + driver.getCars().get(j));
-                                        ApplicationModel.chattedCarsMap.add(driver.getCars().get(j),chatKey);
+                                        ApplicationModel.chattedCarsMap.add(driver.getCars().get(j),ApplicationModel.getCurrentDriver().getCars().get(k),chatKey);
                                     }
                                 }
                             }

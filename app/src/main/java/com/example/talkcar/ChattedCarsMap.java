@@ -4,10 +4,13 @@ import java.util.ArrayList;
 
 public class ChattedCarsMap {
     private ArrayList<Car> chattedCars;
+    private ArrayList<Car> myCars;
     private ArrayList<String> keyChats;
+
 
     public ChattedCarsMap() {
         this.chattedCars = new ArrayList<>();
+        this.myCars = new ArrayList<>();
         this.keyChats = new ArrayList<>();
     }
 
@@ -19,23 +22,29 @@ public class ChattedCarsMap {
         return keyChats;
     }
 
-    public int add(Car car, String key){
+    public ArrayList<Car> getMyCars() {
+        return myCars;
+    }
+
+    public int add(Car chattedCar,Car myCar, String key){
 
         for (int i = 0; i < keyChats.size(); i++){
             if(keyChats.get(i).equals(key)){
                 return i;
             }
         }
-        chattedCars.add(car);
+        chattedCars.add(chattedCar);
+        myCars.add(myCar);
         keyChats.add(key);
         return lastIndex();
     }
 
-    public void remove(Car car){
+    public void remove(Car chattedCar){
 
         for (int i = 0; i < chattedCars.size(); i++) {
-            if (car.equals(chattedCars.get(i))){
+            if (chattedCar.equals(chattedCars.get(i))){
                 chattedCars.remove(i);
+                myCars.remove(i);
                 keyChats.remove(i);
                 return;
             }
@@ -44,6 +53,7 @@ public class ChattedCarsMap {
 
     public void reset(){
         chattedCars.clear();
+        myCars.clear();
         keyChats.clear();
     }
 
