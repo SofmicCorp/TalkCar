@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.talkcar.Cars.Car;
@@ -74,17 +75,12 @@ public class AllChatsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-//        handler.postDelayed( runnable = new Runnable() {
-//            public void run() {
-//                addAllMyChattedCarList();
-//                    handler.postDelayed(runnable, DELAY);
-//            }
-//        }, DELAY);
 
         addAllMyChattedCarList();
     }
 
     public static void addAllMyChattedCarList() {
+
 
         Database.findAllMyChattedCar(new OnGetDataListener() {
             @Override
