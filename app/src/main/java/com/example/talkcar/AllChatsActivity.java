@@ -92,7 +92,9 @@ public class AllChatsActivity extends AppCompatActivity {
 
                         if(chattedCarMap != null){
                             //There is at least one conversation
-                            readCars((ChattedCarsMap)chattedCarMap,(HashMap<String,Message>)chatKeyLastMessageMap);
+                            if(AllChatsActivity.isActive) {
+                                readCars((ChattedCarsMap) chattedCarMap, (HashMap<String, Message>) chatKeyLastMessageMap);
+                            }
                         }
 
                     }

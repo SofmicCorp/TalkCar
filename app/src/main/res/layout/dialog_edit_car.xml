@@ -48,7 +48,7 @@
             android:layout_height="match_parent">
 
 
-            <ImageView
+            <Button
                 android:id="@+id/finish_edit_btn"
                 android:layout_width="50dp"
                 android:layout_height="50dp"

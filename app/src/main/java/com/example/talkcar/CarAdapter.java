@@ -35,7 +35,6 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
 
     public CarAdapter(Context mContext, ChattedCarsMap mCarsMap, HashMap<String, Message> chatKeyLastMessageMap){
 
-
         this.mContext = mContext;
         this.mCarsMap = mCarsMap;
         this.chatKeyLastMessageMap = chatKeyLastMessageMap;
@@ -57,7 +56,6 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
 
         final Car car = mCarsMap.getChattedCars().get(position);
         final String keyChat = mCarsMap.getKeyChats().get(position);
-
         holder.carNumber.setText(car.getCarNumber());
         holder.profileImage.setImageResource(MainActivity.emojiMap.get(car.getEmojiId()));
 
@@ -119,8 +117,12 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
             @Override
             public void onSuccess(Object object) {
 
-                Chat chat = (Chat)object;
-                holder.lastMessage.setText(chat.getMessages().get(chat.getMessages().size() - 1).getMessage());
+                if(object != null) {
+                    Chat chat = (Chat) object;
+                    holder.lastMessage.setText(chat.getMessages().get(chat.getMessages().size() - 1).getMessage());
+                } else {
+                    holder.lastMessage.setText("There is no message to show yet.");
+                }
 
             }
 

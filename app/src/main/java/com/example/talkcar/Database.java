@@ -221,15 +221,21 @@ public class Database {
                 HashMap<String,Message> chatKeyLastMessageMap = new HashMap<>(); //<Chat Key,Last Message>
 
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    Log.d("YULIA", "im here1: ");
                     if(ApplicationModel.getCurrentDriver() != null){
                     for (int i = 0; i < ApplicationModel.getCurrentDriver().getCars().size() ; i++) {
+                        Log.d("YULIA", "im here2: ");
                         if (ApplicationModel.getCurrentDriver().getCars().get(i).getHashMap() != null) {
                             for (int j = 0; j < ApplicationModel.getCurrentDriver().getCars().get(i).getHashMap().size(); j++) {
+                                Log.d("YULIA", "im here3: ");
                                 if (postSnapshot.getKey().equals(ApplicationModel.getCurrentDriver().getCars().get(i).getHashMap().values().toArray()[j])) {
+                                    Log.d("YULIA", "im here4: ");
                                     if (postSnapshot.getValue(Chat.class).isSomeMessageWereNotRead()) {
+                                        Log.d("YULIA", "im here5: ");
                                         int lastMessageIndex = postSnapshot.getValue(Chat.class).getMessages().size() - 1;
                                         Message lastMessage = postSnapshot.getValue(Chat.class).getMessages().get(lastMessageIndex);
                                         if (lastMessage.getReceiver().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                                            Log.d("YULIA", "im here6: ");
                                             MainActivity.someMessageWereNotRead = true;
                                             chatKeyLastMessageMap.put(postSnapshot.getValue(Chat.class).getKey(), lastMessage);
                                         }

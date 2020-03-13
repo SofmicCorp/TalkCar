@@ -186,6 +186,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         super.onStop();
         isActive = false;
         handler.removeCallbacksAndMessages(null);
+        Log.d("JERRY", "onStop1: ");
     }
 
     public static void updateCarPickerIcon(int index) {
@@ -198,11 +199,15 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
 
     }
 
-    //When puting thr super call on note the app doesnt crash and it works fine..
-//    @Override
-//    protected void onSaveInstanceState(Bundle outState) {
-//        super.onSaveInstanceState(outState);
-//    }
+ //   When puting thr super call on note the app doesnt crash and it works fine..
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        Log.d("JERRY", "onSaveInstanceState1: ");
+        super.onSaveInstanceState(outState);
+        Log.d("JERRY", "onSaveInstanceState2: ");
+
+
+    }
 
     private void setIds(){
 

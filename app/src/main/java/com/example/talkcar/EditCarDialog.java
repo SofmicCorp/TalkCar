@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -14,10 +15,12 @@ import androidx.fragment.app.DialogFragment;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.io.Serializable;
+
 public class EditCarDialog extends DialogFragment {
 
     private OnInputListener onInputListener;
-    private ImageView finishEditBtn;
+    private Button finishEditBtn;
     private CarForm carForm;
     private LinearLayout formContainer;
     private FieldsChecker checker;
@@ -50,7 +53,6 @@ public class EditCarDialog extends DialogFragment {
         carForm.changeContainer(formContainer);
         setClickListeners();
         checker = new FieldsChecker();
-        //Dear future Sarel, you need to finish the delete button (Lines 56, 95-103.. have fun :))
         locateButtons();
 
         return view;
@@ -61,7 +63,6 @@ public class EditCarDialog extends DialogFragment {
         if(getContext() instanceof MainActivity){
             //If we are in edit mode in main activity
             carForm.getCarNumberPlaceHolder().setEnabled(false);
-//            deleteBtn.setVisibility(View.VISIBLE);
         }
     }
 

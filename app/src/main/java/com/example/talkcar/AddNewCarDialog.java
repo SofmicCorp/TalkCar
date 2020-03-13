@@ -22,7 +22,6 @@ import com.google.firebase.auth.FirebaseAuth;
 public class AddNewCarDialog extends DialogFragment {
 
     private OnInputListener onInputListener;
-    private Database databaseRef;
     private Button addNewCarBtn;
     private CarForm carForm;
     private LinearLayout formContainer;
