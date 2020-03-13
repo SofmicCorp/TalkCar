@@ -137,7 +137,7 @@ public class AllChatsActivity extends AppCompatActivity {
         }  else {
             //There at least one conversation
             if (carAdapter == null) {
-                carAdapter = new CarAdapter(context, chattedCarsMap.getChattedCars(), chatKeyLastMessageMap);
+                carAdapter = new CarAdapter(context, chattedCarsMap, chatKeyLastMessageMap);
                 if (recyclerView != null) {
                     recyclerView.setAdapter(carAdapter);
                 }
@@ -145,7 +145,7 @@ public class AllChatsActivity extends AppCompatActivity {
             }
 
             if (chatKeyLastMessageMap.size() > 0) {
-                carAdapter = new CarAdapter(context, chattedCarsMap.getChattedCars(), chatKeyLastMessageMap);
+                carAdapter = new CarAdapter(context, chattedCarsMap, chatKeyLastMessageMap);
                 recyclerView.setAdapter(carAdapter);
             } else {
                 Log.d("KUBA", "carAdapter from allLChats: " + carAdapter.getHolder());

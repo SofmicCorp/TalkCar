@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
@@ -50,6 +49,7 @@ public class CarForm extends RelativeLayout implements Serializable {
         setEmojiID("1"); //In every form the default emoji will be the emoji in place 1 in the array.
         createAllEmojies();
 
+
         //Create Form layouts
 
          inputUserContainer = new LinearLayout(context);
@@ -58,7 +58,7 @@ public class CarForm extends RelativeLayout implements Serializable {
          seeMoreContainer = new LinearLayout(context);
 
          //Create Layout Params
-        LinearLayout.LayoutParams lpCenterForm = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT,4);
+        LinearLayout.LayoutParams lpCenterForm = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         LinearLayout.LayoutParams lpInputUser  = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         LinearLayout.LayoutParams lpCenter = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         LinearLayout.LayoutParams lpEmoji = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 200);
@@ -67,13 +67,16 @@ public class CarForm extends RelativeLayout implements Serializable {
         lpEmoji.gravity = Gravity.CENTER_HORIZONTAL;
         lpCenterForm.gravity = Gravity.CENTER_HORIZONTAL;
         lpCenter.gravity = Gravity.CENTER_HORIZONTAL;
+        lpCenterForm.gravity = Gravity.CENTER_VERTICAL;
+
 
         //Set LayoutParams
+        formContainer.setLayoutParams(lpCenterForm);
         inputUserContainer.setLayoutParams(lpInputUser);
         emojiContainer.setLayoutParams(lpEmoji);
         seeMoreContainer.setLayoutParams(lpCenter);
         pickEmojiHeader.setLayoutParams(lpCenter);
-        formContainer.setLayoutParams(lpCenterForm);
+
 
 
         //Set Layouts Orientation
@@ -87,9 +90,10 @@ public class CarForm extends RelativeLayout implements Serializable {
         pickYourEmojiText = dynamicallyXML.createTextView(context,"Pick Your Car's Emoji!","sans-serif-condensed",13,Color.BLACK,Gravity.CENTER_HORIZONTAL,0,30,0,0);
         seeMore = dynamicallyXML.createTextView(context,"See More","sans-serif-condensed",13,Color.BLACK,Gravity.CENTER_HORIZONTAL,0,50,0,0);
         seeMore.setTypeface(seeMore.getTypeface(), Typeface.BOLD);
-
+        
         pickYourEmojiText.setGravity(Gravity.CENTER);
         seeMore.setGravity(Gravity.CENTER);
+
 
         //Set click listener to all emojis.
         setEmojiClickListeners(allEmojis);
@@ -164,6 +168,8 @@ public class CarForm extends RelativeLayout implements Serializable {
         //Create Layout Params
         LinearLayout.LayoutParams lpCenterForm = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         lpCenterForm.gravity = Gravity.CENTER_VERTICAL;
+
+        formContainer.setLayoutParams(lpCenterForm);
 
         currentContainer.removeView(pickEmojiHeader);
         currentContainer.removeView(inputUserContainer);

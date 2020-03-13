@@ -96,7 +96,7 @@ public class EditCarDialog extends DialogFragment {
             return null;
         }
 
-        Car car = new Car(carForm.getCarNumberPlaceHolder().getText().toString(), carForm.getNicknamePlaceHolder().getText().toString(), carForm.getEmojiID(), FirebaseAuth.getInstance().getCurrentUser().getUid());
+        Car car = new Car(carForm.getCarNumberPlaceHolder().getText().toString(), carForm.getNicknamePlaceHolder().getText().toString(), carForm.getEmojiID(), null);
 
         return car;
     }

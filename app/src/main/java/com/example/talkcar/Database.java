@@ -137,6 +137,28 @@ public class Database {
 
     }
 
+    public static void findChatByKey(String chatKey,final OnGetDataListener listener){
+
+        listener.onStart();
+
+        databaseReferenceChats.child(chatKey).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if(dataSnapshot != null){
+                    Chat chat = dataSnapshot.getValue(Chat.class);
+                    listener.onSuccess(chat);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
     public static void findAllMyChattedCar(final OnGetDataListener listener){
 
         listener.onStart();
