@@ -110,7 +110,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
             myCarNumber = itemView.findViewById(R.id.my_car_number);
             myCarProfileImageBackground = itemView.findViewById(R.id.my_car_profile_image_background);
             myCarProfileImage = itemView.findViewById(R.id.my_car_profile_image);
-            
+
         }
     }
 

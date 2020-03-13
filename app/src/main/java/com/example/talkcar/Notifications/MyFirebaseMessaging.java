@@ -73,7 +73,10 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
 
                     if (!(ChatActivity.isActive || MainActivity.isActive || LoginActivity.isActive || SignupActivity.isActive ||
                             WaitingActivity.isActive || SettingsActivity.isActive || AllChatsActivity.isActive)) {
+
+                        finishAllActivities();
                         displayNotification(remoteMessage);
+
                     }
 
                     if(MainActivity.isActive){
@@ -102,6 +105,31 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         });
 
 
+    }
+
+    private void finishAllActivities() {
+
+        if(MainActivity.activity != null){
+            MainActivity.activity.finish();
+        }
+        if(ChatActivity.activity != null){
+            ChatActivity.activity.finish();
+        }
+        if(LoginActivity.activity != null){
+            LoginActivity.activity.finish();
+        }
+        if(SignupActivity.activity != null){
+            SignupActivity.activity.finish();
+        }
+        if(WaitingActivity.actvitiy != null){
+            WaitingActivity.actvitiy.finish();
+        }
+        if(SettingsActivity.activity != null){
+            SettingsActivity.activity.finish();
+        }
+        if(AllChatsActivity.activity != null){
+            AllChatsActivity.activity.finish();
+        }
     }
 
     private void displayNotification(RemoteMessage remoteMessage) {

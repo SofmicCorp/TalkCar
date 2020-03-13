@@ -3,6 +3,7 @@ package com.example.talkcar;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ public class WaitingActivity extends AppCompatActivity {
     private Database databaseRef;
     private final int AUTH = 0;
     private final int SIGN = 1;
+    public static Activity actvitiy;
     private SharedPreferences sharedPreferences;
     private final String LOGIN_FILE = "login";
     public static boolean isActive;
@@ -34,6 +36,7 @@ public class WaitingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_waiting);
         mFirebaseAuth = FirebaseAuth.getInstance();
         sharedPreferences = getSharedPreferences(LOGIN_FILE,MODE_PRIVATE);
+        actvitiy = this;
 
         int operation = getIntent().getIntExtra("operation",0);
 

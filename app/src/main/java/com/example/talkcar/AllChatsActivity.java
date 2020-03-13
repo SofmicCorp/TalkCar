@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ public class AllChatsActivity extends AppCompatActivity {
     private static TextView noMessageToShowTV;
     private List<Car> carList;
     public static Context context;
+    public static Activity activity;
     public static DynamicallyXML dynamicallyXML = new DynamicallyXML();
 
     @Override
@@ -41,6 +43,7 @@ public class AllChatsActivity extends AppCompatActivity {
         setIds();
         Log.d("LUBA", "Recyevler View after setId: " + recyclerView);
         context = this;
+        activity = this;
         addAllMyChattedCarList();
 
         //updateToken(FirebaseInstanceId.getInstance().getToken());

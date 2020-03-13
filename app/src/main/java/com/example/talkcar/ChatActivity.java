@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -48,6 +49,7 @@ public class ChatActivity extends AppCompatActivity {
     private static MediaPlayer receiveSound;
     public static boolean isActive = false;
     private int keyIndex;
+    public static Activity activity;
     public static Context context;
     private String chatKey;
 
@@ -71,6 +73,7 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         setIds();
+        activity = this;
         getIntentDetails();
         setClickListeners();
         chatKey = ApplicationModel.chattedCarsMap.getKeyChats().get(keyIndex);
