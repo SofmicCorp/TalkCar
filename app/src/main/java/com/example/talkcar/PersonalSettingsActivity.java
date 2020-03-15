@@ -99,7 +99,6 @@ public class PersonalSettingsActivity extends AppCompatActivity {
                             return;
                         }
 
-                        Log.d("EMAIL", "User re-authenticated.");
                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                         user.updateEmail(emailPlaceHolder.getText().toString().trim())
                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -110,7 +109,6 @@ public class PersonalSettingsActivity extends AppCompatActivity {
                                             handleFailedDetailsUpdate(task);
                                         }
                                         else  {
-                                            Log.d("EMAIL", "User email address updated.");
                                             saveDriverWithNewDetails();
                                             updateSharedPrefernceFile();
                                             goToSettingsActivity();
@@ -139,7 +137,6 @@ public class PersonalSettingsActivity extends AppCompatActivity {
         }
 
         catch (Exception e) {
-            Log.d("BUBA", "onComplete: " + e.getMessage());
             personalSettingsContainer.removeView(progressBar);
         }
 

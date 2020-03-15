@@ -68,7 +68,6 @@ public class AllChatsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
         addAllMyChattedCarList();
     }
 

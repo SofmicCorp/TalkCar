@@ -46,7 +46,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
     public CarAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(mContext).inflate(R.layout.car_item, parent,false);
             holder =  new CarAdapter.ViewHolder(view);
-        Log.d("KUBA", "holder from car adapter class: " + holder);
+
             return holder;
 
     }
@@ -63,14 +63,9 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
         holder.myCarProfileImage.setImageResource(MainActivity.emojiMap.get(mCarsMap.getMyCars().get(position).getEmojiId()));
 
 
-
-
-        Log.d("LUBA", "chatKeyLastMessageMap.size(): " + chatKeyLastMessageMap.size());
         if(chatKeyLastMessageMap.size() > 0) {
             if(car.getHashMap() != null) {
-
                     if (chatKeyLastMessageMap.get(keyChat) != null) {
-                        Log.d("YULIA", "here: ");
                         holder.chattedProfileImageBackground.setImageResource(R.drawable.unreadwhitecircle);
                     }
             }
@@ -149,54 +144,6 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
 
             }
         });
-
-//        Database.findAllLastMessagesToSpecificDriver(FirebaseAuth.getInstance().getCurrentUser().getUid(),new OnGetDataListener() {
-//            @Override
-//            public void onSuccess(Object object) {
-//                if(object != null){
-//                    if(allLastMessages.size() == 0){
-//                        allLastMessages = (ArrayList<Message>) object;
-//                    }
-//
-//                    for (int i = 0; i < allLastMessages.size(); i++) {
-//                            if(car.getDriverUid().equals(allLastMessages.get(i).getSender()) ||car.getDriverUid().equals( allLastMessages.get(i).getReceiver())) {
-//                                theLastMessage = allLastMessages.get(i).getMessage();
-//                                allLastMessages.remove(i);
-//                                if (!(holder.lastMessage.getText().toString().equals(theLastMessage))) {
-//                                    holder.lastMessage.setText(theLastMessage);
-//                                    break;
-//                                }
-//                            }
-//                    }
-//                }
-//
-//                if(theLastMessage.equals("default")){
-//                    holder.lastMessage.setText("There is no message yet");
-//                }
-
-//                switch (theLastMessage){
-//                    case "default":
-//                        holder.lastMessage.setText("There is no message yet");
-//                        break;
-//                    default:
-//                        if(!(holder.lastMessage.getText().toString().equals(theLastMessage))) {
-//                            Log.d("LUBA", "holder.lastMessage.getText().toString() " + holder.lastMessage.getText().toString());
-//                            Log.d("LUBA", "theLastMessage " + theLastMessage);
-//                            holder.lastMessage.setText(theLastMessage);
-//                        }
-//                }
-//            }
-
-//            @Override
-//            public void onStart() {
-//
-//            }
-//
-//            @Override
-//            public void onFailure() {
-//
-//            }
-//        });
     }
 
     public ViewHolder getHolder() {

@@ -36,8 +36,6 @@ public class Database {
 
         startTime = System.currentTimeMillis();
 
-        Log.d("BIBI", "searchCarByCarNumber");
-
         listener.onStart();
         databaseReferenceDrivers.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -53,12 +51,9 @@ public class Database {
                     for(int j = 0; j < driver.getCars().size(); j++){
                         if(driver.getCars().get(j).getCarNumber().equals(carNumber)) {
                             ApplicationModel.setLastCarNumberSearch(driver.getCars().get(j));
-                            Log.d("BIBI", "Database:searchCarByCarNumber OndataChange" );
-
                             ApplicationModel.setChattedDriverUid(uId);
                             listener.onSuccess(driver);
                             difference = System.currentTimeMillis() - startTime;
-                            Log.d("BUBA", "time that search take : " + difference);
                             return;
                          }
                     }
@@ -77,7 +72,6 @@ public class Database {
     public static void searchDriverByUid(final String uId,final OnGetDataListener listener){
 
         startTime = System.currentTimeMillis();
-        Log.d("BIBI", "start search in database uID...");
         listener.onStart();
 
         DatabaseReference DriverRef = databaseReferenceDrivers.child(uId);
@@ -88,11 +82,9 @@ public class Database {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Driver driver = dataSnapshot.getValue(Driver.class);
                 if(driver != null){
-                    Log.d("BIBI", "Databse: OnDataChange1  ");
                     listener.onSuccess(driver);
                     return;
                 }
-                Log.d("BIBI", "Databse: OnDataChange2 ");
 
                 listener.onSuccess(null);
             }
@@ -107,9 +99,7 @@ public class Database {
 
     public static void searchChatByKey(final String key,final OnGetDataListener listener){
 
-        Log.d("BUBA", "key to search is : " + key);
         startTime = System.currentTimeMillis();
-        Log.d("BUBA", "start search in database...");
         listener.onStart();
 
 
@@ -122,7 +112,6 @@ public class Database {
                     if(chat.getKey().equals(key)) {
                         listener.onSuccess(chat);
                         difference = System.currentTimeMillis() - startTime;
-                        Log.d("BUBA", "time that search take : " + difference);
                         return;
                     }
                 }
@@ -172,27 +161,18 @@ public class Database {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 ApplicationModel.chattedCarsMap.reset();
-                Log.d("KUCHINI", "im here1!:");
 
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    Log.d("KUCHINI", "im here2!:");
 
                     Driver driver = postSnapshot.getValue(Driver.class);
                     for(int j = 0; j < driver.getCars().size(); j++){
                         if(driver.getuId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))
                             break;
                         if(ApplicationModel.getCurrentDriver() != null) {
-                            Log.d("KUCHINI", "im here3!:");
-                            Log.d("KUCHINI", "SIZE OF CARS: " + ApplicationModel.getCurrentDriver().getCars().size());
                             for (int k = 0; k < ApplicationModel.getCurrentDriver().getCars().size(); k++) {
-                                Log.d("KUCHINI", "im here4!:");
                                 if (ApplicationModel.getCurrentDriver().getCars().get(k).getHashMap() != null) {
-                                    Log.d("KUCHINI", "im here5!:");
-                                    Log.d("KUCHINI", " ApplicationModel.getCurrentDriver().getCars().get(k).getHashMap()" +  ApplicationModel.getCurrentDriver().getCars().get(k).getHashMap());
                                     String chatKey = ApplicationModel.getCurrentDriver().getCars().get(k).getHashMap().get(driver.getCars().get(j).getCarNumber());
                                     if (chatKey!= null) {
-                                        Log.d("KUCHINI", "im here6!:");
-                                        Log.d("KUCHINI", "driver.getCars().get(j):" + driver.getCars().get(j));
                                         ApplicationModel.chattedCarsMap.add(driver.getCars().get(j),ApplicationModel.getCurrentDriver().getCars().get(k),chatKey);
                                     }
                                 }
@@ -200,8 +180,6 @@ public class Database {
                         }
                     }
                 }
-                Log.d("BUBA", "time that search take : " + difference);
-
                 listener.onSuccess(ApplicationModel.chattedCarsMap);
             }
 
@@ -225,21 +203,15 @@ public class Database {
                 HashMap<String, Message> chatKeyLastMessageMap = new HashMap<>(); //<Chat Key,Last Message>
 
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    Log.d("YULIA", "im here1: ");
                     if(ApplicationModel.getCurrentDriver() != null){
                     for (int i = 0; i < ApplicationModel.getCurrentDriver().getCars().size() ; i++) {
-                        Log.d("YULIA", "im here2: ");
                         if (ApplicationModel.getCurrentDriver().getCars().get(i).getHashMap() != null) {
                             for (int j = 0; j < ApplicationModel.getCurrentDriver().getCars().get(i).getHashMap().size(); j++) {
-                                Log.d("YULIA", "im here3: ");
                                 if (postSnapshot.getKey().equals(ApplicationModel.getCurrentDriver().getCars().get(i).getHashMap().values().toArray()[j])) {
-                                    Log.d("YULIA", "im here4: ");
                                     if (postSnapshot.getValue(Chat.class).isSomeMessageWereNotRead()) {
-                                        Log.d("YULIA", "im here5: ");
                                         int lastMessageIndex = postSnapshot.getValue(Chat.class).getMessages().size() - 1;
                                         Message lastMessage = postSnapshot.getValue(Chat.class).getMessages().get(lastMessageIndex);
                                         if (lastMessage.getReceiver().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-                                            Log.d("YULIA", "im here6: ");
                                             MainActivity.someMessageWereNotRead = true;
                                             chatKeyLastMessageMap.put(postSnapshot.getValue(Chat.class).getKey(), lastMessage);
                                         }
@@ -250,9 +222,6 @@ public class Database {
                     }
                     }
                 }
-
-                Log.d("BUBA", "time that search take : " + difference);
-
                 listener.onSuccess(chatKeyLastMessageMap);
             }
 
@@ -291,15 +260,11 @@ public class Database {
 
     public static void saveDriver(final Driver driver, final String uId) {
 
-        Log.d("BIBI", "Database: saveDriver: ");
         //ApplicationModel.setCurrentDriver(driver);
         databaseReferenceDrivers.child(uId).setValue(driver);
     }
 
     public static void saveChat(Chat chat){
-
-        Log.d("SIMBA", "chat : " + chat);
-        Log.d("SIMBA", "chat.GetKey : " + chat.getKey());
 
         databaseReferenceChats.child(chat.getKey()).setValue(chat);
     }

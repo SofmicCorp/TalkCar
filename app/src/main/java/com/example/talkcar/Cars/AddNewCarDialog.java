@@ -42,7 +42,6 @@ public class AddNewCarDialog extends DialogFragment {
         carForm = new CarForm((getContext()),formContainer);
         checker = new FieldsChecker();
         dynamicallyXML = new DynamicallyXML();
-        Log.d("BIBI", "AddNewCarDialog : onCreateView  ");
 
         return view;
     }
