@@ -46,15 +46,10 @@ public class AllChatsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_chats);
-        Log.d("LUBA", "onCreate: ");
-        Log.d("LUBA", "Recyevler View before setId: " + recyclerView);
         setIds();
-        Log.d("LUBA", "Recyevler View after setId: " + recyclerView);
         context = this;
         activity = this;
         addAllMyChattedCarList();
-
-        //updateToken(FirebaseInstanceId.getInstance().getToken());
     }
 
     @Override
@@ -66,8 +61,6 @@ public class AllChatsActivity extends AppCompatActivity {
     @Override
     public void onStop() {
         super.onStop();
-
-        Log.d("LUBA", "onStop!: ");
         carAdapter = null;
         isActive = false;
     }
@@ -125,9 +118,6 @@ public class AllChatsActivity extends AppCompatActivity {
 
     public static void readCars(ChattedCarsMap chattedCarsMap, HashMap<String, Message> chatKeyLastMessageMap) {
 
-        Log.d("LUBA", "recycler view in readCars method: "+ recyclerView);
-        Log.d("LUBA", "carAdapter view in readCars method: "+ carAdapter);
-
         if(noMessageToShowTV != null){
             messageContainer.removeView(noMessageToShowTV);
         }
@@ -149,8 +139,6 @@ public class AllChatsActivity extends AppCompatActivity {
                 carAdapter = new CarAdapter(context, chattedCarsMap, chatKeyLastMessageMap);
                 recyclerView.setAdapter(carAdapter);
             } else {
-                Log.d("KUBA", "carAdapter from allLChats: " + carAdapter.getHolder());
-                Log.d("KUBA", "HOLDER from allLChats: " + carAdapter.getHolder());
                 if (carAdapter.getHolder() != null) {
                     carAdapter.getHolder().chattedProfileImageBackground.setImageResource(R.drawable.whitecircle);
                 }

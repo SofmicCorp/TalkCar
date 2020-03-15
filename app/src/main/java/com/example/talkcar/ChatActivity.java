@@ -110,11 +110,8 @@ public class ChatActivity extends AppCompatActivity {
 
     private void loadOldChat(Car chattedCar) {
 
-
-            Log.d("SUSI", "chatKey: " + chatKey);
             ApplicationModel.currentChatKey = chatKey;
             readChat(chatKey);
-
     }
 
     public void makeSendSound(){
@@ -147,7 +144,6 @@ public class ChatActivity extends AppCompatActivity {
         intent = getIntent();
         chattedCar = (Car)intent.getSerializableExtra("chattedCar");
         keyIndex = intent.getIntExtra("index",-1);
-        Log.d("Sukami", "key Index " + keyIndex);
         profieImage.setImageResource(MainActivity.emojiMap.get(chattedCar.getEmojiId()));
         chattedCarNicknameTV.setText(chattedCar.getNickname());
         chattedCarNumberTV.setText(chattedCar.getCarNumber());
@@ -178,11 +174,6 @@ public class ChatActivity extends AppCompatActivity {
 
     private void sendMessage(final Message newMessage){
 
-        Log.d("LIBI", "newMessage " + newMessage);
-        Log.d("LIBI", "newMessage.getSender " + newMessage.getSender());
-        Log.d("LIBI", "newMessage.getRec " + newMessage.getReceiver());
-        Log.d("LIBI", "newMessage.getmsg " + newMessage.getMessage());
-
         database.searchChatByKey(chatKey, new OnGetDataListener() {
             @Override
             public void onSuccess(Object object) {
@@ -193,8 +184,6 @@ public class ChatActivity extends AppCompatActivity {
                 } else {
                     //if there is no chat between those cars.
                     chat = new Chat(chatKey);
-                    Log.d("SUKI", "im here!: ");
-
                 }
                 chat.addMessage(newMessage);
                 chat.setSomeMessageWereNotRead(true);
@@ -211,7 +200,6 @@ public class ChatActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                         Driver driver = dataSnapshot.getValue(Driver.class);
-                        Log.d("LIBI", "onDataChange: " + driver.getName());
 
                         if(notify){
                             sendNotification(newMessage.getReceiver(),ApplicationModel.getCurrentCar().getCarNumber(),msg);
@@ -234,7 +222,6 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onFailure() {
 
-                Log.d("BUBA", "onFailure: i failed bitch ");
             }
         });
     }
@@ -242,19 +229,14 @@ public class ChatActivity extends AppCompatActivity {
 
     private void sendNotification(final String receiver, final String sender, final String msg) {
 
-        Log.d("LIBI", "Receiver: " + receiver);
-
         DatabaseReference tokens = FirebaseDatabase.getInstance().getReference("Tokens");
         Query query = tokens.orderByKey().equalTo(receiver);
-
-        Log.d("LIBI", "sendNotification: query: " + query);
 
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot snapshot: dataSnapshot.getChildren()){
                     String token = snapshot.getValue(String.class);
-                    Log.d("LIBI", "chatted car : " + chattedCar);
                     Data data = new Data(FirebaseAuth.getInstance().getCurrentUser().getUid(),chatKey,R.mipmap.talkcar_launcher_round,sender + " :" + msg,"BIP BIP! Someone just sent you a message",receiver);
 
                     Sender sender = new Sender(data,token);
@@ -264,9 +246,8 @@ public class ChatActivity extends AppCompatActivity {
                                 @Override
                                 public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
                                     if(response.code() == 200){
-                                        Log.d("SUSA", "here on code 200: ");
                                         if(response.body().success != 1){
-                                            Log.d("SUSA", "ERRORRRRR: ");
+                                            Log.d("ERROR", "Error has been accord: ");
                                         }
                                     }
                                 }

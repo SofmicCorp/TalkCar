@@ -49,21 +49,6 @@ import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
 import java.util.HashMap;
 import java.util.List;
 
-//For Future Sarel And Mor!
-//There is one really important thing about how this system works.
-//When we sign up - first we create for each car a form
-//Form include data about the car. The form where you pick car number, nickname and emoji
-//After the form is created we create the "GUI" for those details - which is the yellow
-//Licenece plate.
-//When you are in Main Activity - we always delete the arrays of all forms and all car views first
-//only for the one scanrio when user go to main activity from sign up
-//Then we fill the array with the data from the current driver database (that is why we delete it, we dont want them to be
-//משוכפלים
-//As we said above for each LicencePlateView we need a form- they are highly copuled!
-//So we create a forms array withthe data of the current drives
-//And we create CarsViews array from with the data of the current drivers!
-
-
 public class MainActivity extends AppCompatActivity implements OnInputListener {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -121,23 +106,6 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         createCarViewsFromCars();
         AllChatsActivity.addAllMyChattedCarList();
 
-        //Script check
-//
-//        databaseRef.databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-//
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//                Car car = dataSnapshot.child("33226de4860fdea8c3496bd151553756").child("cars").getValue(Car.class);
-//                Log.d("BUBA", "onDataChange: " + car.getCarNumber());
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
     }
 
     public void setSounds(){
@@ -172,16 +140,13 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
     @Override
     protected void onResume() {
         //start handler as activity become visible
-//
-//        handler.postDelayed( runnable = new Runnable() {
-//            public void run() {
-//                effects.shine(takePhoto,shine);
-//                checkIfAllMessagesWereRead();
-//                handler.postDelayed(runnable, DELAY);
-//
-//
-//            }
-//        }, DELAY);
+
+        handler.postDelayed( runnable = new Runnable() {
+            public void run() {
+                effects.shine(takePhoto,shine);
+                handler.postDelayed(runnable, DELAY);
+            }
+        }, DELAY);
         checkIfAllMessagesWereRead();
         super.onResume();
     }
@@ -203,27 +168,18 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         super.onStop();
         isActive = false;
         handler.removeCallbacksAndMessages(null);
-        Log.d("JERRY", "onStop1: ");
     }
 
     public static void updateCarPickerIcon(int index) {
 
         ApplicationModel.setCurrentCar(ApplicationModel.getCurrentDriver().getCars().get(index));
-
-        Log.d("BUBA", "emojie id is : " + ApplicationModel.getCurrentDriver().getCars().get(index).getEmojiId());
         //Set icon
         carPicker.setImageResource(emojiMap.get(ApplicationModel.getCurrentDriver().getCars().get(index).getEmojiId()));
-
     }
 
- //   When puting thr super call on note the app doesnt crash and it works fine..
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        Log.d("JERRY", "onSaveInstanceState1: ");
         super.onSaveInstanceState(outState);
-        Log.d("JERRY", "onSaveInstanceState2: ");
-
-
     }
 
     private void setIds(){
@@ -247,7 +203,6 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
 
                 chatKeyLastMessageMap = (HashMap<String, Message>) object;
 
-                Log.d("YOGI", "someMessageWereNotRead: " + someMessageWereNotRead);
                 if(someMessageWereNotRead){
                     if(chatsView.getDrawable().getConstantState() == context.getResources().getDrawable(R.drawable.inbox_icon).getConstantState()) {
                         makeBeepSound();
@@ -295,8 +250,6 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
             public void onClick(View v) {
 
                 openNewCarDialog();
-                Log.d("BIBI", "MainActivity : setClickListeners  ");
-
             }
         });
 
@@ -344,11 +297,7 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
     private void openNewCarDialog() {
 
         AddNewCarDialog dialog = new AddNewCarDialog();
-        Log.d("BIBI", "MainActivity : openNewCarDialog1  ");
-
         dialog.show(getSupportFragmentManager(),"AddNewCarDialog");
-        Log.d("BIBI", "MainActivity : openNewCarDialog2  ");
-
     }
 
 
@@ -379,7 +328,6 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
 
                 @Override
                 public void onStart() {
-                    Log.d("CHECK", "Wait for data... ");
                 }
 
                 @Override
@@ -427,7 +375,6 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(MainActivity.this, "Error" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                Log.d("ERROR", "onFailure: " + e);
             }
         });
     }
@@ -467,7 +414,6 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         intent.putExtra("chattedCar", chattedCar);
 
 
-        Log.d("LIBI", "openChat:  before start activity1");
         if(ApplicationModel.getCurrentCar().getHashMap() == null ){
             //Current driver dont have a conversation at all
             ApplicationModel.getCurrentCar().setHashMap(new HashMap<String, String>());
@@ -482,9 +428,6 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
             }
         }
 
-
-        Log.d("LIBI", "openChat:  before start activity2");
-
         ApplicationModel.getCurrentCar().getHashMap().put(chattedCar.getCarNumber(),messageKey);
 
         int index = ApplicationModel.getLastDriverSearch().getCars().indexOf(chattedCar);
@@ -493,8 +436,6 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
         }
         ApplicationModel.getLastDriverSearch().getCars().get(index).getHashMap().put(ApplicationModel.getCurrentCar().getCarNumber(),messageKey);
 
-
-        Log.d("LIBI", "openChat:  before start activity3");
         //update the driver to database with the new chat hash
 
         Database.findAllMyChattedCar(new OnGetDataListener() {
@@ -504,8 +445,6 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
                 int addedCarIndex = ApplicationModel.chattedCarsMap.add(chattedCar,ApplicationModel.getCurrentCar(),messageKey);
                 Database.saveDriver(ApplicationModel.getCurrentDriver(),FirebaseAuth.getInstance().getCurrentUser().getUid());
                 Database.saveDriver(ApplicationModel.getLastDriverSearch(),ApplicationModel.getChattedDriverUid());
-
-                Log.d("LIBI", "openChat:  before start activity4");
 
                 progressBar.setVisibility(View.INVISIBLE);
                 intent.putExtra("index",addedCarIndex);
@@ -542,9 +481,6 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
 
         Database.saveDriver(driver,FirebaseAuth.getInstance().getCurrentUser().getUid());
         updateCarPickerIcon(ApplicationModel.getCurrentDriver().getCars().size() -1);
-
-        Log.d("AVATAR", "Current car is : " + ApplicationModel.getCurrentCar().getCarNumber());
-
 
     }
 

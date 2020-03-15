@@ -46,33 +46,6 @@ public class LoginActivity extends AppCompatActivity {
         checker = new FieldsChecker();
 
         setClickListeners();
-
-        //Creating fake users script
-//        for(int i = 0; i < 5000; i++){
-//            Driver driver = new Driver("nana","nana" + i  + "@gmail.com") ;
-//            driver.addCar(new Car("" + i,"babushka","" + 1));
-//            Log.d("BUBA", "driver : " + driver.getEmail());
-//            databaseRef.saveDriver(driver);
-//        }
-
-//        databaseRef.searchCarByCarNumber("4803", new OnGetDataListener() {
-//            @Override
-//            public void onSuccess(Driver driver) {
-//
-//                Log.d("buba", "onSuccess:  founded! driver  is "+ driver.getName() + " and car number is " + ApplicationModel.getLastCarNumberSearch().getCarNumber());
-//
-//            }
-//
-//            @Override
-//            public void onStart() {
-//
-//            }
-//
-//            @Override
-//            public void onFailure() {
-//
-//            }
-//        });
     }
 
     @Override
@@ -123,7 +96,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private void loginFireBaseUser(){
 
-        Log.d("BIBI", "LoginActivity: loginFireBaseUser");
         if(!checker.checkLoginFields(emailPlaceHolder, passwordPlaceHolder))
             return;
 
@@ -141,8 +113,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void goToWaitingActivity(){
-
-        Log.d("BIBI", "LoginActivity: goToWaitingActivity");
 
         Intent intent = new Intent(this,WaitingActivity.class);
         intent.putExtra("operation",0);
