@@ -309,9 +309,6 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
 
     private void startChatWithAnotherCar() {
 
-
-        progressBar.setVisibility(View.VISIBLE);
-
         if(chattedCarNumber != null) {
             chattedCarNumber = fieldsChecker.removeAllTokensFromCarNumber(chattedCarNumber);
             //Check if car number is in database, and if it does, open a conversation!
@@ -400,11 +397,15 @@ public class MainActivity extends AppCompatActivity implements OnInputListener {
 
     private void openChat(final Car chattedCar) {
 
-        if(chattedCar.getCarNumber().equals(ApplicationModel.getCurrentCar().getCarNumber())){
-            Toast.makeText(this, "Don't be stupid. ", Toast.LENGTH_SHORT).show();
-            progressBar.setVisibility(View.INVISIBLE);
-            return;
+        for(Car car: ApplicationModel.getCurrentDriver().getCars()){
+            if(car.getCarNumber().equals(chattedCar.getCarNumber())){
+                Toast.makeText(this, "Don't be stupid. ", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.INVISIBLE);
+                return;
+            }
         }
+
+        progressBar.setVisibility(View.VISIBLE);
 
         final String messageKey;
 
