@@ -78,8 +78,6 @@ public class WaitingActivity extends AppCompatActivity {
 
     public void authenticate(final String email,final String password){
 
-        Log.d("BIBI", "Im in Authentticate!!!!!!!!: ");
-
         if(sharedPreferences.getBoolean("logged",false)){
             //If the user is allready have been in the app once, it will autologin his user/
             //so load the data for that user is here.
@@ -104,19 +102,17 @@ public class WaitingActivity extends AppCompatActivity {
                                 //Auto login is saved in file after authenticate the email and password
                                 saveCurrentApplicationUserDetailsToSharedPreferences(email);
                             }
-                            Log.d("BIBI", "Waiting Activity : authincate: ");
                             goToMainActivity();
                         }
 
                         @Override
                         public void onStart() {
-                            Log.d("CHECK", "Wait for data... ");
+
                         }
 
                         @Override
                         public void onFailure() {
 
-                            Log.d("CHECK", "Data retrieving has been failed. ");
                         }
                     });
                 }
@@ -125,8 +121,6 @@ public class WaitingActivity extends AppCompatActivity {
     }
 
     private void automaticSignin(String email) {
-
-        Log.d("BIBI", "WaitingActivity automaticSignin: begin of function ");
 
         if(FirebaseAuth.getInstance().getCurrentUser() == null){
             //Check if user is exists in data base
@@ -141,9 +135,7 @@ public class WaitingActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Object driver) {
                 if(driver != null){
-                    Log.d("PUKI", "driver: " + driver);
                     ApplicationModel.setCurrentDriver((Driver)driver);
-                    Log.d("BIBI", "Waiting Activity : automaticSignin mor!!!: ");
                     goToMainActivity();
 
                 } else {
@@ -155,13 +147,12 @@ public class WaitingActivity extends AppCompatActivity {
             }
             @Override
             public void onStart() {
-                Log.d("CHECK", "Wait for data... ");
+
             }
 
             @Override
             public void onFailure() {
 
-                Log.d("CHECK", "Data retrieving has been failed. ");
             }
         });
     }
@@ -177,7 +168,6 @@ public class WaitingActivity extends AppCompatActivity {
 
     private void goToMainActivity(){
 
-        Log.d("BIBI", "Waiting Activity : goToMainActivity: ");
         Intent intent = new Intent(this,MainActivity.class);
         startActivity(intent);
         finish();
@@ -204,21 +194,17 @@ public class WaitingActivity extends AppCompatActivity {
                     }
                     // if user enters wrong email.
                     catch (FirebaseAuthWeakPasswordException weakPassword) {
-                        Log.d("BUBA", "onComplete: weak_password");
                         gotToSignUpActivity(1);
                     }
                     // if user enters wrong password.
                     catch (FirebaseAuthInvalidCredentialsException malformedEmail) {
-                        Log.d("BUBA", "onComplete: malformed_email");
                         gotToSignUpActivity(2);
                     }
                     catch (FirebaseAuthUserCollisionException existEmail) {
-                        Log.d("BUBA", "onComplete: exist_email");
                         gotToSignUpActivity(3);
                     }
 
                     catch (Exception e) {
-                        Log.d("BUBA", "onComplete: " + e.getMessage());
                         gotToSignUpActivity(4);
                     }
             }else{
@@ -227,7 +213,6 @@ public class WaitingActivity extends AppCompatActivity {
                     addUidToAllDriversCars(driver);
                     //Set current driver on app
                     ApplicationModel.setCurrentDriver(driver);
-                    Log.d("BIBI", "WaitingActiviy : signUp: ");
                     goToMainActivity();
                     SignupActivity.activity.finish();
                     LoginActivity.activity.finish();
@@ -252,7 +237,6 @@ public class WaitingActivity extends AppCompatActivity {
             String carNumber = CarForm.allForms.get(i).getCarNumberPlaceHolder().getText().toString();
             String nickName = CarForm.allForms.get(i).getNicknamePlaceHolder().getText().toString();
             String emojiId = CarForm.allForms.get(i).getEmojiID();
-            Log.d("buba", "car number: " + carNumber);
             driver.addCar(new Car(carNumber, nickName,emojiId,uId));
         }
         databaseRef.saveDriver(driver,FirebaseAuth.getInstance().getCurrentUser().getUid());
