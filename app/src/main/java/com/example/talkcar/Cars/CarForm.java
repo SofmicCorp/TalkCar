@@ -51,13 +51,11 @@ public class CarForm extends RelativeLayout implements Serializable {
         setEmojiID("1"); //In every form the default emoji will be the emoji in place 1 in the array.
         createAllEmojies();
 
-
         //Create Form layouts
-
-         inputUserContainer = new LinearLayout(context);
+        inputUserContainer = new LinearLayout(context);
         pickEmojiHeader = new LinearLayout(context);
-         emojiContainer = new LinearLayout(context);
-         seeMoreContainer = new LinearLayout(context);
+        emojiContainer = new LinearLayout(context);
+        seeMoreContainer = new LinearLayout(context);
 
          //Create Layout Params
         LinearLayout.LayoutParams lpCenterForm = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -81,22 +79,26 @@ public class CarForm extends RelativeLayout implements Serializable {
         pickEmojiHeader.setLayoutParams(lpCenter);
 
 
-
         //Set Layouts Orientation
         inputUserContainer.setOrientation(LinearLayout.VERTICAL);
         pickEmojiHeader.setOrientation(LinearLayout.HORIZONTAL);
         emojiContainer.setOrientation(LinearLayout.HORIZONTAL);
         seeMoreContainer.setOrientation(LinearLayout.HORIZONTAL);
 
+        //Create views dynamically
         carNumberPlaceHolder =  dynamicallyXML.createEditText(context,"Car Number", InputType.TYPE_CLASS_PHONE);
         nicknamePlaceHolder = dynamicallyXML.createEditText(context,"Nickname (optional)",InputType.TYPE_CLASS_TEXT);
         pickYourEmojiText = dynamicallyXML.createTextView(context,"Pick Your Car's Emoji!","sans-serif-condensed",13,Color.BLACK,Gravity.CENTER_HORIZONTAL,0,30,0,0);
         seeMore = dynamicallyXML.createTextView(context,"See More","sans-serif-condensed",13,Color.BLACK,Gravity.CENTER_HORIZONTAL,0,50,0,0);
         seeMore.setTypeface(seeMore.getTypeface(), Typeface.BOLD);
-        
+
+        //Set padding
+        carNumberPlaceHolder.setPadding(25,0,20,0);
+        nicknamePlaceHolder.setPadding(25,0,20,0);
+
+        //Set Gravity
         pickYourEmojiText.setGravity(Gravity.CENTER);
         seeMore.setGravity(Gravity.CENTER);
-
 
         //Set click listener to all emojis.
         setEmojiClickListeners(allEmojis);
